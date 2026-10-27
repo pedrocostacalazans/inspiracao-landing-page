@@ -1,0 +1,2582 @@
+/* ==========================================================================
+   InspirAção — Design System Canônico & Landing Page Styles
+   Direção Visual: Bruma Viva & Ventu Respiratório
+   ========================================================================== */
+
+:root {
+  /* 1. Identidade de Marca e Ação */
+  --brand-hero: #4A9BF7;
+  --primary-action: #2563C9;
+  --primary-action-hover: #1D4FA3;
+  --primary-wash: #EAF3FE;
+  --primary-border: #BFDBFE;
+  --accent: #FEA348;
+  --accent-wash: #FFF4E6;
+
+  /* 2. Tríade Clínica (InspirAção) */
+  --prevention: #00A896;
+  --prevention-wash: #E0F7F4;
+  --prevention-ink: #08544C;
+
+  --relief: #E0533C;
+  --relief-wash: #FDEEEB;
+  --relief-ink: #63271D;
+
+  --immuno: #7C3AED;
+  --immuno-wash: #F3EDFD;
+  --immuno-ink: #4C1D95;
+
+  /* 3. Superfícies e Profundidade (Bruma Fresca Mentolada) */
+  --surface: #F4FBFA;
+  --surface-card: #FFFFFF;
+  --surface-low: #EFF6F5;
+  --surface-modal: #E9EFEF;
+  --divider: #E2EBEA;
+
+  /* 4. Tinta Tipográfica (Ink Ardósia) */
+  --text-primary: #2D414D;
+  --text-secondary: #516B77;
+  --text-muted: #8AA0AE;
+  --text-inverse: #FFFFFF;
+
+  /* 5. O Céu Dinâmico das 24 Horas (Default: Dia Solar Claro) */
+  --sky-top: #3F70B4;
+  --sky-mid: #5C97CC;
+  --sky-horizon: #C6E3EF;
+  --celestial-orb: #FFD54A;
+  --celestial-glow: rgba(255, 213, 74, 0.45);
+
+  /* 6. Vidro do Céu (AppGlass) */
+  --glass-bg: rgba(255, 255, 255, 0.16);
+  --glass-bg-hover: rgba(255, 255, 255, 0.24);
+  --glass-bg-active: rgba(255, 255, 255, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.32);
+
+  /* 7. Tipografia */
+  --font-display: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* 8. Raios, Sombras e Transições (Apple HIG Touch) */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-card: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+
+  --shadow-card: 0 12px 32px -8px rgba(45, 65, 77, 0.07), 0 4px 12px -2px rgba(45, 65, 77, 0.04);
+  --shadow-elevated: 0 24px 48px -12px rgba(37, 99, 201, 0.14), 0 8px 20px -4px rgba(45, 65, 77, 0.06);
+  --shadow-phone: 0 32px 72px -12px rgba(21, 38, 66, 0.38), 0 0 0 10px rgba(255, 255, 255, 0.18);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sine: cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+/* Temas Celestes das 24 Horas */
+[data-sky="dawn"] {
+  --sky-top: #45689D;
+  --sky-mid: #6893C0;
+  --sky-horizon: #BDDCEA;
+  --celestial-orb: #FFD98A;
+  --celestial-glow: rgba(255, 217, 138, 0.5);
+}
+
+[data-sky="day"] {
+  --sky-top: #3F70B4;
+  --sky-mid: #5C97CC;
+  --sky-horizon: #C6E3EF;
+  --celestial-orb: #FFD54A;
+  --celestial-glow: rgba(255, 213, 74, 0.48);
+}
+
+[data-sky="dusk"] {
+  --sky-top: #394371;
+  --sky-mid: #537EA7;
+  --sky-horizon: #9BCFE2;
+  --celestial-orb: #FFB85C;
+  --celestial-glow: rgba(255, 184, 92, 0.52);
+}
+
+[data-sky="midnight"] {
+  --sky-top: #22315C;
+  --sky-mid: #395086;
+  --sky-horizon: #8B9AC3;
+  --celestial-orb: #E9EEFF;
+  --celestial-glow: rgba(233, 238, 255, 0.42);
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--surface);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Tactile Press Effect (Apple HIG Touch) */
+.tactile {
+  transition: transform 0.22s var(--ease-spring), box-shadow 0.22s var(--ease-spring), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.tactile:hover {
+  transform: translateY(-2px);
+}
+
+.tactile:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   Header / Navbar Flutuante (AppGlass)
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 20px;
+  transition: all 0.35s var(--ease-spring);
+}
+
+.nav-glass {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 68px;
+  padding: 0 20px 0 24px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1.5px solid rgba(255, 255, 255, 0.34);
+  box-shadow: 0 10px 30px rgba(20, 42, 78, 0.12);
+  transition: all 0.35s var(--ease-spring);
+}
+
+.site-header.scrolled .nav-glass {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--divider);
+  box-shadow: 0 12px 32px rgba(45, 65, 77, 0.10);
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--text-inverse);
+  letter-spacing: -0.03em;
+  transition: color 0.3s ease;
+}
+
+.site-header.scrolled .brand-logo {
+  color: var(--text-primary);
+}
+
+.brand-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
+}
+
+.brand-logo span em {
+  font-style: normal;
+  color: #BAE6FD;
+  transition: color 0.3s ease;
+}
+
+.site-header.scrolled .brand-logo span em {
+  color: var(--primary-action);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-links a {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.92);
+  transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+}
+
+.site-header.scrolled .nav-links a {
+  color: var(--text-secondary);
+}
+
+.site-header.scrolled .nav-links a:hover {
+  background: var(--primary-wash);
+  color: var(--primary-action);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  transition: all 0.22s var(--ease-spring);
+}
+
+.btn-primary {
+  background: var(--primary-action);
+  color: var(--text-inverse);
+  box-shadow: 0 8px 20px -4px rgba(37, 99, 201, 0.45);
+}
+
+.btn-primary:hover {
+  background: var(--primary-action-hover);
+  box-shadow: 0 12px 24px -4px rgba(37, 99, 201, 0.55);
+}
+
+.btn-white {
+  background: #FFFFFF;
+  color: var(--primary-action);
+  box-shadow: 0 10px 24px -4px rgba(17, 36, 68, 0.22);
+}
+
+.btn-white:hover {
+  background: #F8FAFC;
+}
+
+.btn-glass {
+  background: var(--glass-bg);
+  color: #FFFFFF;
+  border: 1.5px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+}
+
+.btn-glass:hover {
+  background: var(--glass-bg-hover);
+}
+
+.btn-tonal {
+  background: var(--primary-wash);
+  color: var(--primary-action);
+  border: 1.5px solid var(--primary-border);
+}
+
+.btn-tonal:hover {
+  background: #DCEBFE;
+}
+
+.mobile-menu-btn {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.site-header.scrolled .mobile-menu-btn {
+  color: var(--text-primary);
+  background: var(--surface-low);
+  border-color: var(--divider);
+}
+
+/* ==========================================================================
+   HERO: O Palco Celestial das 24 Horas (SkyBackdrop + SkyGroundHorizon)
+   ========================================================================== */
+.sky-hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 124px 0 140px;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 54%, var(--sky-horizon) 100%);
+  transition: background 1.2s var(--ease-sine);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#sky-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Astro Solar / Lunar no Céu */
+.celestial-body {
+  position: absolute;
+  top: 15%;
+  right: 12%;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--celestial-orb);
+  box-shadow: 0 0 60px 24px var(--celestial-glow), 0 0 120px 48px var(--celestial-glow);
+  transition: all 1.2s var(--ease-spring);
+  z-index: 1;
+  pointer-events: none;
+}
+
+[data-sky="dawn"] .celestial-body {
+  top: 52%;
+  right: 8%;
+  transform: scale(0.95);
+}
+
+[data-sky="day"] .celestial-body {
+  top: 13%;
+  right: 18%;
+  transform: scale(1.05);
+}
+
+[data-sky="dusk"] .celestial-body {
+  top: 48%;
+  right: 38%;
+  transform: scale(0.98);
+}
+
+[data-sky="midnight"] .celestial-body {
+  top: 16%;
+  right: 11%;
+  transform: scale(0.84);
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Coluna Esquerda do Hero */
+.hero-content {
+  color: #FFFFFF;
+}
+
+.sky-switcher-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+  max-width: 100%;
+}
+
+.sky-switcher-caption {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.88);
+  padding-left: 6px;
+}
+
+.sky-switcher-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  background: rgba(15, 29, 58, 0.28);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(14px);
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sky-switcher-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.sky-phase-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  transition: all 0.25s var(--ease-spring);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sky-phase-btn small {
+  font-size: 0.7rem;
+  font-weight: 800;
+  opacity: 0.72;
+  padding: 1px 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.sky-phase-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+}
+
+.sky-phase-btn.active {
+  background: #FFFFFF;
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.sky-phase-btn.active small {
+  background: var(--primary-wash);
+  color: var(--primary-action);
+  opacity: 1;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 4.6vw, 4.1rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 24px rgba(18, 35, 68, 0.22);
+}
+
+.hero-title .highlight-pill {
+  display: inline-block;
+  padding: 2px 18px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.hero-lead {
+  font-size: clamp(1.08rem, 1.35vw, 1.25rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.55;
+  max-width: 580px;
+  margin-bottom: 32px;
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+/* Mascote Ventu Greeting Badge no Hero */
+.ventu-hero-companion {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px 12px 12px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1.5px solid rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(16px);
+  max-width: 520px;
+}
+
+.ventu-halo-wrap {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid var(--primary-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: physiological-breath 4s var(--ease-sine) infinite alternate;
+}
+
+.ventu-halo-wrap img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: contain;
+  animation: ventu-float 3s var(--ease-sine) infinite alternate;
+}
+
+.ventu-speech strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+}
+
+.ventu-speech p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.38;
+}
+
+@keyframes physiological-breath {
+  0% {
+    transform: scale(0.96);
+    box-shadow: 0 0 0 0 rgba(234, 243, 254, 0.4);
+  }
+  100% {
+    transform: scale(1.06);
+    box-shadow: 0 0 24px 8px rgba(234, 243, 254, 0.35);
+  }
+}
+
+@keyframes ventu-float {
+  0% { transform: translateY(3px); }
+  100% { transform: translateY(-4px); }
+}
+
+/* ==========================================================================
+   Mockup Interativo do App (Fiel à Tela Real do InspirAção)
+   ========================================================================== */
+.hero-showcase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-frame {
+  position: relative;
+  width: 372px;
+  max-width: 100%;
+  height: 760px;
+  border-radius: 46px;
+  background: #142238;
+  padding: 10px;
+  box-shadow: var(--shadow-phone);
+  z-index: 2;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 37px;
+  background: var(--surface);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-scroll-view {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 86px;
+  scrollbar-width: none;
+}
+
+.app-scroll-view::-webkit-scrollbar {
+  display: none;
+}
+
+/* Palco Celeste dentro do Mockup (SkyBackdrop) */
+.app-sky-stage {
+  position: relative;
+  padding: 12px 20px 0;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 56%, var(--sky-horizon) 100%);
+  color: #FFFFFF;
+  transition: background 0.9s var(--ease-sine);
+  overflow: hidden;
+}
+
+/* Partículas / Bolhas sutis do céu igual ao print */
+.sky-bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sky-bubble.b1 {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  top: 44%;
+  left: 16%;
+}
+
+.sky-bubble.b2 {
+  width: 9px;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.38);
+  top: 30%;
+  right: 11%;
+}
+
+.sky-bubble.b3 {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.32);
+  top: 66%;
+  left: 9%;
+}
+
+.sky-bubble.b4 {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  bottom: 18%;
+  right: 18%;
+}
+
+.sky-bubble.b5 {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.42);
+  top: 56%;
+  right: 24%;
+}
+
+.sky-bubble.b6 {
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  top: 46%;
+  left: 8%;
+}
+
+/* Barra de status superior */
+.app-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 14px;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+}
+
+/* Cabeçalho SkyDayHeader */
+.app-sky-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 6px;
+}
+
+.app-sky-headline {
+  font-family: var(--font-display);
+  font-size: 1.62rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 4px;
+}
+
+.app-sky-sub {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 18px;
+}
+
+/* Constelação do Orbe Central + 2 Satélites */
+.orb-constellation {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0 12px;
+  min-height: 188px;
+}
+
+.orb-halo-outer {
+  width: 182px;
+  height: 182px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.11);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb-halo-mid {
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.liquid-orb-btn {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ECFCF9 0%, #CEFAF0 55%, #A3F0E0 100%);
+  box-shadow: inset 0 4px 14px rgba(255, 255, 255, 0.85), 0 10px 26px rgba(13, 52, 74, 0.22);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
+}
+
+.liquid-orb-btn:hover {
+  transform: scale(1.03);
+}
+
+.liquid-orb-btn:active {
+  transform: scale(0.95);
+}
+
+.orb-liquid-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64%;
+  background: linear-gradient(180deg, #4ADBC7 0%, #1DB5A0 58%, #0F9684 100%);
+  transition: height 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.orb-wave {
+  position: absolute;
+  top: -17px;
+  left: 0;
+  width: 200%;
+  height: 18px;
+  pointer-events: none;
+}
+
+.orb-wave-back {
+  fill: rgba(74, 219, 199, 0.55);
+  animation: orb-wave-slide-reverse 5.2s linear infinite;
+}
+
+.orb-wave-front {
+  fill: #4ADBC7;
+  animation: orb-wave-slide 3.4s linear infinite;
+}
+
+.orb-liquid-fill.sloshing .orb-wave-front {
+  animation-duration: 1.4s;
+}
+
+.orb-liquid-fill.sloshing .orb-wave-back {
+  animation-duration: 2.1s;
+}
+
+@keyframes orb-wave-slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes orb-wave-slide-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.orb-face-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.orb-inhaler-svg {
+  width: 26px;
+  height: 26px;
+  fill: #155E54;
+  margin-bottom: 3px;
+}
+
+.orb-med-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: #1F363D;
+  line-height: 1.15;
+}
+
+.orb-med-meta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2B5457;
+  margin-bottom: 4px;
+}
+
+.orb-hold-hint {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1B54B8;
+  line-height: 1.18;
+}
+
+/* Orbes Satélites (Imunobiológico à esquerda e Alívio à direita) */
+.satellite-orb-btn {
+  position: absolute;
+  bottom: 6px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.satellite-orb-btn.sat-immuno {
+  left: 6px;
+  border: 2.5px solid #8B5CF6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.22), 0 8px 18px rgba(45, 25, 95, 0.22);
+}
+
+.satellite-orb-btn.sat-relief {
+  right: 6px;
+  border: 2.5px solid #EE6B55;
+  box-shadow: 0 0 0 4px rgba(238, 107, 85, 0.22), 0 8px 18px rgba(95, 30, 20, 0.22);
+}
+
+/* Pílula de Vidro: Desfazer último registro (InspiracaoGlassPill) */
+.sky-undo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 8px;
+  position: relative;
+  z-index: 4;
+}
+
+.sky-glass-undo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sky-glass-undo-pill:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Zona do Horizonte Curvo + Sol + Selos (08:00 e 20:00) */
+.sky-horizon-zone {
+  position: relative;
+  margin: 18px -20px 0;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.horizon-sun-orb {
+  position: absolute;
+  top: -8px;
+  left: 53%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--celestial-orb);
+  box-shadow: 0 0 22px 10px var(--celestial-glow);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.75s var(--ease-spring);
+}
+
+[data-sky="midnight"] .horizon-sun-orb {
+  background: transparent;
+  box-shadow: none;
+}
+
+.moon-icon-svg {
+  opacity: 0;
+  transform: scale(0.5) rotate(-18deg);
+  transition: all 0.4s var(--ease-spring);
+}
+
+[data-sky="midnight"] .moon-icon-svg {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  filter: drop-shadow(0 0 10px rgba(233, 238, 255, 0.85));
+}
+
+.horizon-hill-svg {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 62px;
+  z-index: 3;
+}
+
+.horizon-nodes-row {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 74px 6px;
+}
+
+.horizon-node-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.node-disc {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  transition: all 0.25s var(--ease-spring);
+}
+
+.node-disc.taken {
+  background: var(--prevention);
+  border: 2.5px solid #FFFFFF;
+  color: #FFFFFF;
+  box-shadow: 0 3px 10px rgba(0, 168, 150, 0.35);
+}
+
+.node-disc.pending {
+  width: 26px;
+  height: 26px;
+  background: #FFFFFF;
+  border: 3px solid var(--prevention);
+  color: var(--prevention);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.node-disc.focused {
+  width: 34px;
+  height: 34px;
+  background: #FFFFFF;
+  border: 3.5px solid var(--prevention);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 5px rgba(0, 168, 150, 0.22);
+}
+
+.node-time {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.node-time.focused-label {
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* Corpo do Solo do App (#F4FBFA) */
+.app-ground-body {
+  background: var(--surface);
+  padding: 12px 18px 16px;
+}
+
+.app-screen-pane {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.app-screen-pane.active {
+  display: flex;
+}
+
+.app-section-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-section-heading {
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.app-section-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: -4px;
+  margin-bottom: 12px;
+}
+
+/* Cartão Tátil Horizontal (Registrar sintomas & Teste ACT) */
+.app-tactile-row-card {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--divider);
+  box-shadow: 0 6px 18px rgba(45, 65, 77, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
+}
+
+.app-tactile-row-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(45, 65, 77, 0.08);
+}
+
+.app-tactile-row-card:active {
+  transform: scale(0.97);
+}
+
+.row-card-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.row-card-text {
+  flex: 1;
+}
+
+.row-card-text strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.row-card-text span {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.row-card-chevron {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* 7 Cápsulas Semanais Verticais (qua, qui, sex, sáb, dom, seg, ter) */
+.app-week-capsules-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  align-items: end;
+}
+
+.app-day-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.app-day-col.active-day strong {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.capsule-pill {
+  width: 30px;
+  height: 62px;
+  border-radius: 999px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 3px;
+}
+
+.capsule-pill.dashed {
+  border: 1.5px dashed #CBD5E1;
+}
+
+.capsule-pill.solid {
+  border: 2px solid var(--primary-action);
+  background: rgba(234, 243, 254, 0.35);
+}
+
+.capsule-fill {
+  width: 100%;
+  height: 46%;
+  border-radius: 999px;
+  background: var(--primary-action);
+  transition: height 0.45s var(--ease-spring), background-color 0.35s ease;
+}
+
+.capsule-fill.complete {
+  height: 100%;
+}
+
+/* Badges auxiliares */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.badge-prevention {
+  background: var(--prevention-wash);
+  color: var(--prevention-ink);
+}
+
+.badge-relief {
+  background: var(--relief-wash);
+  color: var(--relief-ink);
+}
+
+.badge-immuno {
+  background: var(--immuno-wash);
+  color: var(--immuno-ink);
+}
+
+.badge-primary {
+  background: var(--primary-wash);
+  color: var(--primary-action);
+}
+
+/* Barra de Navegação Flutuante Canônica (Hoje, Plano, Perfil) */
+.app-floating-nav-wrap {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.app-floating-nav {
+  pointer-events: auto;
+  background: #FFFFFF;
+  border-radius: 999px;
+  padding: 5px 8px;
+  border: 1px solid var(--divider);
+  box-shadow: 0 10px 28px rgba(32, 50, 70, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 68px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all 0.2s var(--ease-spring);
+}
+
+.app-nav-tab.active {
+  background: #DCEBFE;
+  color: var(--primary-action);
+}
+
+/* Toast dentro do Mockup */
+.app-toast {
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(15, 32, 62, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  z-index: 30;
+  transform: translateY(-140%);
+  opacity: 0;
+  transition: all 0.35s var(--ease-spring);
+  pointer-events: none;
+}
+
+.app-toast.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.app-toast-undo {
+  color: var(--primary-action);
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--primary-wash);
+}
+
+/* Cards Flutuantes ao redor do Celular */
+.floating-pill-card {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid #FFFFFF;
+  padding: 12px 16px;
+  border-radius: 20px;
+  box-shadow: 0 18px 38px rgba(19, 38, 68, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 6;
+  animation: ventu-float 3.8s var(--ease-sine) infinite alternate;
+}
+
+.floating-pill-card.card-left {
+  left: -34px;
+  top: 120px;
+}
+
+.floating-pill-card.card-right {
+  right: -30px;
+  bottom: 130px;
+  animation-delay: 1.4s;
+}
+
+.floating-icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Curva Canônica do Horizonte na Base do Hero */
+.sky-ground-horizon {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sky-ground-horizon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Faixa de Métricas / Destaques da Startup
+   ========================================================================== */
+.metrics-ribbon {
+  position: relative;
+  z-index: 10;
+  margin-top: -36px;
+  margin-bottom: 72px;
+}
+
+.metrics-grid {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  padding: 32px 36px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-elevated);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.metric-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-right: 16px;
+  border-right: 1px solid var(--divider);
+}
+
+.metric-item:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.metric-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   Seções Padrão e Cabeçalhos
+   ========================================================================== */
+.section {
+  padding: 96px 0;
+  position: relative;
+}
+
+.section-header {
+  max-width: 720px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-wash);
+  border: 1px solid var(--primary-border);
+  color: var(--primary-action);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.4vw, 2.85rem);
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Seção: A Startup & Tríade Clínica
+   ========================================================================== */
+.startup-story-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 64px;
+}
+
+.story-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  padding: 44px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-card);
+}
+
+.story-card h3 {
+  font-size: 1.85rem;
+  margin-bottom: 16px;
+}
+
+.story-card p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+
+.pillars-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.pillar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+}
+
+.pillar-row strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.pillar-row span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Tríade Clínica Cards */
+.triad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.triad-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+  border: 2px solid var(--divider);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.triad-card.prevention-card {
+  border-color: rgba(0, 168, 150, 0.28);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F4FCFB 100%);
+}
+
+.triad-card.relief-card {
+  border-color: rgba(224, 83, 60, 0.28);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF8F6 100%);
+}
+
+.triad-card.immuno-card {
+  border-color: rgba(124, 58, 237, 0.28);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF7FF 100%);
+}
+
+.triad-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.triad-card h4 {
+  font-size: 1.35rem;
+}
+
+.triad-card p {
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.55;
+  flex: 1;
+}
+
+.triad-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+/* ==========================================================================
+   Seção Bento Grid: Funcionalidades Principais com Ilustrações Autorais
+   ========================================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.bento-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+}
+
+.bento-span-7 { grid-column: span 7; }
+.bento-span-5 { grid-column: span 5; }
+.bento-span-6 { grid-column: span 6; }
+.bento-span-12 { grid-column: span 12; }
+
+.bento-card h3 {
+  font-size: 1.6rem;
+  margin: 12px 0 10px;
+}
+
+.bento-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.bento-illustration {
+  margin-top: 24px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bento-illustration img {
+  max-height: 240px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.bento-card:hover .bento-illustration img {
+  transform: scale(1.04);
+}
+
+/* Simulador Interativo do Catálogo ANVISA / Scanner GTIN */
+.anvisa-demo-box {
+  margin-top: 22px;
+  background: var(--surface);
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+
+.anvisa-search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.anvisa-input-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.anvisa-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 16px 0 42px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--divider);
+  background: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.anvisa-input:focus {
+  border-color: var(--primary-action);
+  box-shadow: 0 0 0 3px var(--primary-wash);
+}
+
+.anvisa-search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.scan-sim-btn {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-action);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.86rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.anvisa-results {
+  display: grid;
+  gap: 8px;
+}
+
+.anvisa-med-item {
+  background: #FFFFFF;
+  border: 1.5px solid var(--divider);
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.anvisa-med-item:hover,
+.anvisa-med-item.highlighted {
+  border-color: var(--primary-action);
+  background: var(--primary-wash);
+}
+
+.anvisa-med-info strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  color: var(--text-primary);
+}
+
+.anvisa-med-info span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Seção Interativa: Respire com o Mascote Ventu (Ritmo Fisiológico 4s/4s)
+   ========================================================================== */
+.ventu-experience-section {
+  background: linear-gradient(180deg, #1E335C 0%, #315994 52%, #5C97CC 100%);
+  color: #FFFFFF;
+  border-radius: 44px;
+  margin: 0 20px;
+  padding: 84px 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 28px 64px -16px rgba(24, 48, 89, 0.35);
+}
+
+.ventu-experience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.ventu-stage-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(18px);
+  border-radius: 36px;
+  padding: 40px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.breathing-ring-container {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0 24px;
+}
+
+.breathing-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(234, 243, 254, 0.16);
+  border: 2px solid rgba(191, 219, 254, 0.55);
+  transition: transform 4s var(--ease-sine), background-color 4s ease, box-shadow 4s ease;
+}
+
+.breathing-ring-inner {
+  position: absolute;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 4px solid var(--primary-wash);
+  box-shadow: 0 12px 36px rgba(14, 30, 58, 0.25);
+  transition: transform 4s var(--ease-sine);
+}
+
+.breathing-ring-container.inhaling .breathing-ring-outer {
+  transform: scale(1.18);
+  background: rgba(234, 243, 254, 0.32);
+  box-shadow: 0 0 48px 16px rgba(191, 219, 254, 0.4);
+}
+
+.breathing-ring-container.inhaling .breathing-ring-inner {
+  transform: scale(1.08);
+}
+
+.breathing-ring-container.exhaling .breathing-ring-outer {
+  transform: scale(0.86);
+}
+
+.breathing-ring-container.exhaling .breathing-ring-inner {
+  transform: scale(0.92);
+}
+
+.ventu-stage-img {
+  position: relative;
+  z-index: 3;
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  object-fit: contain;
+  transition: transform 0.4s var(--ease-spring), opacity 0.25s ease;
+}
+
+.breath-instruction {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 6px;
+}
+
+.breath-sub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.86);
+  margin-bottom: 22px;
+}
+
+/* Seletor de Expressões Canônicas do Ventu */
+.ventu-expressions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.expression-chip {
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.22s var(--ease-spring);
+}
+
+.expression-chip:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.expression-chip.active {
+  background: #FFFFFF;
+  color: var(--text-primary);
+  border-color: #FFFFFF;
+  box-shadow: 0 8px 20px rgba(10, 25, 50, 0.22);
+}
+
+.expression-chip img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  padding: 2px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.expression-chip strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  line-height: 1.15;
+}
+
+.expression-chip span {
+  font-size: 0.72rem;
+  opacity: 0.82;
+}
+
+/* ==========================================================================
+   Seção: Check-in Interativo de Sintomas & Gatilhos (Com Ícones Reais)
+   ========================================================================== */
+.checkin-Interactive-wrap {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  padding: 44px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-card);
+}
+
+.symptoms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 14px;
+  margin: 28px 0;
+}
+
+.check-in-tile {
+  position: relative;
+  background: var(--surface-low);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 18px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+}
+
+.check-in-tile:hover {
+  background: #E7F1F0;
+}
+
+.check-in-tile.selected {
+  background: var(--primary-wash);
+  border-color: var(--primary-action);
+}
+
+.check-in-tile img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.check-in-tile span {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.25;
+}
+
+.check-in-mark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-action);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s var(--ease-spring);
+}
+
+.check-in-tile.selected .check-in-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkin-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 18px 24px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--divider);
+}
+
+/* ==========================================================================
+   Seção: Relatório Clínico em PDF A4 para Consulta Médica
+   ========================================================================== */
+.report-showcase-grid {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.pdf-a4-preview {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  border: 1.5px solid var(--divider);
+  box-shadow: 0 24px 56px -12px rgba(45, 65, 77, 0.14);
+  position: relative;
+}
+
+.pdf-header-strip {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--divider);
+  margin-bottom: 20px;
+}
+
+.pdf-doc-badge {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-wash);
+  color: var(--primary-action);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.pdf-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pdf-kpi-box {
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.pdf-kpi-box strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
+
+.pdf-kpi-box span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.pdf-alert-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+.pdf-alert-row.alert-green {
+  background: var(--prevention-wash);
+  color: var(--prevention-ink);
+}
+
+.pdf-alert-row.alert-amber {
+  background: var(--accent-wash);
+  color: #7C4200;
+}
+
+.pdf-calendar-strip {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.cal-dot {
+  height: 22px;
+  border-radius: 6px;
+  background: var(--prevention);
+}
+
+.cal-dot.missed {
+  background: var(--relief);
+}
+
+.cal-dot.partial {
+  background: var(--accent);
+}
+
+/* ==========================================================================
+   Seção: Gamificação Gentil (Constância, Escudos & Níveis do Ar)
+   ========================================================================== */
+.gamification-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.game-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  padding: 32px;
+  border: 1px solid var(--divider);
+  box-shadow: var(--shadow-card);
+}
+
+.week-capsules {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.day-capsule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1.5px solid var(--divider);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.day-capsule.done {
+  background: var(--prevention-wash);
+  border-color: var(--prevention);
+  color: var(--prevention-ink);
+}
+
+.day-capsule.shielded {
+  background: var(--primary-wash);
+  border-color: var(--primary-action);
+  color: var(--primary-action);
+}
+
+.levels-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.level-rung {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.level-rung.active {
+  background: var(--primary-wash);
+  border-color: var(--primary-action);
+  color: var(--primary-action);
+}
+
+/* ==========================================================================
+   FAQ (Accordion)
+   ========================================================================== */
+.faq-list {
+  max-width: 820px;
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.faq-item {
+  background: var(--surface-card);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item.open {
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-card);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.faq-chevron {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-low);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.28s var(--ease-spring), background-color 0.2s ease;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  background: var(--primary-wash);
+  color: var(--primary-action);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.32s var(--ease-spring);
+}
+
+.faq-answer-inner {
+  padding: 0 26px 24px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+/* ==========================================================================
+   CTA Final & Rodapé
+   ========================================================================== */
+.final-cta-card {
+  background: linear-gradient(135deg, #22315C 0%, #3F70B4 55%, #5C97CC 100%);
+  border-radius: 40px;
+  padding: 68px 48px;
+  color: #FFFFFF;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+  box-shadow: 0 28px 64px -16px rgba(34, 49, 92, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta-card h2 {
+  color: #FFFFFF;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  margin-bottom: 16px;
+}
+
+.final-cta-card p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.12rem;
+  margin-bottom: 28px;
+  max-width: 540px;
+}
+
+.final-cta-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.final-cta-mascot img {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  padding: 12px;
+  border: 4px solid var(--primary-wash);
+  box-shadow: 0 20px 44px rgba(10, 22, 48, 0.32), 0 0 0 14px rgba(255, 255, 255, 0.14);
+  object-fit: contain;
+  animation: ventu-float 3.2s var(--ease-sine) infinite alternate;
+}
+
+.site-footer {
+  padding: 72px 0 40px;
+  border-top: 1px solid var(--divider);
+  margin-top: 80px;
+  background: #FFFFFF;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.footer-col h4 {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.footer-col a {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--primary-action);
+}
+
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* Modal de Download / Acesso Antecipado */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 34, 56, 0.62);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  background: var(--surface-card);
+  border-radius: 32px;
+  max-width: 520px;
+  width: 100%;
+  padding: 36px;
+  border: 1px solid var(--divider);
+  box-shadow: 0 32px 72px rgba(15, 29, 54, 0.32);
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.3s var(--ease-spring);
+  position: relative;
+  text-align: center;
+}
+
+.modal-backdrop.open .modal-dialog {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface-low);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scroll Reveal Animations (Safe Fallback: Always visible if JS is not ready) */
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.65s var(--ease-spring), transform 0.65s var(--ease-spring);
+}
+
+html.js-ready .reveal:not(.visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* ==========================================================================
+   Responsividade (Tablet & Mobile)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero-grid,
+  .startup-story-grid,
+  .ventu-experience-grid,
+  .report-showcase-grid,
+  .final-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-cta-row {
+    justify-content: center;
+  }
+
+  .floating-pill-card.card-left {
+    left: -10px;
+  }
+
+  .floating-pill-card.card-right {
+    right: -10px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metric-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .triad-grid,
+  .gamification-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-span-7,
+  .bento-span-5,
+  .bento-span-6 {
+    grid-column: span 12;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 20px;
+    right: 20px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 16px;
+    flex-direction: column;
+    box-shadow: 0 20px 48px rgba(15, 29, 54, 0.22);
+    border: 1px solid var(--divider);
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .nav-links a {
+    color: var(--text-primary) !important;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .floating-pill-card {
+    display: none;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .metric-item {
+    border-right: none;
+    border-bottom: 1px solid var(--divider);
+    padding-bottom: 16px;
+    padding-right: 0;
+  }
+
+  .metric-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .ventu-experience-section {
+    margin: 0 10px;
+    padding: 56px 0;
+  }
+
+  .ventu-expressions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pdf-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .final-cta-card {
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}

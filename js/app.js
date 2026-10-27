@@ -3,6 +3,13 @@
  * Pure Vanilla JavaScript (Zero Dependencies, GitHub Pages Ready)
  */
 
+/**
+ * URL DO GOOGLE SHEETS (Google Apps Script Web App)
+ * Cole abaixo a URL gerada ao implantar seu script na planilha:
+ * Exemplo: "https://script.google.com/macros/s/AKfycbx.../exec"
+ */
+const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz88cx3yIOudS7mfprLs88UWT569ZW6gc2feqv1ch7iLDrLeeUu4pgslUapFlIRfaV3/exec";
+
 document.addEventListener("DOMContentLoaded", () => {
   document.documentElement.classList.add("js-ready");
   initNavbarScroll();
@@ -554,38 +561,127 @@ function initFaqAccordion() {
 }
 
 /* ==========================================================================
-   7. Modal de Acesso / Download
+   7. Modal de Acesso & Captura de E-mail (Teste Fechado)
    ========================================================================== */
 function initModalSystem() {
   const modal = document.getElementById("download-modal");
   const openBtns = document.querySelectorAll('[data-open-modal="download"]');
   const closeBtn = document.getElementById("modal-close-btn");
+  const modalInput = document.getElementById("modal-beta-email");
+  const modalVentuImg = document.getElementById("modal-ventu-img");
 
-  if (!modal) return;
-
-  openBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
+  if (modal) {
+    openBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        if (modalInput) {
+          setTimeout(() => modalInput.focus(), 120);
+        }
+      });
     });
-  });
 
-  const closeModal = () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-  };
+    const closeModal = () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    };
 
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("open")) {
-      closeModal();
-    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) {
+        closeModal();
+      }
+    });
+  }
+
+  // Captura de E-mail em todos os formulários do Teste Fechado -> Google Sheets
+  const betaForms = document.querySelectorAll("[data-beta-form]");
+  betaForms.forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = form.querySelector(".beta-email-input");
+      const btn = form.querySelector(".beta-submit-btn");
+      const feedback = form.querySelector(".beta-form-feedback");
+
+      if (!input || !input.value.trim()) return;
+      const email = input.value.trim();
+
+      const origem = form.classList.contains("hero-beta-form")
+        ? "Hero (Topo)"
+        : form.classList.contains("final-beta-form")
+          ? "CTA Final (Rodapé)"
+          : "Modal Teste Fechado";
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "<span>Enviando...</span>";
+      }
+
+      // 1. Envia para a Planilha do Google Sheets (se a URL estiver configurada)
+      if (GOOGLE_SHEETS_WEBAPP_URL && GOOGLE_SHEETS_WEBAPP_URL.startsWith("http")) {
+        try {
+          await fetch(GOOGLE_SHEETS_WEBAPP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+            body: JSON.stringify({
+              email,
+              origem,
+              dataHora: new Date().toLocaleString("pt-BR"),
+              userAgent: navigator.userAgent,
+            }),
+          });
+        } catch (err) {
+          console.error("Erro ao enviar para o Google Sheets:", err);
+        }
+      }
+
+      // 2. Salva backup local no navegador
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem("inspiracao_beta_emails") || "[]",
+        );
+        if (!saved.includes(email)) {
+          saved.push(email);
+          localStorage.setItem("inspiracao_beta_emails", JSON.stringify(saved));
+        }
+      } catch (_) {
+        // Ignora erro de storage privado
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = "<span>✓ E-mail Cadastrado</span>";
+      }
+
+      if (feedback) {
+        feedback.textContent = `🎉 Perfeito! Anotamos ${email} na lista do Teste Fechado.`;
+        feedback.classList.add("visible");
+      }
+
+      if (modalVentuImg) {
+        modalVentuImg.src = "./assets/images/ventu-festa.png";
+      }
+
+      const heroVentuImg = document.getElementById("ventu-hero-img");
+      const heroVentuText = document.getElementById("ventu-hero-text");
+      if (heroVentuImg) {
+        heroVentuImg.src = "./assets/images/ventu-festa.png";
+      }
+      if (heroVentuText) {
+        heroVentuText.textContent = `"Eba! Seu e-mail (${email}) entrou na lista do nosso Teste Fechado. Bem-vindo à InspirAção!"`;
+      }
+
+      input.value = "";
+    });
   });
 }
 

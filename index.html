@@ -73,7 +73,7 @@
             class="btn-pill btn-primary tactile"
             data-open-modal="download"
           >
-            <span>Baixar o App</span>
+            <span>Teste Fechado</span>
             <span aria-hidden="true">→</span>
           </button>
           <button
@@ -145,18 +145,27 @@
             céu e leve relatórios clínicos impecáveis ao seu médico.
           </p>
 
-          <div class="hero-cta-row">
-            <button
-              type="button"
-              class="btn-pill btn-white tactile"
-              data-open-modal="download"
-            >
-              <span>📲 Experimentar o InspirAção</span>
-            </button>
-            <a href="#aplicativo" class="btn-pill btn-glass tactile">
-              <span>Explorar Funcionalidades</span>
-            </a>
-          </div>
+          <form class="beta-signup-form hero-beta-form" data-beta-form>
+            <label class="beta-form-label" for="hero-beta-email">
+              🚀 Inscreva seu e-mail para receber o acesso ao <strong>Teste Fechado</strong>:
+            </label>
+            <div class="beta-input-group">
+              <input
+                type="email"
+                id="hero-beta-email"
+                name="email"
+                class="beta-email-input"
+                placeholder="Digite seu melhor e-mail..."
+                required
+                autocomplete="email"
+              />
+              <button type="submit" class="btn-pill btn-primary tactile beta-submit-btn">
+                <span>Quero Testar</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <p class="beta-form-feedback" aria-live="polite"></p>
+          </form>
 
           <!-- Mascote Oficial Ventu no Hero -->
           <div class="ventu-hero-companion">
@@ -1717,26 +1726,30 @@
               border-color: rgba(255, 255, 255, 0.35);
             "
           >
-            🚀 Comece Hoje Gratuitamente
+            🚀 Teste Fechado • Vagas Limitadas
           </span>
           <h2>Pronto para dar ao seu fôlego a tranquilidade que ele merece?</h2>
           <p>
-            Junte-se à nova geração de cuidado respiratório no Brasil. Cadastre
-            seu primeiro spray em menos de 60 segundos e tenha o Ventu ao seu
-            lado todos os dias.
+            Estamos liberando o acesso antecipado do <strong>InspirAção</strong> para um grupo exclusivo de testadores. Deixe seu e-mail abaixo para cadastrarmos seu convite no teste fechado:
           </p>
-          <div style="display: flex; flex-wrap: wrap; gap: 14px">
-            <button
-              type="button"
-              class="btn-pill btn-white tactile"
-              data-open-modal="download"
-            >
-              <span>📲 Baixar para Android & iOS</span>
-            </button>
-            <a href="#topo" class="btn-pill btn-glass tactile">
-              <span>Testar Simulador no Topo ↑</span>
-            </a>
-          </div>
+          <form class="beta-signup-form final-beta-form" data-beta-form>
+            <div class="beta-input-group">
+              <input
+                type="email"
+                name="email"
+                class="beta-email-input"
+                placeholder="Digite seu e-mail para o teste fechado..."
+                aria-label="Digite seu e-mail para o teste fechado"
+                required
+                autocomplete="email"
+              />
+              <button type="submit" class="btn-pill btn-primary tactile beta-submit-btn">
+                <span>Garantir Acesso</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <p class="beta-form-feedback" aria-live="polite"></p>
+          </form>
         </div>
 
         <div class="final-cta-mascot">
@@ -1846,54 +1859,60 @@
         <img
           src="./assets/images/ventu-boas-vindas.png"
           alt="Mascote Ventu"
+          id="modal-ventu-img"
           style="
-            width: 110px;
-            height: 110px;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 6px;
+            border: 3px solid var(--primary-wash);
             object-fit: contain;
             margin: 0 auto 12px;
           "
         />
         <span class="status-badge badge-primary" style="margin-bottom: 10px"
-          >InspirAção Mobile • v1.0</span
+          >InspirAção Mobile • Teste Fechado</span
         >
         <h3 id="modal-title" style="font-size: 1.65rem; margin-bottom: 10px">
-          Comece sua jornada respiratória
+          Participe do Teste Fechado
         </h3>
         <p
           style="
             color: var(--text-secondary);
             font-size: 0.96rem;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
           "
         >
-          O aplicativo <strong>InspirAção</strong> foi desenvolvido em Flutter
-          para <strong>Android</strong> e <strong>iOS</strong>, com banco de
-          dados local SQLite/Drift e catálogo ANVISA integrado.
+          Informe abaixo o seu e-mail para cadastrarmos a sua liberação no
+          <strong>Teste Fechado</strong> do aplicativo <strong>InspirAção</strong>:
         </p>
 
-        <div style="display: grid; gap: 12px; margin-bottom: 20px">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-pill btn-primary tactile"
-            style="width: 100%"
-          >
-            <span>🤖 Baixar APK / Google Play (Android)</span>
-          </a>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-pill btn-tonal tactile"
-            style="width: 100%"
-          >
-            <span>🍎 Acessar Versão iOS / Repositório Oficial</span>
-          </a>
-        </div>
+        <form class="beta-signup-form modal-beta-form" data-beta-form>
+          <div class="beta-input-group modal-input-group">
+            <input
+              type="email"
+              id="modal-beta-email"
+              name="email"
+              class="beta-email-input"
+              placeholder="seuemail@exemplo.com"
+              aria-label="Seu e-mail para o teste fechado"
+              required
+              autocomplete="email"
+            />
+            <button
+              type="submit"
+              class="btn-pill btn-primary tactile beta-submit-btn"
+            >
+              <span>Cadastrar E-mail</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <p class="beta-form-feedback modal-feedback" aria-live="polite"></p>
+        </form>
 
-        <p style="font-size: 0.8rem; color: var(--text-muted)">
-          🔒 Seus dados permanecem 100% privados no seu dispositivo.
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 14px">
+          🔒 Usaremos seu e-mail exclusivamente para liberar seu convite do teste.
         </p>
       </div>
     </div>

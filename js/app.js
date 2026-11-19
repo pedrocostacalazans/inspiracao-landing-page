@@ -1,630 +1,587 @@
 /**
- * InspirAção — Interactive Experience Engine
- * Pure Vanilla JavaScript (Zero Dependencies, GitHub Pages Ready)
+ * InspirAção — Apresentação Mobile Executiva
+ * Pure Vanilla JavaScript (Zero Dependencies)
  */
 
-/**
- * URL DO GOOGLE SHEETS (Google Apps Script Web App)
- * Cole abaixo a URL gerada ao implantar seu script na planilha:
- * Exemplo: "https://script.google.com/macros/s/AKfycbx.../exec"
- */
-const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz88cx3yIOudS7mfprLs88UWT569ZW6gc2feqv1ch7iLDrLeeUu4pgslUapFlIRfaV3/exec";
+const GOOGLE_SHEETS_WEBAPP_URL =
+  "https://script.google.com/macros/s/AKfycbz88cx3yIOudS7mfprLs88UWT569ZW6gc2feqv1ch7iLDrLeeUu4pgslUapFlIRfaV3/exec";
+
+let currentSkyPhase = "day";
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.documentElement.classList.add("js-ready");
-  initNavbarScroll();
   initSkyParticles();
   initSkyPhaseSwitcher();
-  initInteractivePhoneMockup();
-  initVentuBreathingAndExpressions();
-  initFaqAccordion();
-  initModalSystem();
-  initScrollReveal();
+  const deckApi = initDeckNavigation();
+  const lightboxApi = initScreenLightbox();
+  initPhoneCarousels(deckApi, lightboxApi);
+  initBetaModal();
 });
 
 /* ==========================================================================
-   1. Navbar Flutuante & Menu Mobile
+   1. Partículas Atmosféricas na Capa (#slide-1)
    ========================================================================== */
-function initNavbarScroll() {
-  const header = document.getElementById("site-header");
-  const mobileBtn = document.getElementById("mobile-menu-btn");
-  const navLinks = document.getElementById("nav-links");
-
-  const handleScroll = () => {
-    if (!header) return;
-    if (window.scrollY > 40) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  handleScroll();
-
-  if (mobileBtn && navLinks) {
-    mobileBtn.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("mobile-open");
-      mobileBtn.setAttribute("aria-expanded", String(isOpen));
-    });
-
-    navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("mobile-open");
-        mobileBtn.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
-}
-
-/* ==========================================================================
-   2. Motor de Partículas Celestes (SkyParticle Painter)
-   ========================================================================== */
-let currentSkyPhase = "day";
-
 function initSkyParticles() {
   const canvas = document.getElementById("sky-particles");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
   let width = 0;
   let height = 0;
   let particles = [];
 
   function resize() {
-    const hero = canvas.parentElement;
-    if (!hero) return;
-    width = canvas.width = hero.offsetWidth;
-    height = canvas.height = hero.offsetHeight;
-    createParticles();
-  }
-
-  function createParticles() {
-    const count = Math.min(
-      55,
-      Math.max(18, Math.floor((width * height) / 22000)),
-    );
+    const host = canvas.parentElement;
+    if (!host) return;
+    width = canvas.width = host.offsetWidth;
+    height = canvas.height = host.offsetHeight;
+    const count = Math.min(44, Math.max(16, Math.floor((width * height) / 22000)));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * width,
-      y: Math.random() * height * 0.85,
-      r: Math.random() * 2.4 + 1,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: -Math.random() * 0.22 - 0.05,
-      alpha: Math.random() * 0.55 + 0.15,
+      y: Math.random() * height * 0.9,
+      r: Math.random() * 2.2 + 0.9,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: -Math.random() * 0.2 - 0.04,
+      alpha: Math.random() * 0.5 + 0.16,
       phase: Math.random() * Math.PI * 2,
     }));
   }
 
-  function draw() {
+  function renderFrame() {
     ctx.clearRect(0, 0, width, height);
     const isNight = currentSkyPhase === "midnight";
 
     for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.phase += 0.02;
+      if (!reducedMotion) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.phase += 0.02;
 
-      if (p.y < -10) p.y = height * 0.85;
-      if (p.x < -10) p.x = width + 10;
-      if (p.x > width + 10) p.x = -10;
+        if (p.y < -8) p.y = height * 0.9;
+        if (p.x < -8) p.x = width + 8;
+        if (p.x > width + 8) p.x = -8;
+      }
 
-      const pulse = Math.sin(p.phase) * 0.22;
-      const alpha = Math.max(0.08, Math.min(0.85, p.alpha + pulse));
-
+      const alpha = Math.max(
+        0.08,
+        Math.min(0.85, p.alpha + Math.sin(p.phase) * 0.2),
+      );
       ctx.beginPath();
-      ctx.arc(p.x, p.y, isNight ? p.r * 0.9 : p.r * 1.15, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, isNight ? p.r * 0.9 : p.r * 1.1, 0, Math.PI * 2);
       ctx.fillStyle = isNight
         ? `rgba(233, 238, 255, ${alpha})`
         : `rgba(255, 255, 255, ${alpha * 0.65})`;
       ctx.fill();
     }
 
-    requestAnimationFrame(draw);
+    if (!reducedMotion) {
+      requestAnimationFrame(renderFrame);
+    }
   }
 
   window.addEventListener("resize", resize, { passive: true });
   resize();
-  draw();
+  renderFrame();
 }
 
 /* ==========================================================================
-   3. Seletor das 4 Fases do Céu de 24h (SkyPalette)
+   2. Seletor das 4 Fases do Céu 24h (Capa & Encerramento)
    ========================================================================== */
 const SKY_CONFIGS = {
   dawn: {
-    clock: "06:30",
-    greeting: "Olá, Pedro",
-    headline: "Próxima dose às 08:00",
-    subtitle: "2 doses no plano de hoje.",
-    sunLeft: "17%",
-    sunTop: "6px",
-    node08State: "focused",
-    node20State: "pending",
-    orbMeta: "2 doses às 08:00",
-    orbHint: "Segure para<br />registrar",
-    liquidHeight: "78%",
-    weekSub: "0 de 1 dias com todas as doses",
-    capsuleFillHeight: "14%",
-    ventuTitle: "Ventu no Amanhecer (06:30)",
-    ventuMessage:
-      '"Bom dia! Às 06:30 o sol está nascendo antes do selo das 08:00. Toque no orbe para registrar sua dose!"',
-    ventuImg: "./assets/images/ventu-onda.png",
+    caption: "Amanhecer · 06:30",
+    themeColor: "#45689D",
+    ventuImg: "./assets/images/ventu-piscando.png",
   },
   day: {
-    clock: "15:07",
-    greeting: "Olá, Pedro",
-    headline: "Próxima dose às 20:00",
-    subtitle: "1 de 2 doses feitas hoje.",
-    sunLeft: "53%",
-    sunTop: "-8px",
-    node08State: "taken",
-    node20State: "focused",
-    orbMeta: "2 doses às 20:00",
-    orbHint: "Segure para<br />registrar",
-    liquidHeight: "64%",
-    weekSub: "0 de 1 dias com todas as doses",
-    capsuleFillHeight: "46%",
-    ventuTitle: "Ventu no Dia Solar (15:07)",
-    ventuMessage:
-      '"Ar limpo e rotina em dia! A dose das 08:00 já está concluída (✓) e o sol caminha rumo às 20:00."',
-    ventuImg: "./assets/images/ventu-boas-vindas.png",
+    caption: "Dia Solar · 15:07",
+    themeColor: "#3F70B4",
+    ventuImg: "./assets/images/ventu-onda.png",
   },
   dusk: {
-    clock: "18:24",
-    greeting: "Olá, Pedro",
-    headline: "Próxima dose às 20:00",
-    subtitle: "1 de 2 doses feitas hoje.",
-    sunLeft: "65%",
-    sunTop: "-2px",
-    node08State: "taken",
-    node20State: "focused",
-    orbMeta: "2 doses às 20:00",
-    orbHint: "Segure para<br />registrar",
-    liquidHeight: "64%",
-    weekSub: "0 de 1 dias com todas as doses",
-    capsuleFillHeight: "46%",
-    ventuTitle: "Ventu no Entardecer (18:24)",
-    ventuMessage:
-      '"O entardecer sereno chegou e o sol poente se aproxima do selo das 20:00 no horizonte."',
+    caption: "Entardecer · 18:24",
+    themeColor: "#394371",
     ventuImg: "./assets/images/ventu-nuvem.png",
   },
   midnight: {
-    clock: "23:00",
-    greeting: "Olá, Pedro",
-    headline: "Tudo feito por hoje",
-    subtitle: "Amanhã, a primeira dose é às 08:00.",
-    sunLeft: "86%",
-    sunTop: "8px",
-    node08State: "taken",
-    node20State: "taken",
-    orbMeta: "2 doses registradas",
-    orbHint: "Dia completo",
-    liquidHeight: "42%",
-    weekSub: "1 de 1 dias com todas as doses",
-    capsuleFillHeight: "100%",
-    ventuTitle: "Ventu na Noite Profunda (23:00)",
-    ventuMessage:
-      '"Noite tranquila com todas as doses feitas (✓) e a lua brilhando no horizonte. Bom descanso!"',
+    caption: "Noite · 23:00",
+    themeColor: "#1E2C54",
     ventuImg: "./assets/images/ventu-dormindo.png",
   },
 };
 
-function setHorizonNodeState(el, state) {
-  if (!el) return;
-  el.classList.remove("taken", "focused", "pending");
-  el.classList.add(state);
-  el.textContent = state === "taken" ? "✓" : "";
-}
-
 function initSkyPhaseSwitcher() {
   const buttons = document.querySelectorAll(".sky-phase-btn");
-  const clockEl = document.getElementById("app-mock-clock");
-  const greetingEl = document.getElementById("app-mock-greeting");
-  const headlineEl = document.getElementById("app-mock-headline");
-  const subEl = document.getElementById("app-mock-sub");
-  const sunOrbEl = document.getElementById("horizon-sun-orb");
-  const node08El = document.getElementById("node-08h");
-  const node20El = document.getElementById("node-20h");
-  const orbStockText = document.getElementById("orb-stock-text");
-  const orbTapPill = document.getElementById("orb-tap-pill");
-  const orbLiquid = document.getElementById("orb-liquid-fill");
-  const weekSubEl = document.getElementById("app-week-sub");
-  const terCapsuleFill = document.getElementById("ter-capsule-fill");
-  const ventuHeroTitle = document.getElementById("ventu-hero-title");
-  const ventuHeroText = document.getElementById("ventu-hero-text");
-  const ventuHeroImg = document.getElementById("ventu-hero-img");
+  const captionEl = document.getElementById("sky-phase-caption");
+  const ventuImg = document.getElementById("ventu-hero-img");
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
 
-  window.applySkyPhase = function applySkyPhase(phase) {
+  function applyPhase(phase) {
+    const cfg = SKY_CONFIGS[phase];
+    if (!cfg) return;
+
     currentSkyPhase = phase;
     document.documentElement.setAttribute("data-sky", phase);
 
     buttons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.phase === phase);
+      const isActive = btn.dataset.phase === phase;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-pressed", String(isActive));
     });
 
-    const cfg = SKY_CONFIGS[phase];
-    if (!cfg) return;
-
-    if (clockEl) clockEl.textContent = cfg.clock;
-    if (greetingEl) greetingEl.textContent = cfg.greeting;
-    if (headlineEl) headlineEl.textContent = cfg.headline;
-    if (subEl) subEl.textContent = cfg.subtitle;
-    if (sunOrbEl) {
-      sunOrbEl.style.left = cfg.sunLeft;
-      sunOrbEl.style.top = cfg.sunTop;
+    if (captionEl) captionEl.textContent = cfg.caption;
+    if (themeMeta) themeMeta.setAttribute("content", cfg.themeColor);
+    if (ventuImg && ventuImg.getAttribute("src") !== cfg.ventuImg) {
+      ventuImg.style.opacity = "0.25";
+      setTimeout(() => {
+        ventuImg.src = cfg.ventuImg;
+        ventuImg.style.opacity = "1";
+      }, 120);
     }
-
-    setHorizonNodeState(node08El, cfg.node08State);
-    setHorizonNodeState(node20El, cfg.node20State);
-
-    if (orbStockText) orbStockText.textContent = cfg.orbMeta;
-    if (orbTapPill) orbTapPill.innerHTML = cfg.orbHint;
-    if (orbLiquid) orbLiquid.style.height = cfg.liquidHeight;
-    if (weekSubEl) weekSubEl.textContent = cfg.weekSub;
-    if (terCapsuleFill) {
-      terCapsuleFill.classList.toggle(
-        "complete",
-        cfg.capsuleFillHeight === "100%",
-      );
-      terCapsuleFill.style.height = cfg.capsuleFillHeight;
-    }
-
-    if (ventuHeroTitle) ventuHeroTitle.textContent = cfg.ventuTitle;
-    if (ventuHeroText) ventuHeroText.textContent = cfg.ventuMessage;
-    if (ventuHeroImg) ventuHeroImg.src = cfg.ventuImg;
-
-    window.simulatorDoseCompleted = phase === "midnight";
-  };
+  }
 
   buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      window.applySkyPhase(btn.dataset.phase);
-    });
+    btn.addEventListener("click", () => applyPhase(btn.dataset.phase));
   });
 }
 
 /* ==========================================================================
-   4. Mockup Interativo do App (Orbe + Pílula Desfazer + Cápsula Semanal)
+   3. Navegação do Deck Vertical (Snap, HUD Adaptativo, Progresso & Teclado)
    ========================================================================== */
-function initInteractivePhoneMockup() {
-  const orbBtn = document.getElementById("interactive-orb-btn");
-  const orbLiquid = document.getElementById("orb-liquid-fill");
-  const orbStockText = document.getElementById("orb-stock-text");
-  const orbTapPill = document.getElementById("orb-tap-pill");
-  const node08h = document.getElementById("node-08h");
-  const node20h = document.getElementById("node-20h");
-  const headlineEl = document.getElementById("app-mock-headline");
-  const subEl = document.getElementById("app-mock-sub");
-  const weekSubEl = document.getElementById("app-week-sub");
-  const terCapsuleFill = document.getElementById("ter-capsule-fill");
-  const skyUndoPillBtn = document.getElementById("sky-undo-pill-btn");
-  const toastEl = document.getElementById("app-mock-toast");
-  const toastMsg = document.getElementById("app-toast-msg");
-  const toastUndoBtn = document.getElementById("app-toast-undo");
-  const reliefBtn = document.getElementById("satellite-relief-btn");
-  const immunoBtn = document.getElementById("satellite-immuno-btn");
-  const symptomCardBtn = document.getElementById("app-symptom-card-btn");
-  const symptomSubEl = document.getElementById("app-symptom-sub");
-  const actCardBtn = document.getElementById("app-act-card-btn");
-  const ventuHeroImg = document.getElementById("ventu-hero-img");
-  const ventuHeroText = document.getElementById("ventu-hero-text");
+function initDeckNavigation() {
+  const deck = document.getElementById("deck");
+  const slides = Array.from(document.querySelectorAll(".deck-slide"));
+  const dots = Array.from(document.querySelectorAll(".deck-dot"));
+  const hud = document.getElementById("deck-hud");
+  const dotsNav = document.getElementById("deck-dots");
+  const counterEl = document.getElementById("hud-counter");
+  const progressBar = document.getElementById("deck-progress-bar");
 
-  window.simulatorDoseCompleted = false;
-  let toastTimeout = null;
+  let activeIndex = 0;
 
-  function showAppToast(message) {
-    if (!toastEl || !toastMsg) return;
-    toastMsg.textContent = message;
-    toastEl.classList.add("visible");
-    if (toastTimeout) clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-      toastEl.classList.remove("visible");
-    }, 4500);
+  function preloadSlideImages(index) {
+    const slide = slides[index];
+    if (!slide) return;
+    slide.querySelectorAll("img").forEach((img) => {
+      if (img.loading === "lazy") {
+        img.loading = "eager";
+      }
+      const src = img.getAttribute("src");
+      if (src && !img.complete) {
+        const loader = new Image();
+        loader.src = src;
+      }
+    });
   }
 
-  function triggerLiquidSlosh() {
-    if (!orbLiquid) return;
-    orbLiquid.classList.add("sloshing");
-    setTimeout(() => {
-      orbLiquid.classList.remove("sloshing");
-    }, 900);
-  }
+  function setActiveSlide(index) {
+    if (index < 0 || index >= slides.length) return;
+    activeIndex = index;
 
-  function completeCurrentDose() {
-    window.simulatorDoseCompleted = true;
-    setHorizonNodeState(node08h, "taken");
-    setHorizonNodeState(node20h, "taken");
-    if (orbStockText) orbStockText.textContent = "2 doses registradas";
-    if (orbLiquid) {
-      triggerLiquidSlosh();
-      orbLiquid.style.height = "42%";
-    }
-    if (orbTapPill) orbTapPill.innerHTML = "Dia completo";
-    if (headlineEl) headlineEl.textContent = "Tudo feito por hoje";
-    if (subEl) subEl.textContent = "2 de 2 doses feitas hoje.";
-    if (weekSubEl) weekSubEl.textContent = "1 de 1 dias com todas as doses";
-    if (terCapsuleFill) {
-      terCapsuleFill.classList.add("complete");
-      terCapsuleFill.style.height = "100%";
-    }
-    if (ventuHeroImg) ventuHeroImg.src = "./assets/images/ventu-festa.png";
-    if (ventuHeroText) {
-      ventuHeroText.textContent =
-        '"Parabéns! Dose registrada. O nível líquido da orbe desceu consumindo os jatos e o dia ficou completo!"';
-    }
-    showAppToast("Clenil registrado");
-  }
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === index);
+    });
 
-  function undoLastDose() {
-    const fallbackPhase =
-      currentSkyPhase === "midnight" ? "day" : currentSkyPhase;
-    triggerLiquidSlosh();
-    if (window.applySkyPhase) {
-      window.applySkyPhase(fallbackPhase);
-    }
-    showAppToast("Registro desfeito");
-  }
-
-  if (orbBtn) {
-    orbBtn.addEventListener("click", () => {
-      if (!window.simulatorDoseCompleted) {
-        completeCurrentDose();
+    dots.forEach((dot, i) => {
+      const isCurrent = i === index;
+      dot.classList.toggle("active", isCurrent);
+      if (isCurrent) {
+        dot.setAttribute("aria-current", "step");
       } else {
-        undoLastDose();
+        dot.removeAttribute("aria-current");
       }
     });
+
+    if (counterEl) {
+      const num = String(index + 1).padStart(2, "0");
+      const total = String(slides.length).padStart(2, "0");
+      counterEl.textContent = `${num} / ${total}`;
+    }
+
+    const hudTheme = slides[index].dataset.hud === "dark" ? "hud-dark" : "hud-light";
+    [hud, dotsNav].forEach((el) => {
+      if (!el) return;
+      el.classList.remove("hud-light", "hud-dark");
+      el.classList.add(hudTheme);
+    });
+
+    preloadSlideImages(index);
+    preloadSlideImages(index + 1);
   }
 
-  if (skyUndoPillBtn) {
-    skyUndoPillBtn.addEventListener("click", () => {
-      undoLastDose();
+  function goToSlide(index) {
+    if (!deck || slides.length === 0) return;
+    const clamped = Math.max(0, Math.min(slides.length - 1, index));
+    deck.scrollTo({
+      top: slides[clamped].offsetTop,
+      behavior: "smooth",
     });
   }
 
-  if (toastUndoBtn) {
-    toastUndoBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      undoLastDose();
-      if (toastEl) toastEl.classList.remove("visible");
-    });
+  if (deck && slides.length > 0) {
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const idx = Number(entry.target.dataset.index || 0);
+              setActiveSlide(idx);
+            }
+          });
+        },
+        { root: deck, threshold: 0.55 },
+      );
+
+      slides.forEach((slide) => observer.observe(slide));
+    }
+
+    let scrollRaf = null;
+    deck.addEventListener(
+      "scroll",
+      () => {
+        if (scrollRaf) return;
+        scrollRaf = requestAnimationFrame(() => {
+          scrollRaf = null;
+          const maxScroll = deck.scrollHeight - deck.clientHeight;
+          const ratio = maxScroll > 0 ? deck.scrollTop / maxScroll : 0;
+          const pct = ((ratio * (slides.length - 1) + 1) / slides.length) * 100;
+          if (progressBar) {
+            progressBar.style.width = `${Math.min(100, Math.max(100 / slides.length, pct))}%`;
+          }
+          const approxIndex = Math.round(ratio * (slides.length - 1));
+          if (approxIndex !== activeIndex) {
+            setActiveSlide(approxIndex);
+          }
+        });
+      },
+      { passive: true },
+    );
   }
 
-  if (reliefBtn) {
-    reliefBtn.addEventListener("click", () => {
-      showAppToast("Alívio registrado às 15:07");
-      if (ventuHeroImg)
-        ventuHeroImg.src = "./assets/images/ventu-olhos-fechados.png";
-      if (ventuHeroText) {
-        ventuHeroText.textContent =
-          '"Vamos com calma. O uso de alívio foi registrado com horário exato no seu histórico."';
+  document.querySelectorAll("[data-goto]").forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      goToSlide(Number(trigger.dataset.goto || 0));
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    const lightboxOpen = document
+      .getElementById("screen-lightbox")
+      ?.classList.contains("open");
+    const modalOpen = document
+      .getElementById("download-modal")
+      ?.classList.contains("open");
+    const activeTag = document.activeElement?.tagName;
+    if (
+      lightboxOpen ||
+      modalOpen ||
+      activeTag === "INPUT" ||
+      activeTag === "TEXTAREA"
+    ) {
+      return;
+    }
+
+    if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+      e.preventDefault();
+      goToSlide(activeIndex + 1);
+    } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+      e.preventDefault();
+      goToSlide(activeIndex - 1);
+    } else if (e.key === "ArrowRight") {
+      slides[activeIndex]?._stepCarousel?.(1);
+    } else if (e.key === "ArrowLeft") {
+      slides[activeIndex]?._stepCarousel?.(-1);
+    }
+  });
+
+  setActiveSlide(0);
+
+  return {
+    getActiveSlideIndex: () => activeIndex,
+    goToSlide,
+  };
+}
+
+/* ==========================================================================
+   4. Carrosséis Horizontais Sincronizados (Telas Reais + Halo Cromático)
+   ========================================================================== */
+function initPhoneCarousels(_deckApi, lightboxApi) {
+  const showcaseSlides = document.querySelectorAll(".showcase-slide");
+
+  showcaseSlides.forEach((slide) => {
+    const track = slide.querySelector(".phone-track");
+    const items = Array.from(slide.querySelectorAll(".phone-screen-item"));
+    const tabs = Array.from(slide.querySelectorAll(".screen-tab"));
+    const prevBtn = slide.querySelector(".stage-prev");
+    const nextBtn = slide.querySelector(".stage-next");
+    const expandBtn = slide.querySelector(".zoom-expand-btn");
+
+    if (!track || items.length === 0) return;
+
+    let currentIdx = 0;
+
+    function syncUI(idx) {
+      currentIdx = Math.max(0, Math.min(items.length - 1, idx));
+      slide._currentScreen = currentIdx;
+
+      tabs.forEach((tab, i) => {
+        const isActive = i === currentIdx;
+        tab.classList.toggle("active", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      if (prevBtn) prevBtn.disabled = currentIdx === 0;
+      if (nextBtn) nextBtn.disabled = currentIdx === items.length - 1;
+
+      const accent = items[currentIdx]?.dataset.accent;
+      if (accent) {
+        slide.dataset.accent = accent;
       }
-    });
-  }
+    }
 
-  if (immunoBtn) {
-    immunoBtn.addEventListener("click", () => {
-      showAppToast("Aplicação de imunobiológico visualizada");
-    });
-  }
+    function scrollToScreen(idx) {
+      const target = Math.max(0, Math.min(items.length - 1, idx));
+      track.scrollTo({
+        left: target * track.clientWidth,
+        behavior: "smooth",
+      });
+      syncUI(target);
+    }
 
-  if (symptomCardBtn) {
-    symptomCardBtn.addEventListener("click", () => {
-      if (symptomSubEl) {
-        symptomSubEl.textContent =
-          "Hoje às 15:07: Respiração estável registrada ✓";
-      }
-      showAppToast("Respiração registrada");
-    });
-  }
+    slide._stepCarousel = (delta) => {
+      scrollToScreen(currentIdx + delta);
+    };
 
-  if (actCardBtn) {
-    actCardBtn.addEventListener("click", () => {
-      showAppToast("Teste ACT: 23 de 25 pontos (Controlada)");
-    });
-  }
+    let trackRaf = null;
+    track.addEventListener(
+      "scroll",
+      () => {
+        if (trackRaf) return;
+        trackRaf = requestAnimationFrame(() => {
+          trackRaf = null;
+          const width = track.clientWidth || 1;
+          const idx = Math.round(track.scrollLeft / width);
+          if (idx !== currentIdx) {
+            syncUI(idx);
+          }
+        });
+      },
+      { passive: true },
+    );
 
-  // Navegação entre as 3 abas flutuantes (Hoje, Plano, Perfil)
-  const navTabs = document.querySelectorAll(".app-nav-tab");
-  const screenPanes = document.querySelectorAll(".app-screen-pane");
-
-  navTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = tab.dataset.screen;
-      navTabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-
-      screenPanes.forEach((pane) => {
-        pane.classList.toggle("active", pane.id === `pane-${target}`);
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        scrollToScreen(Number(tab.dataset.screenIdx || 0));
       });
     });
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => scrollToScreen(currentIdx - 1));
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => scrollToScreen(currentIdx + 1));
+    }
+
+    function openSlideZoom(startIdx) {
+      lightboxApi.open(items, startIdx, (newIdx) => {
+        scrollToScreen(newIdx);
+      });
+    }
+
+    items.forEach((item, i) => {
+      item.addEventListener("click", () => openSlideZoom(i));
+    });
+
+    if (expandBtn) {
+      expandBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openSlideZoom(currentIdx);
+      });
+    }
+
+    syncUI(0);
   });
 }
 
 /* ==========================================================================
-   5. Experiência Guiada "Respire com o Ventu" (4s Inspirar / 4s Expirar)
+   5. Lightbox Fullscreen com Swipe e Teclado
    ========================================================================== */
-function initVentuBreathingAndExpressions() {
-  const startBreathBtn = document.getElementById("toggle-breathing-btn");
-  const ringContainer = document.getElementById("breathing-ring-container");
-  const breathInstruction = document.getElementById("breath-instruction");
-  const breathSub = document.getElementById("breath-sub");
-  const ventuStageImg = document.getElementById("ventu-stage-img");
-  const expressionChips = document.querySelectorAll(".expression-chip");
+function initScreenLightbox() {
+  const lightbox = document.getElementById("screen-lightbox");
+  const imgEl = document.getElementById("lightbox-img");
+  const labelEl = document.getElementById("lightbox-label");
+  const counterEl = document.getElementById("lightbox-counter");
+  const closeBtn = document.getElementById("lightbox-close");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+  const stageEl = document.getElementById("lightbox-stage");
 
-  let breathingInterval = null;
-  let isBreathingActive = false;
-  let phase = "inhale";
+  let activeItems = [];
+  let activeIdx = 0;
+  let syncCallback = null;
+  let touchStartX = 0;
 
-  function stopBreathingSession() {
-    isBreathingActive = false;
-    if (breathingInterval) clearInterval(breathingInterval);
-    if (ringContainer) {
-      ringContainer.classList.remove("inhaling", "exhaling");
+  function render(idx) {
+    if (activeItems.length === 0) return;
+    activeIdx = Math.max(0, Math.min(activeItems.length - 1, idx));
+
+    const figure = activeItems[activeIdx];
+    const sourceImg = figure.querySelector("img");
+    if (imgEl && sourceImg) {
+      imgEl.src = sourceImg.currentSrc || sourceImg.src;
+      imgEl.alt = sourceImg.alt || "";
     }
-    if (startBreathBtn) {
-      startBreathBtn.innerHTML = "🌬️ Iniciar Pausa Respiratória (4s / 4s)";
+    if (labelEl) {
+      labelEl.textContent = figure.dataset.label || "Tela do App";
+    }
+    if (counterEl) {
+      counterEl.textContent = `${activeIdx + 1} / ${activeItems.length}`;
+    }
+    if (prevBtn) {
+      prevBtn.style.visibility = activeItems.length > 1 ? "visible" : "hidden";
+      prevBtn.disabled = activeIdx === 0;
+    }
+    if (nextBtn) {
+      nextBtn.style.visibility = activeItems.length > 1 ? "visible" : "hidden";
+      nextBtn.disabled = activeIdx === activeItems.length - 1;
+    }
+
+    if (typeof syncCallback === "function") {
+      syncCallback(activeIdx);
     }
   }
 
-  if (startBreathBtn && ringContainer) {
-    startBreathBtn.addEventListener("click", () => {
-      if (isBreathingActive) {
-        stopBreathingSession();
-        breathInstruction.textContent = "Pausa concluída com serenidade";
-        breathSub.textContent =
-          "Toque em qualquer expressão do Ventu ao lado ou inicie um novo ciclo.";
-        ventuStageImg.src = "./assets/images/ventu-boas-vindas.png";
-        return;
+  function close() {
+    if (!lightbox) return;
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+  }
+
+  function open(items, startIdx, onIndexChange) {
+    if (!lightbox) return;
+    activeItems = items;
+    syncCallback = onIndexChange || null;
+    render(startIdx);
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", close);
+  if (prevBtn) prevBtn.addEventListener("click", () => render(activeIdx - 1));
+  if (nextBtn) nextBtn.addEventListener("click", () => render(activeIdx + 1));
+
+  if (lightbox) {
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox || e.target === stageEl) {
+        close();
       }
+    });
+  }
 
-      isBreathingActive = true;
-      startBreathBtn.innerHTML = "⏸️ Pausar Exercício Respiratório";
-      ventuStageImg.src = "./assets/images/ventu-olhos-fechados.png";
+  if (stageEl) {
+    stageEl.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+      },
+      { passive: true },
+    );
 
-      const runCycle = () => {
-        if (phase === "inhale") {
-          ringContainer.classList.remove("exhaling");
-          ringContainer.classList.add("inhaling");
-          breathInstruction.textContent = "Inspire devagar pelo nariz... (4s)";
-          breathSub.textContent =
-            "O nariz filtra e aquece o ar, protegendo seus brônquios.";
-          phase = "exhale";
-        } else {
-          ringContainer.classList.remove("inhaling");
-          ringContainer.classList.add("exhaling");
-          breathInstruction.textContent = "Solte o ar suavemente... (4s)";
-          breathSub.textContent =
-            "Relaxe os ombros e acompanhe o halo luminoso do Ventu.";
-          phase = "inhale";
+    stageEl.addEventListener(
+      "touchend",
+      (e) => {
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) > 40) {
+          render(deltaX < 0 ? activeIdx + 1 : activeIdx - 1);
         }
-      };
-
-      phase = "inhale";
-      runCycle();
-      breathingInterval = setInterval(runCycle, 4000);
-    });
+      },
+      { passive: true },
+    );
   }
 
-  expressionChips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      stopBreathingSession();
-      expressionChips.forEach((c) => c.classList.remove("active"));
-      chip.classList.add("active");
-
-      const imgSrc = chip.dataset.img;
-      const title = chip.dataset.title;
-      const desc = chip.dataset.desc;
-
-      if (ventuStageImg && imgSrc) {
-        ventuStageImg.style.opacity = "0.3";
-        ventuStageImg.style.transform = "scale(0.9)";
-        setTimeout(() => {
-          ventuStageImg.src = imgSrc;
-          ventuStageImg.style.opacity = "1";
-          ventuStageImg.style.transform = "scale(1)";
-        }, 140);
-      }
-      if (breathInstruction && title) breathInstruction.textContent = title;
-      if (breathSub && desc) breathSub.textContent = desc;
-    });
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox?.classList.contains("open")) return;
+    if (e.key === "Escape") {
+      close();
+    } else if (e.key === "ArrowLeft") {
+      render(activeIdx - 1);
+    } else if (e.key === "ArrowRight") {
+      render(activeIdx + 1);
+    }
   });
+
+  return { open, close };
 }
 
 /* ==========================================================================
-   6. FAQ Accordion
+   6. Modal do Teste Fechado (Google Sheets + LocalStorage)
    ========================================================================== */
-function initFaqAccordion() {
-  const items = document.querySelectorAll(".faq-item");
-
-  items.forEach((item) => {
-    const btn = item.querySelector(".faq-question");
-    const answer = item.querySelector(".faq-answer");
-
-    if (!btn || !answer) return;
-
-    btn.addEventListener("click", () => {
-      const isOpen = item.classList.contains("open");
-
-      items.forEach((other) => {
-        other.classList.remove("open");
-        const otherAns = other.querySelector(".faq-answer");
-        if (otherAns) otherAns.style.maxHeight = null;
-      });
-
-      if (!isOpen) {
-        item.classList.add("open");
-        answer.style.maxHeight = answer.scrollHeight + "px";
-      }
-    });
-  });
-}
-
-/* ==========================================================================
-   7. Modal de Acesso & Captura de E-mail (Teste Fechado)
-   ========================================================================== */
-function initModalSystem() {
+function initBetaModal() {
   const modal = document.getElementById("download-modal");
   const openBtns = document.querySelectorAll('[data-open-modal="download"]');
   const closeBtn = document.getElementById("modal-close-btn");
-  const modalInput = document.getElementById("modal-beta-email");
+  const emailInput = document.getElementById("modal-beta-email");
   const modalVentuImg = document.getElementById("modal-ventu-img");
+  const form = document.getElementById("beta-signup-form");
 
-  if (modal) {
-    openBtns.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
-        if (modalInput) {
-          setTimeout(() => modalInput.focus(), 120);
-        }
-      });
-    });
+  if (!modal) return;
 
-    const closeModal = () => {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-    };
-
-    if (closeBtn) closeBtn.addEventListener("click", closeModal);
-
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("open")) {
-        closeModal();
-      }
-    });
+  function openModal() {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    if (emailInput) {
+      setTimeout(() => emailInput.focus(), 140);
+    }
   }
 
-  // Captura de E-mail em todos os formulários do Teste Fechado -> Google Sheets
-  const betaForms = document.querySelectorAll("[data-beta-form]");
-  betaForms.forEach((form) => {
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  openBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) {
+      closeModal();
+    }
+  });
+
+  if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const input = form.querySelector(".beta-email-input");
       const btn = form.querySelector(".beta-submit-btn");
       const feedback = form.querySelector(".beta-form-feedback");
+      if (!emailInput || !emailInput.value.trim()) return;
 
-      if (!input || !input.value.trim()) return;
-      const email = input.value.trim();
-
-      const origem = form.classList.contains("hero-beta-form")
-        ? "Hero (Topo)"
-        : form.classList.contains("final-beta-form")
-          ? "CTA Final (Rodapé)"
-          : "Modal Teste Fechado";
+      const email = emailInput.value.trim();
 
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = "<span>Enviando...</span>";
       }
 
-      // 1. Envia para a Planilha do Google Sheets (se a URL estiver configurada)
-      if (GOOGLE_SHEETS_WEBAPP_URL && GOOGLE_SHEETS_WEBAPP_URL.startsWith("http")) {
+      if (
+        GOOGLE_SHEETS_WEBAPP_URL &&
+        GOOGLE_SHEETS_WEBAPP_URL.startsWith("http")
+      ) {
         try {
           await fetch(GOOGLE_SHEETS_WEBAPP_URL, {
             method: "POST",
@@ -634,7 +591,7 @@ function initModalSystem() {
             },
             body: JSON.stringify({
               email,
-              origem,
+              origem: "Apresentação Executiva",
               dataHora: new Date().toLocaleString("pt-BR"),
               userAgent: navigator.userAgent,
             }),
@@ -644,7 +601,6 @@ function initModalSystem() {
         }
       }
 
-      // 2. Salva backup local no navegador
       try {
         const saved = JSON.parse(
           localStorage.getItem("inspiracao_beta_emails") || "[]",
@@ -654,16 +610,16 @@ function initModalSystem() {
           localStorage.setItem("inspiracao_beta_emails", JSON.stringify(saved));
         }
       } catch (_) {
-        // Ignora erro de storage privado
+        // Ignora bloqueio de storage
       }
 
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = "<span>✓ E-mail Cadastrado</span>";
+        btn.innerHTML = "<span>✓ E-mail cadastrado</span>";
       }
 
       if (feedback) {
-        feedback.textContent = `🎉 Perfeito! Anotamos ${email} na lista do Teste Fechado.`;
+        feedback.textContent = `Convite registrado para ${email}.`;
         feedback.classList.add("visible");
       }
 
@@ -671,41 +627,7 @@ function initModalSystem() {
         modalVentuImg.src = "./assets/images/ventu-festa.png";
       }
 
-      const heroVentuImg = document.getElementById("ventu-hero-img");
-      const heroVentuText = document.getElementById("ventu-hero-text");
-      if (heroVentuImg) {
-        heroVentuImg.src = "./assets/images/ventu-festa.png";
-      }
-      if (heroVentuText) {
-        heroVentuText.textContent = `"Eba! Seu e-mail (${email}) entrou na lista do nosso Teste Fechado. Bem-vindo à InspirAção!"`;
-      }
-
-      input.value = "";
+      emailInput.value = "";
     });
-  });
-}
-
-/* ==========================================================================
-   8. Scroll Reveal (IntersectionObserver)
-   ========================================================================== */
-function initScrollReveal() {
-  const elements = document.querySelectorAll(".reveal");
-  if (!("IntersectionObserver" in window)) {
-    elements.forEach((el) => el.classList.add("visible"));
-    return;
   }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.08 },
-  );
-
-  elements.forEach((el) => observer.observe(el));
 }

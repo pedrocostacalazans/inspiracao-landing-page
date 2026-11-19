@@ -2,26 +2,33 @@
 <html lang="pt-BR" data-sky="day">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      InspirAção — Inspire vida. Viva em ação. | Cuidado Respiratório
-      Inteligente
-    </title>
     <meta
-      name="description"
-      content="Conheça a InspirAção: a healthtech brasileira e o aplicativo offline-first que transforma a rotina de cuidados da asma com o catálogo oficial ANVISA, O Céu de 24h, o mascote Ventu e Relatórios Clínicos em PDF."
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
     />
     <meta name="theme-color" content="#3F70B4" />
 
-    <!-- Open Graph / Social -->
+    <title>InspirAção — Apresentação Executiva do Aplicativo</title>
+    <meta
+      name="description"
+      content="Apresentação visual do InspirAção: adesão terapêutica, técnica inalatória passo a passo e relatório clínico GINA em PDF para cuidado respiratório."
+    />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="InspirAção — Seu fôlego diário com a tranquilidade que você merece"
+      content="InspirAção — Inspire vida. Viva em ação."
     />
     <meta
       property="og:description"
-      content="Aplicativo offline-first para apoiar a rotina de cuidados respiratórios, com scanner GTIN/ANVISA, orbes líquidos de estoque e relatório clínico em PDF."
+      content="Adesão, técnica inalatória e dados clínicos GINA em um só aplicativo."
     />
     <meta
       property="og:image"
@@ -35,1810 +42,1322 @@
       href="./assets/images/logo-inspiracao-launcher-icon.png"
     />
 
-    <!-- Google Fonts: Nunito (Display/Headings) & Nunito Sans (Body/Clinical Tabular) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&family=Nunito:wght@700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,500;6..12,600;6..12,700&family=Nunito:wght@700;800;900&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Stylesheet -->
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <!-- ========================================================================
-       HEADER / NAVBAR FLUTUANTE (AppGlass)
-       ======================================================================== -->
-    <header class="site-header" id="site-header">
-      <nav class="nav-glass" aria-label="Navegação Principal">
-        <a href="#" class="brand-logo">
-          <img
-            src="./assets/images/logo-inspiracao-original-sem-fundo.png"
-            alt="Logo InspirAção"
-          />
-          <span>Inspir<em>Ação</em></span>
-        </a>
+    <!-- Barra de Progresso Hairline -->
+    <div class="deck-progress" aria-hidden="true">
+      <div class="deck-progress-bar" id="deck-progress-bar"></div>
+    </div>
 
-        <ul class="nav-links" id="nav-links">
-          <li><a href="#startup">A Startup</a></li>
-          <li><a href="#aplicativo">O Aplicativo</a></li>
-          <li><a href="#experiencia-ventu">Mascote Ventu</a></li>
-          <li><a href="#relatorio-clinico">Relatório Médico</a></li>
-          <li><a href="#faq">Dúvidas</a></li>
-        </ul>
+    <!-- HUD Superior Flutuante -->
+    <header class="deck-hud hud-light" id="deck-hud">
+      <a
+        href="#slide-1"
+        class="hud-brand tactile"
+        data-goto="0"
+        aria-label="Voltar ao início"
+      >
+        <img
+          src="./assets/images/logo-inspiracao-original-sem-fundo.png"
+          alt="Logo InspirAção"
+        />
+        <span>Inspir<em>Ação</em></span>
+      </a>
 
-        <div class="nav-actions">
-          <button
-            class="btn-pill btn-primary tactile"
-            data-open-modal="download"
-          >
-            <span>Teste Fechado</span>
-            <span aria-hidden="true">→</span>
-          </button>
-          <button
-            class="mobile-menu-btn"
-            id="mobile-menu-btn"
-            aria-label="Abrir menu"
-            aria-expanded="false"
-          >
-            ☰
-          </button>
-        </div>
-      </nav>
+      <div class="hud-right">
+        <span class="hud-counter tabular" id="hud-counter" aria-live="polite"
+          >01 / 09</span
+        >
+        <button
+          type="button"
+          class="hud-cta tactile"
+          data-open-modal="download"
+        >
+          Testar
+        </button>
+      </div>
     </header>
 
-    <!-- ========================================================================
-       HERO: O PALCO CELESTIAL DAS 24 HORAS + MOCKUP INTERATIVO
-       ======================================================================== -->
-    <section class="sky-hero" id="topo">
-      <canvas id="sky-particles" aria-hidden="true"></canvas>
+    <!-- Trilho Lateral de Capítulos -->
+    <nav
+      class="deck-dots hud-light"
+      id="deck-dots"
+      aria-label="Navegação por capítulos"
+    >
+      <button
+        type="button"
+        class="deck-dot active"
+        data-goto="0"
+        aria-label="Capítulo 1: Capa"
+        aria-current="step"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="1"
+        aria-label="Capítulo 2: Rotina Diária"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="2"
+        aria-label="Capítulo 3: Plano e Estoque"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="3"
+        aria-label="Capítulo 4: Base Oficial ANVISA"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="4"
+        aria-label="Capítulo 5: Técnica Inalatória"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="5"
+        aria-label="Capítulo 6: Diário Clínico"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="6"
+        aria-label="Capítulo 7: Relatório GINA"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="7"
+        aria-label="Capítulo 8: Constância"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="8"
+        aria-label="Capítulo 9: Encerramento"
+      ></button>
+    </nav>
 
-      <div class="container hero-grid">
-        <!-- Coluna Esquerda: Narrativa & Seletor de Fases do Céu -->
-        <div class="hero-content">
+    <!-- Deck Vertical em Tela Cheia -->
+    <main class="deck" id="deck">
+      <!-- ================================================================
+           SLIDE 1: CAPA CELESTIAL + VENTU + SELETOR DE 24H
+           ================================================================ -->
+      <section
+        class="deck-slide cover-slide theme-sky is-active"
+        id="slide-1"
+        data-index="0"
+        data-hud="light"
+        aria-label="Capa InspirAção"
+      >
+        <canvas id="sky-particles" aria-hidden="true"></canvas>
+
+        <div class="cover-stage">
+          <span class="kicker-pill">Cuidado Respiratório</span>
+
+          <div class="cover-ventu-halo">
+            <img
+              id="ventu-hero-img"
+              src="./assets/images/ventu-onda.png"
+              alt="Mascote Ventu do InspirAção"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+
+          <h1 class="cover-title">
+            Inspire vida.<br />
+            <span class="cover-title-accent">Viva em ação.</span>
+          </h1>
+
+          <p class="cover-sub">
+            Adesão, técnica e dados clínicos em um só app.
+          </p>
+
           <div class="sky-switcher-wrap">
-            <span class="sky-switcher-caption"
-              >🌤️ Simule o Céu de 24 horas do app em tempo real:</span
-            >
             <div
               class="sky-switcher-bar"
               role="group"
-              aria-label="Experimente o Céu de 24 horas do aplicativo"
+              aria-label="Simular fase do Céu de 24 horas"
             >
-              <button type="button" class="sky-phase-btn" data-phase="dawn">
-                <span>🌅</span>
-                <span>Amanhecer</span>
-                <small class="tabular">06:30</small>
+              <button
+                type="button"
+                class="sky-phase-btn tactile"
+                data-phase="dawn"
+                aria-label="Amanhecer 06:30"
+                title="Amanhecer · 06:30"
+              >
+                <span aria-hidden="true">🌅</span>
               </button>
               <button
                 type="button"
-                class="sky-phase-btn active"
+                class="sky-phase-btn active tactile"
                 data-phase="day"
+                aria-label="Dia Solar 15:07"
+                title="Dia Solar · 15:07"
               >
-                <span>☀️</span>
-                <span>Dia Solar</span>
-                <small class="tabular">15:07</small>
+                <span aria-hidden="true">☀️</span>
               </button>
-              <button type="button" class="sky-phase-btn" data-phase="dusk">
-                <span>🌇</span>
-                <span>Entardecer</span>
-                <small class="tabular">18:24</small>
+              <button
+                type="button"
+                class="sky-phase-btn tactile"
+                data-phase="dusk"
+                aria-label="Entardecer 18:24"
+                title="Entardecer · 18:24"
+              >
+                <span aria-hidden="true">🌇</span>
               </button>
-              <button type="button" class="sky-phase-btn" data-phase="midnight">
-                <span>🌙</span>
-                <span>Noite</span>
-                <small class="tabular">23:00</small>
-              </button>
-            </div>
-          </div>
-
-          <h1 class="hero-title">
-            Inspire vida.<br />
-            <span class="highlight-pill">Viva em ação.</span>
-          </h1>
-
-          <p class="hero-lead">
-            Somos a healthtech que transforma o cuidado respiratório em uma
-            jornada leve, visual e sem burocracia. Configure sua bombinha em
-            <strong>menos de 1 minuto</strong>, acompanhe doses no horizonte do
-            céu e leve relatórios clínicos impecáveis ao seu médico.
-          </p>
-
-          <form class="beta-signup-form hero-beta-form" data-beta-form>
-            <label class="beta-form-label" for="hero-beta-email">
-              🚀 Inscreva seu e-mail para receber o acesso ao <strong>Teste Fechado</strong>:
-            </label>
-            <div class="beta-input-group">
-              <input
-                type="email"
-                id="hero-beta-email"
-                name="email"
-                class="beta-email-input"
-                placeholder="Digite seu melhor e-mail..."
-                required
-                autocomplete="email"
-              />
-              <button type="submit" class="btn-pill btn-primary tactile beta-submit-btn">
-                <span>Quero Testar</span>
-                <span aria-hidden="true">→</span>
+              <button
+                type="button"
+                class="sky-phase-btn tactile"
+                data-phase="midnight"
+                aria-label="Noite 23:00"
+                title="Noite · 23:00"
+              >
+                <span aria-hidden="true">🌙</span>
               </button>
             </div>
-            <p class="beta-form-feedback" aria-live="polite"></p>
-          </form>
-
-          <!-- Mascote Oficial Ventu no Hero -->
-          <div class="ventu-hero-companion">
-            <div class="ventu-halo-wrap">
-              <img
-                id="ventu-hero-img"
-                src="./assets/images/ventu-boas-vindas.png"
-                alt="Mascote Ventu acenando"
-              />
-            </div>
-            <div class="ventu-speech">
-              <strong id="ventu-hero-title"
-                >Conheça o Ventu • Espírito da Respiração Livre</strong
-              >
-              <p id="ventu-hero-text">
-                "Ar limpo e rotina em dia! Toque no orbe de Clenil no celular ao
-                lado para testar o registro da dose das 20:00."
-              </p>
-            </div>
+            <span class="sky-phase-caption tabular" id="sky-phase-caption"
+              >Dia Solar · 15:07</span
+            >
           </div>
         </div>
 
-        <!-- Coluna Direita: Mockup Interativo do App InspirAção -->
-        <div class="hero-showcase">
-          <!-- Aparelho Celular Interativo (Fiel ao Design Real do App) -->
-          <div
-            class="phone-frame"
-            aria-label="Simulador interativo do aplicativo InspirAção"
-          >
-            <div class="phone-screen">
-              <!-- Toast Canônico no Topo -->
-              <div
-                class="app-toast"
-                id="app-mock-toast"
-                role="status"
-                aria-live="polite"
-              >
-                <span id="app-toast-msg">Clenil registrado</span>
-                <button
-                  type="button"
-                  class="app-toast-undo"
-                  id="app-toast-undo"
-                >
-                  Desfazer
-                </button>
-              </div>
+        <button
+          type="button"
+          class="swipe-cue"
+          data-goto="1"
+          aria-label="Avançar para o próximo capítulo"
+        >
+          <span>Deslize</span>
+          <span class="swipe-arrow" aria-hidden="true">↓</span>
+        </button>
 
-              <!-- Área Rolável da Tela do App -->
-              <div class="app-scroll-view">
-                <!-- PALCO CELESTE (SkyBackdrop + Orbe + Horizonte Curvo) -->
-                <div class="app-sky-stage">
-                  <!-- Partículas decorativas do céu do app -->
-                  <span class="sky-bubble b1" aria-hidden="true"></span>
-                  <span class="sky-bubble b2" aria-hidden="true"></span>
-                  <span class="sky-bubble b3" aria-hidden="true"></span>
-                  <span class="sky-bubble b4" aria-hidden="true"></span>
-                  <span class="sky-bubble b5" aria-hidden="true"></span>
-                  <span class="sky-bubble b6" aria-hidden="true"></span>
-
-                  <!-- Barra de Status do Android/iOS -->
-                  <div class="app-status-bar" aria-hidden="true">
-                    <span class="status-clock tabular" id="app-mock-clock">15:07</span>
-                    <div class="status-icons">
-                      <!-- Sinal de Rede Celular (4 barras) -->
-                      <svg class="status-svg" viewBox="0 0 18 12" width="15" height="11" fill="currentColor">
-                        <rect x="1" y="8" width="2.5" height="3.5" rx="1" />
-                        <rect x="5" y="6" width="2.5" height="5.5" rx="1" />
-                        <rect x="9" y="3.5" width="2.5" height="8" rx="1" />
-                        <rect x="13" y="1" width="2.5" height="10.5" rx="1" />
-                      </svg>
-                      <!-- Wi-Fi -->
-                      <svg class="status-svg" viewBox="0 0 16 12" width="14" height="11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M1.5 4.2C5.1 1.1 10.9 1.1 14.5 4.2" />
-                        <path d="M3.8 6.8C6.2 4.8 9.8 4.8 12.2 6.8" />
-                        <circle cx="8" cy="9.8" r="1.1" fill="currentColor" stroke="none" />
-                      </svg>
-                      <!-- Bateria Moderna -->
-                      <div class="status-battery">
-                        <span class="status-battery-pct tabular">86%</span>
-                        <svg class="status-svg" viewBox="0 0 25 12" width="22" height="11" fill="none">
-                          <rect x="0.75" y="1" width="20.5" height="10" rx="3" stroke="currentColor" stroke-width="1.4" stroke-opacity="0.9" />
-                          <rect x="2.6" y="2.8" width="14.5" height="6.4" rx="1.6" fill="currentColor" />
-                          <path d="M22.8 4.2C23.6 4.5 24 5.1 24 6C24 6.9 23.6 7.5 22.8 7.8V4.2Z" fill="currentColor" fill-opacity="0.85" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Saudação e Data (SkyDayHeader) -->
-                  <div class="app-sky-top-row">
-                    <span id="app-mock-greeting">Olá, Pedro</span>
-                    <span id="app-mock-date">Ter., 27 de out.</span>
-                  </div>
-
-                  <div class="app-sky-headline" id="app-mock-headline">
-                    Próxima dose às 20:00
-                  </div>
-                  <div class="app-sky-sub" id="app-mock-sub">
-                    1 de 2 doses feitas hoje.
-                  </div>
-
-                  <!-- Palco do Orbe Líquido + Satélites -->
-                  <div class="orb-constellation">
-                    <!-- Orbe Principal (OrbLiquid) -->
-                    <div class="orb-halo-outer">
-                      <div class="orb-halo-mid">
-                        <button
-                          type="button"
-                          class="liquid-orb-btn"
-                          id="interactive-orb-btn"
-                          title="Toque ou segure para registrar a dose das 20:00"
-                        >
-                          <div class="orb-liquid-fill" id="orb-liquid-fill">
-                            <svg
-                              class="orb-wave orb-wave-back"
-                              viewBox="0 0 240 28"
-                              preserveAspectRatio="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d="M0,14 Q30,26 60,14 T120,14 T180,14 T240,14 L240,28 L0,28 Z"
-                              ></path>
-                            </svg>
-                            <svg
-                              class="orb-wave orb-wave-front"
-                              viewBox="0 0 240 28"
-                              preserveAspectRatio="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d="M0,14 Q30,2 60,14 T120,14 T180,14 T240,14 L240,28 L0,28 Z"
-                              ></path>
-                            </svg>
-                          </div>
-                          <div class="orb-face-content">
-                            <!-- Ícone Oficial do Inalador (inhaler_outline.svg) -->
-                            <svg
-                              class="orb-inhaler-svg"
-                              viewBox="0 0 59 59"
-                              aria-hidden="true"
-                            >
-                              <circle cx="50" cy="50.952" r="1.4" />
-                              <circle cx="54" cy="50.952" r="1.4" />
-                              <circle cx="58" cy="50.952" r="1.4" />
-                              <circle cx="50" cy="46.952" r="1.4" />
-                              <circle cx="54" cy="46.952" r="1.4" />
-                              <circle cx="58" cy="46.952" r="1.4" />
-                              <circle cx="50" cy="54.952" r="1.4" />
-                              <circle cx="54" cy="54.952" r="1.4" />
-                              <circle cx="58" cy="54.952" r="1.4" />
-                              <path
-                                d="M29.565,40.92L21.25,9.238l-1.805,0.961L17.57,2.682c-0.225-0.9-0.786-1.659-1.581-2.136c-0.795-0.478-1.728-0.618-2.628-0.393L2.634,2.828c-0.9,0.224-1.659,0.786-2.137,1.581S-0.12,6.137,0.104,7.036L3.067,18.92l-1.83,0.975l9.979,37.539c0.237,0.894,1.049,1.519,1.975,1.519H47v-18H29.606C29.586,40.952,29.57,40.939,29.565,40.92z M4.886,17.951L2.045,6.553C1.95,6.171,2.009,5.776,2.211,5.438c0.202-0.337,0.524-0.575,0.906-0.67l10.728-2.675c0.118-0.029,0.238-0.044,0.358-0.044c0.264,0,0.523,0.071,0.755,0.211c0.337,0.202,0.575,0.524,0.67,0.906l1.996,8.002l-4.747,2.528L4.886,17.951z M45,56.952L13.149,56.92L3.577,20.915L19.943,12.2l0.014-0.007l7.674,29.236c0.235,0.897,1.048,1.524,1.976,1.524H45V56.952z"
-                              />
-                            </svg>
-                            <div class="orb-med-name">Clenil</div>
-                            <div
-                              class="orb-med-meta tabular"
-                              id="orb-stock-text"
-                            >
-                              2 doses às 20:00
-                            </div>
-                            <div class="orb-hold-hint" id="orb-tap-pill">
-                              Segure para<br />registrar
-                            </div>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-
-                    <!-- Satélite Esquerdo: Imunobiológico (Roxo) -->
-                    <button
-                      type="button"
-                      class="satellite-orb-btn sat-immuno tactile"
-                      id="satellite-immuno-btn"
-                      title="Alternar para aplicação de imunobiológico"
-                      aria-label="Imunobiológico"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
-                        fill="none"
-                        stroke="#7C3AED"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="m18 2 4 4" />
-                        <path d="m17 7 3-3" />
-                        <path
-                          d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"
-                        />
-                        <path d="m9 11 4 4" />
-                        <path d="m5 19-3 3" />
-                        <path d="m14 4 6 6" />
-                      </svg>
-                    </button>
-
-                    <!-- Satélite Direito: Alívio / Crise (Coral) -->
-                    <button
-                      type="button"
-                      class="satellite-orb-btn sat-relief tactile"
-                      id="satellite-relief-btn"
-                      title="Registrar dose de alívio"
-                      aria-label="Alívio rápido"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
-                        fill="#E0533C"
-                      >
-                        <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <!-- Pílula de Vidro do Céu (InspiracaoGlassPill: Desfazer último registro) -->
-                  <div class="sky-undo-wrap">
-                    <button
-                      type="button"
-                      class="sky-glass-undo-pill tactile"
-                      id="sky-undo-pill-btn"
-                    >
-                      <span aria-hidden="true">↶</span>
-                      <span>Desfazer último registro</span>
-                    </button>
-                  </div>
-
-                  <!-- Astro Solar / Lunar + Curva da Colina + Selos do Horizonte -->
-                  <div class="sky-horizon-zone">
-                    <div
-                      class="horizon-sun-orb"
-                      id="horizon-sun-orb"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        class="moon-icon-svg"
-                        viewBox="0 0 24 24"
-                        width="26"
-                        height="26"
-                        fill="#F4F7FF"
-                      >
-                        <path
-                          d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                        />
-                      </svg>
-                    </div>
-
-                    <!-- Curva da Colina (SkyGroundHorizon) -->
-                    <svg
-                      class="horizon-hill-svg"
-                      viewBox="0 0 360 70"
-                      preserveAspectRatio="none"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill="#F4FBFA"
-                        d="M0,44 Q180,-6 360,44 L360,70 L0,70 Z"
-                      ></path>
-                    </svg>
-
-                    <!-- Selos de Horário sobre a curva (08:00 e 20:00) -->
-                    <div class="horizon-nodes-row">
-                      <div class="horizon-node-item">
-                        <div class="node-disc taken" id="node-08h">✓</div>
-                        <span class="node-time tabular">08:00</span>
-                      </div>
-
-                      <div class="horizon-node-item">
-                        <div class="node-disc focused" id="node-20h"></div>
-                        <span
-                          class="node-time focused-label tabular"
-                          id="node-20h-label"
-                          >20:00</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- CONTEÚDO DO SOLO (#F4FBFA) -->
-                <div class="app-ground-body">
-                  <!-- ABA 1: HOJE (Fiel ao Screenshot Real) -->
-                  <div class="app-screen-pane active" id="pane-hoje">
-                    <div class="app-section-block">
-                      <h4 class="app-section-heading">
-                        Como está sua respiração?
-                      </h4>
-                      <button
-                        type="button"
-                        class="app-tactile-row-card"
-                        id="app-symptom-card-btn"
-                      >
-                        <div class="row-card-icon">
-                          <svg
-                            viewBox="0 0 24 24"
-                            width="22"
-                            height="22"
-                            fill="none"
-                            stroke="#2563C9"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M4 7h11M4 12h8M4 17h6" />
-                            <path d="M18.5 11.5l2 2-5.5 5.5H13v-2l5.5-5.5z" />
-                          </svg>
-                        </div>
-                        <div class="row-card-text">
-                          <strong>Registrar sintomas</strong>
-                          <span id="app-symptom-sub"
-                            >Quando quiser. O que você sentiu.</span
-                          >
-                        </div>
-                        <span class="row-card-chevron">›</span>
-                      </button>
-                    </div>
-
-                    <div class="app-section-block">
-                      <h4 class="app-section-heading">Sua semana</h4>
-                      <p class="app-section-sub" id="app-week-sub">
-                        0 de 1 dias com todas as doses
-                      </p>
-
-                      <!-- 7 Cápsulas Verticais da Semana (qua, qui, sex, sáb, dom, seg, ter) -->
-                      <div class="app-week-capsules-row">
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>qua</span>
-                        </div>
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>qui</span>
-                        </div>
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>sex</span>
-                        </div>
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>sáb</span>
-                        </div>
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>dom</span>
-                        </div>
-                        <div class="app-day-col">
-                          <div class="capsule-pill dashed"></div>
-                          <span>seg</span>
-                        </div>
-                        <div class="app-day-col active-day">
-                          <div class="capsule-pill solid" id="ter-capsule">
-                            <div
-                              class="capsule-fill"
-                              id="ter-capsule-fill"
-                            ></div>
-                          </div>
-                          <strong>ter</strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="app-section-block">
-                      <button
-                        type="button"
-                        class="app-tactile-row-card"
-                        id="app-act-card-btn"
-                      >
-                        <div class="row-card-icon">
-                          <svg
-                            viewBox="0 0 24 24"
-                            width="22"
-                            height="22"
-                            fill="none"
-                            stroke="#2563C9"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <rect x="5" y="4" width="14" height="17" rx="2" />
-                            <path d="M9 2h6v4H9zM8 11h8M8 15h5" />
-                          </svg>
-                        </div>
-                        <div class="row-card-text">
-                          <strong>Teste de controle (ACT)</strong>
-                          <span
-                            >Como foi o seu controle nas últimas 4 semanas</span
-                          >
-                        </div>
-                        <span class="row-card-chevron">›</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <!-- ABA 2: PLANO -->
-                  <div class="app-screen-pane" id="pane-plano">
-                    <div class="app-section-block">
-                      <h4 class="app-section-heading">Plano de Ação</h4>
-                      <div
-                        class="app-tactile-row-card"
-                        style="margin-bottom: 10px"
-                      >
-                        <div
-                          class="row-card-icon"
-                          style="color: var(--prevention)"
-                        >
-                          🛡️
-                        </div>
-                        <div class="row-card-text">
-                          <strong>Clenil • 2 doses/dia</strong>
-                          <span>08:00 e 20:00 • 2 doses por vez</span>
-                        </div>
-                        <span class="status-badge badge-prevention">Ativo</span>
-                      </div>
-                      <div class="app-tactile-row-card">
-                        <div class="row-card-icon" style="color: var(--immuno)">
-                          💉
-                        </div>
-                        <div class="row-card-text">
-                          <strong>Imunobiológico</strong>
-                          <span>Aplicação mensal programada</span>
-                        </div>
-                        <span class="status-badge badge-immuno">Mensal</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- ABA 3: PERFIL -->
-                  <div class="app-screen-pane" id="pane-perfil">
-                    <div class="app-section-block">
-                      <h4 class="app-section-heading">
-                        Perfil & Relatório Clínico
-                      </h4>
-                      <div
-                        class="app-tactile-row-card"
-                        style="margin-bottom: 10px"
-                      >
-                        <div class="row-card-icon">📄</div>
-                        <div class="row-card-text">
-                          <strong>Resumo para o médico (PDF A4)</strong>
-                          <span
-                            >Plano, doses e sintomas prontos para a
-                            consulta</span
-                          >
-                        </div>
-                        <span class="row-card-chevron">›</span>
-                      </div>
-                      <div class="app-tactile-row-card">
-                        <div class="row-card-icon">🏆</div>
-                        <div class="row-card-text">
-                          <strong>Nível 4 • Mestre do Fôlego</strong>
-                          <span>Constância exemplar e 2 escudos ativos</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Barra de Navegação Flutuante Canônica (Hoje, Plano, Perfil) -->
-              <div class="app-floating-nav-wrap">
-                <div
-                  class="app-floating-nav"
-                  role="tablist"
-                  aria-label="Navegação do aplicativo"
-                >
-                  <button
-                    type="button"
-                    class="app-nav-tab active"
-                    data-screen="hoje"
-                  >
-                    <svg
-                      viewBox="0 -960 960 960"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M289-329q-29-29-29-71t29-71q29-29 71-29t71 29q29 29 29 71t-29 71q-29 29-71 29t-71-29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Z"
-                      />
-                    </svg>
-                    <span>Hoje</span>
-                  </button>
-
-                  <button type="button" class="app-nav-tab" data-screen="plano">
-                    <svg
-                      viewBox="0 -960 960 960"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M200-120q-51 0-85.5-34.5T80-240v-167l105-281q12-33 42-52.5t65-19.5q45 0 76.5 32.5T400-649v49h-80v-49q0-13-9-22t-21-9q-10 0-18.5 5.5T260-660L160-392v152q0 17 11.5 28.5T200-200h120q17 0 28.5-11.5T360-240v-80h80v80q0 51-35 85.5T320-120H200Zm559 0H639q-50 0-85-34.5T519-240v-80h80v80q0 17 11.5 28.5T639-200h120q17 0 28.5-11.5T799-240v-152L699-660q-4-9-12-14.5t-18-5.5q-13 0-21.5 9t-8.5 22v49h-80v-49q0-46 31.5-78.5T667-760q35 0 64.5 19.5T774-688l105 281v167q0 51-35 85.5T759-120Zm-279-383L376-400l-56-56 120-120v-304h80v304l120 120-57 56-103-103Z"
-                      />
-                    </svg>
-                    <span>Plano</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    class="app-nav-tab"
-                    data-screen="perfil"
-                  >
-                    <svg
-                      viewBox="0 -960 960 960"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Z"
-                      />
-                    </svg>
-                    <span>Perfil</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="sky-ground-horizon" aria-hidden="true">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+              fill="#F4FBFA"
+              d="M0,74 Q720,8 1440,74 L1440,120 L0,120 Z"
+            ></path>
+          </svg>
         </div>
-      </div>
+      </section>
 
-      <!-- Curva Canônica do Horizonte (SkyGroundHorizon) -->
-      <div class="sky-ground-horizon" aria-hidden="true">
-        <svg viewBox="0 0 1440 124" preserveAspectRatio="none">
-          <path
-            fill="#F4FBFA"
-            d="M0,72 Q720,12 1440,72 L1440,124 L0,124 Z"
-          ></path>
-        </svg>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       FAIXA DE MÉTRICAS E DIFERENCIAIS DA STARTUP
-       ======================================================================== -->
-    <section class="metrics-ribbon" aria-label="Destaques do InspirAção">
-      <div class="container">
-        <div class="metrics-grid reveal">
-          <div class="metric-item">
-            <div
-              class="metric-icon"
-              style="
-                background: var(--primary-wash);
-                color: var(--primary-action);
-              "
-            >
-              ⚡
-            </div>
-            <div>
-              <div class="metric-value tabular">&lt; 1 min</div>
-              <div class="metric-label">
-                Para configurar sua 1ª bombinha sem burocracia ou login
-                obrigatório
-              </div>
-            </div>
-          </div>
-
-          <div class="metric-item">
-            <div
-              class="metric-icon"
-              style="
-                background: var(--prevention-wash);
-                color: var(--prevention);
-              "
-            >
-              🏛️
-            </div>
-            <div>
-              <div class="metric-value">CMED / ANVISA</div>
-              <div class="metric-label">
-                Catálogo oficial embarcado com leitura exata de código de barras
-                GTIN
-              </div>
-            </div>
-          </div>
-
-          <div class="metric-item">
-            <div
-              class="metric-icon"
-              style="background: var(--immuno-wash); color: var(--immuno)"
-            >
-              🔒
-            </div>
-            <div>
-              <div class="metric-value">100% Local</div>
-              <div class="metric-label">
-                Arquitetura Offline-First: seus dados de saúde ficam protegidos
-                no aparelho
-              </div>
-            </div>
-          </div>
-
-          <div class="metric-item">
-            <div
-              class="metric-icon"
-              style="background: var(--accent-wash); color: #c25e00"
-            >
-              📋
-            </div>
-            <div>
-              <div class="metric-value">PDF Clínico A4</div>
-              <div class="metric-label">
-                Relatório médico com adesão, associações temporais e linha do
-                tempo
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 1: A STARTUP & NOSSA MISSÃO (POR QUE EXISTIMOS + TRÍADE CLÍNICA)
-       ======================================================================== -->
-    <section class="section" id="startup">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow-pill">🌱 Nossa Startup & Propósito</span>
-          <h2 class="section-title">
-            Nascemos para transformar o cuidado da asma em liberdade
-          </h2>
-          <p class="section-subtitle">
-            A asma afeta milhões de brasileiros, mas a maioria das crises
-            acontece por dois motivos evitáveis: esquecer a medicação preventiva
-            quando os sintomas somem ou descobrir tarde demais que o frasco da
-            bombinha acabou.
-          </p>
-        </div>
-
-        <div class="startup-story-grid reveal">
-          <div class="story-card">
-            <h3>Tecnologia clínica com o calor humano que o paciente merece</h3>
-            <p>
-              Na <strong>InspirAção</strong>, rejeitamos interfaces hospitalares
-              frias, tabelas confusas e alertas punitivos. Criamos um
-              ecossistema digital guiado pela filosofia
-              <em>Bruma Viva & Ventu Respiratório</em>: um ambiente sereno que
-              reduz a ansiedade durante uma crise e celebra cada dia de
-              prevenção concluído.
+      <!-- ================================================================
+           SLIDE 2: ROTINA DIÁRIA (PREVENÇÃO · BIOLÓGICO · ALÍVIO)
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-mist"
+        id="slide-2"
+        data-index="1"
+        data-hud="dark"
+        data-accent="prevention"
+        aria-label="Rotina Diária"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Rotina Diária</span>
+            <h2 class="slide-title">Cada terapia no seu ritmo</h2>
+            <p class="slide-desc">
+              Prevenção, biológico e alívio em 1 toque.
             </p>
-            <p>
-              Nosso aplicativo funciona
-              <strong>100% offline desde o primeiro segundo</strong>. O paciente
-              ou cuidador abre o app, aponta a câmera para a caixa do inalador e
-              já tem seu plano diário montado no horizonte do céu.
-            </p>
-
-            <div class="pillars-list">
-              <div class="pillar-row">
-                <span style="font-size: 1.5rem">🎯</span>
-                <div>
-                  <strong>Foco na Adesão Real sem Culpa</strong>
-                  <span
-                    >Escudos de proteção de sequência e lembretes empáticos que
-                    respeitam dias atípicos.</span
-                  >
-                </div>
-              </div>
-              <div class="pillar-row">
-                <span style="font-size: 1.5rem">🩺</span>
-                <div>
-                  <strong>Ponte Direta entre Paciente e Pneumologista</strong>
-                  <span
-                    >Transformamos semanas de registros diários em um Relatório
-                    Clínico A4 auditável em segundos.</span
-                  >
-                </div>
-              </div>
-              <div class="pillar-row">
-                <span style="font-size: 1.5rem">♿</span>
-                <div>
-                  <strong
-                    >Acessibilidade Radical (WCAG AA/AAA & Apple HIG)</strong
-                  >
-                  <span
-                    >Contraste matemático validado, física tátil elástica e
-                    suporte completo a leitores de tela.</span
-                  >
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div class="story-card story-card-visual">
-            <div>
-              <span
-                class="status-badge badge-primary"
-                style="margin-bottom: 12px"
-                >Visão de Produto</span
-              >
-              <h3>Clareza visual que salva fôlegos no dia a dia</h3>
-              <p>
-                Muitos pacientes confundem o inalador de uso diário com o de
-                resgate rápido. No InspirAção, cada terapia tem sua identidade
-                cromática, ícone e comportamento no Céu:
-              </p>
-            </div>
-            <div class="bento-illustration story-illustration-box">
-              <img
-                src="./assets/images/bombinhas.png"
-                alt="Ilustração oficial das bombinhas e dispositivos inalatórios do InspirAção"
-              />
-            </div>
-            <div class="story-color-legend">
-              <span class="status-badge badge-prevention">🛡️ Prevenção Diária</span>
-              <span class="status-badge badge-relief">⚡ Alívio Rápido (SOS)</span>
-              <span class="status-badge badge-immuno">💉 Imunobiológico</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- A Tríade Clínica do InspirAção -->
-        <div class="triad-grid reveal">
-          <article class="triad-card prevention-card tactile">
-            <div
-              class="triad-icon-wrap"
-              style="
-                background: var(--prevention-wash);
-                color: var(--prevention);
-              "
-            >
-              🛡️
-            </div>
-            <span
-              class="triad-meta-tag"
-              style="
-                background: var(--prevention-wash);
-                color: var(--prevention-ink);
-              "
-            >
-              Prevenção Diária • Controle Contínuo
-            </span>
-            <h4>Proteção que evita as crises antes que comecem</h4>
-            <p>
-              Trata a inflamação silenciosa dos brônquios todos os dias. No app,
-              seus horários aparecem como selos no horizonte solar e lunar, com
-              cálculo automático de dias restantes no frasco.
-            </p>
-          </article>
-
-          <article class="triad-card relief-card tactile">
-            <div
-              class="triad-icon-wrap"
-              style="background: var(--relief-wash); color: var(--relief)"
-            >
-              ⚡
-            </div>
-            <span
-              class="triad-meta-tag"
-              style="background: var(--relief-wash); color: var(--relief-ink)"
-            >
-              Crise / Alívio Rápido (SOS)
-            </span>
-            <h4>Registro em 1 toque no momento de necessidade</h4>
-            <p>
-              Sem alarmes desnecessários: fica sempre acessível como um orbe
-              satélite de prontidão. Ao registrar um uso de alívio, o app grava
-              o minuto exato e acompanha como a crise terminou.
-            </p>
-          </article>
-
-          <article class="triad-card immuno-card tactile">
-            <div
-              class="triad-icon-wrap"
-              style="background: var(--immuno-wash); color: var(--immuno)"
-            >
-              💉
-            </div>
-            <span
-              class="triad-meta-tag"
-              style="background: var(--immuno-wash); color: var(--immuno-ink)"
-            >
-              Imunobiológicos & Terapias Especiais
-            </span>
-            <h4>Acompanhamento de ciclos semanais ou mensais</h4>
-            <p>
-              Suporte completo para pacientes em tratamento com imunobiológicos
-              injetáveis ou protocolo MART (mesmo inalador para manutenção e
-              alívio com contabilidade separada).
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 2: SHOWCASE DO APLICATIVO (BENTO GRID + ILUSTRAÇÕES ORIGINAIS)
-       ======================================================================== -->
-    <section class="section" id="aplicativo" style="padding-top: 20px">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow-pill">📱 O Aplicativo por Dentro</span>
-          <h2 class="section-title">
-            Design pensado para cada respiração do seu dia
-          </h2>
-          <p class="section-subtitle">
-            Cada tela do InspirAção foi projetada para eliminar atritos: de
-            orbes líquidos que mostram se o remédio está acabando até guias
-            visuais de técnica inalatória.
-          </p>
-        </div>
-
-        <div class="bento-grid">
-          <!-- Card 1: O Céu do Cuidado e Orbes Líquidos -->
-          <div class="bento-card bento-span-6 reveal">
-            <div>
-              <span class="status-badge badge-primary"
-                >O Céu de 24 Horas & Orbes Líquidos</span
-              >
-              <h3>Nunca mais seja surpreendido por uma bombinha vazia</h3>
-              <p>
-                A maioria dos inaladores pressurizados não possui contador
-                numérico na embalagem. No <strong>Plano de Ação</strong> do
-                InspirAção, seus medicamentos flutuam em um céu vivo onde o
-                <strong>nível do líquido dentro de cada orbe</strong> mostra
-                exatamente a fração de doses restantes no frasco.
-              </p>
-            </div>
-            <div class="bento-illustration">
-              <img
-                src="./assets/images/rotina.png"
-                alt="Ilustração da rotina e acompanhamento de doses no InspirAção"
-              />
-            </div>
-          </div>
-
-          <!-- Card 2: Scanner GTIN & Dispositivo -->
-          <div class="bento-card bento-span-6 reveal">
-            <div>
-              <span class="status-badge badge-prevention"
-                >Leitura Instantânea GTIN</span
-              >
-              <h3>Aponte a câmera para a caixa e pronto</h3>
-              <p>
-                Sem digitar nomes farmacêuticos difíceis. O scanner valida o
-                código de barras EAN/GTIN direto na base oficial da ANVISA/CMED
-                e preenche princípio ativo, dosagem, laboratório e quantidade de
-                jatos do frasco.
-              </p>
-            </div>
-            <div class="bento-illustration">
-              <img
-                src="./assets/images/dispositivo.png"
-                alt="Ilustração do cadastro rápido de dispositivo no celular"
-              />
-            </div>
-          </div>
-
-          <!-- Card 3: Educação em Saúde & Técnica Inalatória -->
-          <div class="bento-card bento-span-6 reveal">
-            <div>
-              <span class="status-badge badge-immuno"
-                >Educação & Técnica Inalatória</span
-              >
-              <h3>Aprenda a fazer o remédio chegar de verdade aos pulmões</h3>
-              <p>
-                Até 70% dos pacientes cometem pequenos erros na hora de disparar
-                o spray. A aba <strong>Aprender</strong> traz guias diretos
-                sobre postura, tempo de pausa inspiratória, uso de espaçador,
-                higiene do bocal e sinais de alerta para procurar o
-                pronto-socorro.
-              </p>
-            </div>
-            <div class="bento-illustration">
-              <img
-                src="./assets/images/entenda.png"
-                alt="Ilustração educativa sobre o funcionamento do tratamento respiratório"
-              />
-            </div>
-          </div>
-
-          <!-- Card 4: Teste ACT & Relatório -->
-          <div class="bento-card bento-span-6 reveal">
-            <div>
-              <span class="status-badge badge-relief"
-                >Teste ACT & Histórico Clínico</span
-              >
-              <h3>
-                Teste de Controle da Asma (ACT) validado para adultos e crianças
-              </h3>
-              <p>
-                Responda mensalmente às 5 perguntas clínicas padronizadas
-                (adaptadas automaticamente para menores de 12 anos ou adultos),
-                acompanhe sua pontuação de 5 a 25 pontos e compartilhe tudo com
-                seu médico em PDF.
-              </p>
-            </div>
-            <div class="bento-illustration">
-              <img
-                src="./assets/images/relatorio.png"
-                alt="Ilustração do relatório clínico e evolução do paciente"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 3: EXPERIÊNCIA INTERATIVA — RESPIRE COM O VENTU & EXPRESSÕES
-       ======================================================================== -->
-    <section class="ventu-experience-section" id="experiencia-ventu">
-      <div class="container">
-        <div class="ventu-experience-grid">
-          <!-- Palco Interativo de Respiração Guiada (4s / 4s) -->
-          <div class="ventu-stage-box reveal">
-            <span
-              class="status-badge"
-              style="
-                background: rgba(255, 255, 255, 0.2);
-                color: #ffffff;
-                margin-bottom: 8px;
-              "
-            >
-              Ritmo Respiratório Fisiológico • Ciclo 4s / 4s
-            </span>
-
-            <div class="breathing-ring-container" id="breathing-ring-container">
-              <div class="breathing-ring-outer"></div>
-              <div class="breathing-ring-inner"></div>
-              <img
-                src="./assets/images/ventu-boas-vindas.png"
-                alt="Mascote Ventu no centro do halo respiratório"
-                class="ventu-stage-img"
-                id="ventu-stage-img"
-              />
-            </div>
-
-            <div class="breath-instruction" id="breath-instruction">
-              Olá! Eu sou o Ventu
-            </div>
-            <p class="breath-sub" id="breath-sub">
-              Espírito do ar e da respiração livre. Faça uma pausa de 4 segundos
-              comigo ou explore minhas expressões ao lado!
-            </p>
-
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
             <button
               type="button"
-              class="btn-pill btn-white tactile"
-              id="toggle-breathing-btn"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
             >
-              🌬️ Iniciar Pausa Respiratória (4s / 4s)
+              ‹
             </button>
-          </div>
-
-          <!-- Explicação do Mascote Ventu + Seletor de Expressões -->
-          <div class="reveal">
-            <span
-              class="eyebrow-pill"
-              style="
-                background: rgba(255, 255, 255, 0.16);
-                color: #ffffff;
-                border-color: rgba(255, 255, 255, 0.3);
-              "
-            >
-              ✨ Companheiro Empático
-            </span>
-            <h2 class="section-title" style="color: #ffffff">
-              Conheça o Ventu: presença que acolhe sem infantilizar
-            </h2>
-            <p
-              style="
-                font-size: 1.08rem;
-                color: rgba(255, 255, 255, 0.9);
-                line-height: 1.6;
-                margin-bottom: 18px;
-              "
-            >
-              Inspirado nos melhores aplicativos de bem-estar do mundo (como
-              <em>Gentler Streak</em>), o <strong>Ventu</strong> acompanha o
-              ritmo biológico do paciente no Céu de 24h. Ele reduz a ansiedade
-              nos momentos de falta de ar, explica conceitos clínicos com leveza
-              e festeja suas conquistas de adesão.
-            </p>
-            <p style="font-size: 0.92rem; color: rgba(255, 255, 255, 0.8)">
-              👇
-              <strong
-                >Clique nas expressões canônicas do Ventu para
-                interagir:</strong
-              >
-            </p>
-
-            <div class="ventu-expressions-grid">
+            <div class="phone-bezel">
               <button
                 type="button"
-                class="expression-chip active tactile"
-                data-img="./assets/images/ventu-boas-vindas.png"
-                data-title="Boas-Vindas Heroicas"
-                data-desc="Braços abertos no primeiro acesso e nos palcos celestiais."
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
               >
-                <img
-                  src="./assets/images/ventu-boas-vindas.png"
-                  alt="Ventu Boas-vindas"
-                />
-                <div>
-                  <strong>Boas-vindas</strong>
-                  <span>Acolhimento</span>
-                </div>
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
               </button>
-
-              <button
-                type="button"
-                class="expression-chip tactile"
-                data-img="./assets/images/ventu-onda.png"
-                data-title="Saudação Empática"
-                data-desc="Um aceno gentil a cada manhã, tarde ou noite na tela Hoje."
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas da Rotina Diária"
               >
-                <img
-                  src="./assets/images/ventu-onda.png"
-                  alt="Ventu Saudação"
-                />
-                <div>
-                  <strong>Saudação</strong>
-                  <span>Bom dia!</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                class="expression-chip tactile"
-                data-img="./assets/images/ventu-nuvem.png"
-                data-title="Ventu Explicativo"
-                data-desc="Apresenta dicas clínicas, técnica de uso do spray e orientações."
-              >
-                <img src="./assets/images/ventu-nuvem.png" alt="Ventu Nuvem" />
-                <div>
-                  <strong>Explicativo</strong>
-                  <span>Educação</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                class="expression-chip tactile"
-                data-img="./assets/images/ventu-olhos-fechados.png"
-                data-title="Respiração Profunda"
-                data-desc="Serenidade guiada no ritmo de 4s de inspiração e 4s de expiração."
-              >
-                <img
-                  src="./assets/images/ventu-olhos-fechados.png"
-                  alt="Ventu Respirando"
-                />
-                <div>
-                  <strong>Serenidade</strong>
-                  <span>Pausa 4s/4s</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                class="expression-chip tactile"
-                data-img="./assets/images/ventu-dancando.png"
-                data-title="Comemoração Diária"
-                data-desc="Dança feliz quando todas as doses preventivas do dia são registradas!"
-              >
-                <img
-                  src="./assets/images/ventu-dancando.png"
-                  alt="Ventu Dançando"
-                />
-                <div>
-                  <strong>Dançando</strong>
-                  <span>Meta batida</span>
-                </div>
-              </button>
-
-              <button
-                type="button"
-                class="expression-chip tactile"
-                data-img="./assets/images/ventu-festa.png"
-                data-title="Festa de Adesão"
-                data-desc="Celebra sequências de 7, 30 e 100 doses com confetes e escudos!"
-              >
-                <img src="./assets/images/ventu-festa.png" alt="Ventu Festa" />
-                <div>
-                  <strong>Em Festa</strong>
-                  <span>Conquistas</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 4: RELATÓRIO CLÍNICO EM PDF A4 PARA CONSULTA MÉDICA
-       ======================================================================== -->
-    <section class="section" id="relatorio-clinico">
-      <div class="container">
-        <div class="report-showcase-grid">
-          <!-- Coluna Esquerda: Explicação Clínica -->
-          <div class="reveal">
-            <span class="eyebrow-pill"
-              >🩺 Relatório Clínico para o Pneumologista</span
-            >
-            <h2 class="section-title">
-              Sua consulta médica nunca mais dependerá apenas da memória
-            </h2>
-            <p class="section-subtitle" style="margin-bottom: 24px">
-              Quando o médico pergunta
-              <em
-                >"Quantas vezes você precisou da bombinha de alívio nos últimos
-                3 meses?"</em
-              >, o InspirAção entrega a resposta exata em um
-              <strong>documento PDF A4 de múltiplas páginas</strong> gerado no
-              próprio aparelho.
-            </p>
-
-            <div class="pillars-list" style="margin-bottom: 28px">
-              <div class="pillar-row">
-                <span style="font-size: 1.35rem">📊</span>
-                <div>
-                  <strong>Resumo Executivo com 8 Indicadores Auditáveis</strong>
-                  <span
-                    >Adesão autorreferida, dias sem resgate, crises, limitação
-                    ao exercício, urgência, internação e cobertura dos
-                    registros.</span
-                  >
-                </div>
-              </div>
-
-              <div class="pillar-row">
-                <span style="font-size: 1.35rem">🔍</span>
-                <div>
-                  <strong>Análise de Possível Associação Temporal</strong>
-                  <span
-                    >Identifica automaticamente quando sintomas ou usos de
-                    alívio ocorreram dentro da janela temporal após uma dose
-                    preventiva esquecida.</span
-                  >
-                </div>
-              </div>
-
-              <div class="pillar-row">
-                <span style="font-size: 1.35rem">🔐</span>
-                <div>
-                  <strong>Privacidade Absoluta & LGPD by Design</strong>
-                  <span
-                    >O PDF é diagramado em código nativo direto no seu
-                    smartphone. Nenhum dado sensível do paciente precisa sair do
-                    dispositivo.</span
-                  >
-                </div>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Prevenção — Symbicort Turbuhaler"
+                  data-accent="prevention"
+                >
+                  <img
+                    src="./prints/06_hoje_ceu_prevencao.png"
+                    alt="Tela Hoje com orbe preventivo de Symbicort Turbuhaler"
+                    width="780"
+                    height="1688"
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Biológico — Fasenra"
+                  data-accent="immuno"
+                >
+                  <img
+                    src="./prints/08_hoje_foco_imunobiologico.png"
+                    alt="Tela Hoje com aplicação de imunobiológico Fasenra"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Alívio — Salbutamol"
+                  data-accent="relief"
+                >
+                  <img
+                    src="./prints/07_hoje_foco_alivio_crise.png"
+                    alt="Tela Hoje com foco em alívio rápido"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
               </div>
             </div>
-
             <button
               type="button"
-              class="btn-pill btn-primary tactile"
-              data-open-modal="download"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
             >
-              <span>📄 Ver Exemplo no App</span>
+              ›
             </button>
           </div>
 
-          <!-- Coluna Direita: Mockup Visual da Folha A4 do Relatório Clínico -->
           <div
-            class="pdf-a4-preview reveal"
-            aria-label="Prévia visual do Relatório Clínico em PDF A4"
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar terapia"
           >
-            <div class="pdf-header-strip">
-              <div>
-                <span
-                  style="
-                    font-size: 0.72rem;
-                    font-weight: 800;
-                    color: var(--primary-action);
-                    text-transform: uppercase;
-                    letter-spacing: 0.06em;
-                  "
-                >
-                  InspirAção • Relatório Clínico de Acompanhamento da Asma
-                </span>
-                <h3 style="font-size: 1.25rem; margin-top: 2px">
-                  Paciente: João Pedro • 28 anos
-                </h3>
-                <span style="font-size: 0.8rem; color: var(--text-secondary)">
-                  Período analisado: Últimos 90 dias • Cobertura dos registros:
-                  96%
-                </span>
-              </div>
-              <span class="pdf-doc-badge">PDF A4 • pt-BR</span>
-            </div>
-
-            <!-- 4 KPIs do Resumo Executivo -->
-            <div class="pdf-kpi-grid">
-              <div class="pdf-kpi-box">
-                <strong class="tabular" style="color: var(--prevention)"
-                  >92%</strong
-                >
-                <span>Adesão ao Controle</span>
-              </div>
-              <div class="pdf-kpi-box">
-                <strong class="tabular">24 dias</strong>
-                <span>Sem uso de Alívio</span>
-              </div>
-              <div class="pdf-kpi-box">
-                <strong class="tabular">23 / 25</strong>
-                <span>Último Teste ACT</span>
-              </div>
-              <div class="pdf-kpi-box">
-                <strong class="tabular">0</strong>
-                <span>Idas à Urgência</span>
-              </div>
-            </div>
-
-            <!-- Pontos de Atenção -->
-            <div style="margin-bottom: 16px">
-              <strong
-                style="
-                  display: block;
-                  font-size: 0.82rem;
-                  text-transform: uppercase;
-                  letter-spacing: 0.04em;
-                  color: var(--text-secondary);
-                  margin-bottom: 8px;
-                "
-              >
-                Síntese & Pontos para Discussão na Consulta
-              </strong>
-
-              <div class="pdf-alert-row alert-green">
-                <span>✅</span>
-                <div>
-                  <strong
-                    >Adesão preventiva acima da meta clínica (≥ 80%)</strong
-                  >
-                  <div style="font-size: 0.78rem; opacity: 0.9">
-                    166 de 180 doses programadas de Beclometasona 250 mcg
-                    registradas no horário.
-                  </div>
-                </div>
-              </div>
-
-              <div class="pdf-alert-row alert-amber">
-                <span>⚠️</span>
-                <div>
-                  <strong
-                    >Possível associação temporal identificada (1
-                    episódio)</strong
-                  >
-                  <div style="font-size: 0.78rem; opacity: 0.9">
-                    Uso de resgate (Salbutamol) e relato de chiado ocorreram 18h
-                    após falha confirmada na dose noturna de 14/10.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Régua de Adesão de 14 dias -->
-            <div>
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  font-size: 0.76rem;
-                  font-weight: 700;
-                  color: var(--text-secondary);
-                "
-              >
-                <span>Calendário Recente de Doses (14 dias)</span>
-                <span>🟢 Completo • 🟡 Parcial • 🔴 Falha</span>
-              </div>
-              <div class="pdf-calendar-strip" aria-hidden="true">
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot partial"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot missed"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-                <div class="cal-dot"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 6: GAMIFICAÇÃO GENTIL — CONSTÂNCIA SEM CULPA
-       ======================================================================== -->
-    <section class="section" style="padding-top: 20px">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow-pill">🏆 Gamificação Acolhedora</span>
-          <h2 class="section-title">
-            Celebramos a constância, sem apagar seu progresso em dias difíceis
-          </h2>
-          <p class="section-subtitle">
-            O tratamento da asma é uma maratona diária. Por isso, criamos
-            mecânicas que motivam crianças, jovens e adultos sem jamais gerar
-            ansiedade.
-          </p>
-        </div>
-
-        <div class="gamification-grid reveal">
-          <!-- Card 1: Semana de Ouro -->
-          <div class="game-card">
-            <span class="status-badge badge-prevention">Missão da Semana</span>
-            <h3 style="font-size: 1.4rem; margin: 12px 0 8px">
-              Cápsulas de Adesão Semanal
-            </h3>
-            <p style="font-size: 0.94rem; color: var(--text-secondary)">
-              Visualize os últimos 7 dias em uma régua clara. Sete dias de uso
-              contínuo reduzem a inflamação brônquica e desbloqueiam a conquista
-              <strong>Hábito Cristalino</strong>.
-            </p>
-
-            <div class="week-capsules">
-              <div class="day-capsule done"><span>Seg</span><span>✓</span></div>
-              <div class="day-capsule done"><span>Ter</span><span>✓</span></div>
-              <div class="day-capsule done"><span>Qua</span><span>✓</span></div>
-              <div
-                class="day-capsule shielded"
-                title="Dia protegido por Escudo"
-              >
-                <span>Qui</span><span>🛡️</span>
-              </div>
-              <div class="day-capsule done"><span>Sex</span><span>✓</span></div>
-              <div class="day-capsule done"><span>Sáb</span><span>✓</span></div>
-              <div class="day-capsule done"><span>Dom</span><span>✓</span></div>
-            </div>
-
-            <span
-              style="
-                font-size: 0.82rem;
-                font-weight: 700;
-                color: var(--prevention-ink);
-              "
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
             >
-              ✨ +150 XP • Semana de Ouro protegida!
-            </span>
+              <span class="tab-dot dot-prevention" aria-hidden="true"></span>
+              <span>Prevenção</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span class="tab-dot dot-immuno" aria-hidden="true"></span>
+              <span>Biológico</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="2"
+            >
+              <span class="tab-dot dot-relief" aria-hidden="true"></span>
+              <span>Alívio</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 3: PLANO & ESTOQUE
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-ice"
+        id="slide-3"
+        data-index="2"
+        data-hud="dark"
+        aria-label="Plano e Estoque"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Plano &amp; Estoque</span>
+            <h2 class="slide-title">Nunca sem medicação</h2>
+            <p class="slide-desc">Avisa antes da bombinha acabar.</p>
           </div>
 
-          <!-- Card 2: Escudos de Sequência -->
-          <div class="game-card">
-            <span class="status-badge badge-primary">Zero Punição</span>
-            <h3 style="font-size: 1.4rem; margin: 12px 0 8px">
-              Escudos de Proteção da Sequência
-            </h3>
-            <p
-              style="
-                font-size: 0.94rem;
-                color: var(--text-secondary);
-                margin-bottom: 18px;
-              "
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
             >
-              Esqueceu uma dose em um dia corrido? Em vez de zerar toda a sua
-              sequência e desmotivar você, um <strong>Escudo do Ar</strong> é
-              ativado automaticamente para preservar seu histórico.
-            </p>
-            <div
-              style="
-                padding: 18px;
-                border-radius: 18px;
-                background: var(--primary-wash);
-                border: 1.5px solid var(--primary-border);
-                display: flex;
-                align-items: center;
-                gap: 14px;
-              "
-            >
-              <img
-                src="./assets/images/ventu-festa.png"
-                alt="Ventu comemorando"
-                style="
-                  width: 64px;
-                  height: 64px;
-                  border-radius: 50%;
-                  background: #ffffff;
-                  padding: 4px;
-                  border: 2px solid var(--primary-border);
-                  object-fit: contain;
-                  flex-shrink: 0;
-                "
-              />
-              <div>
-                <strong
-                  style="
-                    display: block;
-                    font-family: var(--font-display);
-                    font-size: 0.98rem;
-                    color: var(--text-primary);
-                  "
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
                 >
-                  1 Escudo a cada 7 dias
-                </strong>
-                <span style="font-size: 0.82rem; color: var(--text-secondary)">
-                  Acumule até 2 escudos ativos na sua Muralha Completa.
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3: Níveis do Fôlego -->
-          <div class="game-card">
-            <span class="status-badge badge-immuno">Jornada de Evolução</span>
-            <h3 style="font-size: 1.4rem; margin: 12px 0 8px">
-              Suba de Nível a cada Cuidado
-            </h3>
-            <p style="font-size: 0.94rem; color: var(--text-secondary)">
-              Selos e níveis celebram sua dedicação ao plano prescrito pelo
-              médico:
-            </p>
-
-            <div class="levels-ladder">
-              <div class="level-rung">
-                <span>Nível 1 • Primeiro Fôlego</span>
-                <span>✓</span>
-              </div>
-              <div class="level-rung">
-                <span>Nível 3 • Guardião dos Brônquios</span>
-                <span>✓</span>
-              </div>
-              <div class="level-rung active">
-                <span>Nível 4 • Mestre do Fôlego</span>
-                <span>Atual • 840 XP</span>
-              </div>
-              <div class="level-rung">
-                <span>Nível 8 • Soberano do Fôlego</span>
-                <span>🔒</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       SEÇÃO 7: PERGUNTAS FREQUENTES (FAQ)
-       ======================================================================== -->
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="eyebrow-pill">💬 Tire suas Dúvidas</span>
-          <h2 class="section-title">Perguntas Frequentes sobre o InspirAção</h2>
-          <p class="section-subtitle">
-            Tudo o que pacientes, pais, cuidadores e profissionais de saúde
-            precisam saber.
-          </p>
-        </div>
-
-        <div class="faq-list reveal">
-          <div class="faq-item open">
-            <button type="button" class="faq-question">
-              <span
-                >Preciso criar conta ou preencher cadastros longos para usar o
-                aplicativo?</span
-              >
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6" />
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
                 </svg>
-              </span>
-            </button>
-            <div class="faq-answer" style="max-height: 240px">
-              <div class="faq-answer-inner">
-                Não! O InspirAção foi desenhado para funcionar em
-                <strong>menos de 1 minuto no primeiro acesso</strong>. Basta
-                informar seu nome, selecionar seu medicamento via código de
-                barras ou busca e escolher os horários. Tudo fica salvo com
-                segurança no banco de dados local do seu celular, sem exigir
-                e-mail ou senha para começar.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-question">
-              <span>O aplicativo funciona sem internet (offline)?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span>
-            </button>
-            <div class="faq-answer">
-              <div class="faq-answer-inner">
-                Sim, <strong>100% offline-first</strong>. O catálogo de
-                medicamentos inalatórios da ANVISA/CMED, os lembretes de
-                horário, a contagem de doses restantes do frasco e até o gerador
-                de Relatório Clínico em PDF funcionam diretamente no seu
-                aparelho, mesmo sem sinal de internet.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-question">
-              <span
-                >Como o app sabe quantas doses restam na minha bombinha?</span
-              >
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span>
-            </button>
-            <div class="faq-answer">
-              <div class="faq-answer-inner">
-                Ao escanear o código de barras ou selecionar seu inalador no
-                catálogo oficial, o InspirAção identifica a capacidade original
-                do frasco (por exemplo, 120 ou 200 jatos). A cada dose de
-                prevenção ou de alívio registrada, o app subtrai os jatos
-                utilizados, atualiza o nível líquido do orbe no Céu e avisa com
-                antecedência quando está na hora de providenciar um novo frasco.
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button type="button" class="faq-question">
-              <span
-                >O InspirAção substitui a prescrição ou consulta médica?</span
-              >
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span>
-            </button>
-            <div class="faq-answer">
-              <div class="faq-answer-inner">
-                Jamais. O InspirAção é uma ferramenta de apoio à rotina e
-                organização do tratamento prescrito pelo seu médico. O
-                aplicativo nunca inventa diagnósticos nem altera posologias por
-                conta própria — pelo contrário, ele organiza seus registros em
-                um Relatório Clínico transparente para enriquecer sua próxima
-                consulta médica.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       CTA FINAL COM MASCOTE VENTU
-       ======================================================================== -->
-    <section class="container reveal">
-      <div class="final-cta-card">
-        <div>
-          <span
-            class="eyebrow-pill"
-            style="
-              background: rgba(255, 255, 255, 0.18);
-              color: #ffffff;
-              border-color: rgba(255, 255, 255, 0.35);
-            "
-          >
-            🚀 Teste Fechado • Vagas Limitadas
-          </span>
-          <h2>Pronto para dar ao seu fôlego a tranquilidade que ele merece?</h2>
-          <p>
-            Estamos liberando o acesso antecipado do <strong>InspirAção</strong> para um grupo exclusivo de testadores. Deixe seu e-mail abaixo para cadastrarmos seu convite no teste fechado:
-          </p>
-          <form class="beta-signup-form final-beta-form" data-beta-form>
-            <div class="beta-input-group">
-              <input
-                type="email"
-                name="email"
-                class="beta-email-input"
-                placeholder="Digite seu e-mail para o teste fechado..."
-                aria-label="Digite seu e-mail para o teste fechado"
-                required
-                autocomplete="email"
-              />
-              <button type="submit" class="btn-pill btn-primary tactile beta-submit-btn">
-                <span>Garantir Acesso</span>
-                <span aria-hidden="true">→</span>
               </button>
-            </div>
-            <p class="beta-form-feedback" aria-live="polite"></p>
-          </form>
-        </div>
-
-        <div class="final-cta-mascot">
-          <img
-            src="./assets/images/ventu-dancando.png"
-            alt="Mascote Ventu comemorando com você"
-          />
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-       RODAPÉ (FOOTER)
-       ======================================================================== -->
-    <footer class="site-footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-col">
-            <a
-              href="#"
-              class="brand-logo"
-              style="color: var(--text-primary); margin-bottom: 14px"
-            >
-              <img
-                src="./assets/images/logo-inspiracao-original-sem-fundo.png"
-                alt="Logo InspirAção"
-              />
-              <span
-                >Inspir<em style="color: var(--primary-action)">Ação</em></span
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas de Plano e Estoque"
               >
-            </a>
-            <p
-              style="
-                color: var(--text-secondary);
-                font-size: 0.92rem;
-                max-width: 340px;
-                line-height: 1.6;
-              "
+                <figure
+                  class="phone-screen-item"
+                  data-label="Órbita de Tratamentos"
+                >
+                  <img
+                    src="./prints/16_plano_orbita_tratamentos.png"
+                    alt="Plano de Ação com Symbicort Turbuhaler, Salbutamol e Fasenra"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Estoque do Frasco"
+                >
+                  <img
+                    src="./prints/17_plano_ficha_estoque.png"
+                    alt="Ficha de estoque indicando 14 doses restantes de Symbicort Turbuhaler"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
             >
-              Startup brasileira de saúde digital respiratória. Aplicativo
-              offline-first com catálogo CMED/ANVISA, leitura de GTIN e
-              relatório clínico em PDF.
+              ›
+            </button>
+          </div>
+
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar tela de plano"
+          >
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>Plano</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>Estoque</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 4: BASE OFICIAL ANVISA (PALCO ESCURO)
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-deep-sky"
+        id="slide-4"
+        data-index="3"
+        data-hud="light"
+        aria-label="Base Oficial ANVISA"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Base Oficial ANVISA</span>
+            <h2 class="slide-title">Cadastro em segundos</h2>
+            <p class="slide-desc">Portfólio completo pronto, 100% offline.</p>
+          </div>
+
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
+            >
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas de busca ANVISA"
+              >
+                <figure
+                  class="phone-screen-item"
+                  data-label="Busca ANVISA — Symbicort"
+                >
+                  <img
+                    src="./prints/18_busca_anvisa_symbicort.png"
+                    alt="Busca ANVISA exibindo apresentações de Symbicort AstraZeneca"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Busca ANVISA — Tezspire"
+                >
+                  <img
+                    src="./prints/19_busca_anvisa_biologicos.png"
+                    alt="Busca ANVISA exibindo imunobiológico Tezspire AstraZeneca"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Dispositivos — Vannair"
+                >
+                  <img
+                    src="./prints/20_wizard_categoria_dispositivo.png"
+                    alt="Configuração de uso e seleção de dispositivo Vannair"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
+            >
+              ›
+            </button>
+          </div>
+
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar busca ANVISA"
+          >
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>Symbicort</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>Tezspire</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="2"
+            >
+              <span>Dispositivos</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 5: TÉCNICA INALATÓRIA
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-mint"
+        id="slide-5"
+        data-index="4"
+        data-hud="dark"
+        aria-label="Técnica Inalatória"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Técnica Inalatória</span>
+            <h2 class="slide-title">Dose que chega ao pulmão</h2>
+            <p class="slide-desc">
+              Guias visuais passo a passo por dispositivo.
             </p>
           </div>
 
-          <div class="footer-col">
-            <h4>Produto</h4>
-            <ul>
-              <li><a href="#topo">Simulador Interativo</a></li>
-              <li><a href="#aplicativo">O Céu de 24 Horas</a></li>
-              <li><a href="#relatorio-clinico">Relatório Clínico PDF</a></li>
-            </ul>
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
+            >
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas de Técnica Inalatória"
+              >
+                <figure
+                  class="phone-screen-item"
+                  data-label="Modo Guiado — Turbuhaler®"
+                >
+                  <img
+                    src="./prints/24_aprender_modo_guiado.png"
+                    alt="Guia interativo passo a passo do dispositivo Turbuhaler"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Passo a Passo Ilustrado"
+                >
+                  <img
+                    src="./prints/23_aprender_guia_detalhe.png"
+                    alt="Detalhe dos 7 passos ilustrados do Turbuhaler"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Biblioteca de Dispositivos"
+                >
+                  <img
+                    src="./prints/22_aprender_biblioteca.png"
+                    alt="Biblioteca de guias visuais de técnica inalatória"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
+            >
+              ›
+            </button>
           </div>
 
-          <div class="footer-col">
-            <h4>Experiência</h4>
-            <ul>
-              <li><a href="#experiencia-ventu">Mascote Ventu</a></li>
-              <li><a href="#startup">Tríade Clínica</a></li>
-              <li><a href="#faq">Perguntas Frequentes</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-col">
-            <h4>Privacidade & Ética</h4>
-            <ul>
-              <li><a href="#relatorio-clinico">Arquitetura 100% Local</a></li>
-              <li><a href="#relatorio-clinico">Conformidade LGPD</a></li>
-              <li><a href="#faq">Aviso Médico Legal</a></li>
-            </ul>
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar guia de técnica"
+          >
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>Turbuhaler®</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>7 Passos</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="2"
+            >
+              <span>Biblioteca</span>
+            </button>
           </div>
         </div>
+      </section>
 
-        <div class="footer-bottom">
-          <span
-            >© 2026 InspirAção Healthtech. Todos os direitos reservados.
-            "Inspire vida, viva em ação."</span
+      <!-- ================================================================
+           SLIDE 6: DIÁRIO CLÍNICO
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-pure"
+        id="slide-6"
+        data-index="5"
+        data-hud="dark"
+        aria-label="Diário Clínico"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Diário Clínico</span>
+            <h2 class="slide-title">Sintomas e crises sem atrito</h2>
+            <p class="slide-desc">Gatilhos, desfecho, PFE e controle semanal.</p>
+          </div>
+
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
+            >
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas do Diário Clínico"
+              >
+                <figure
+                  class="phone-screen-item"
+                  data-label="Check-in de Sintomas"
+                >
+                  <img
+                    src="./prints/10_checkin_sintomas.png"
+                    alt="Seleção rápida de sintomas respiratórios"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Gatilhos Ambientais"
+                >
+                  <img
+                    src="./prints/11_checkin_gatilhos.png"
+                    alt="Registro visual de gatilhos ambientais e climáticos"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Desfecho da Crise"
+                >
+                  <img
+                    src="./prints/12_desfecho_crise.png"
+                    alt="Registro de conduta e desfecho da crise"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Acompanhamento & PFE"
+                >
+                  <img
+                    src="./prints/09_hoje_chao_acompanhamento.png"
+                    alt="Painel semanal com Pico de Fluxo Expiratório e ACT"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
+            >
+              ›
+            </button>
+          </div>
+
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar tela clínica"
           >
-          <span
-            >Conteúdo informativo — Não substitui avaliação médica
-            presencial.</span
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>Sintomas</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>Gatilhos</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="2"
+            >
+              <span>Crise</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="3"
+            >
+              <span>PFE</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 7: RELATÓRIO GINA EM PDF (PALCO ESCURO CLÍNICO)
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-clinical-sky"
+        id="slide-7"
+        data-index="6"
+        data-hud="light"
+        aria-label="Relatório Clínico GINA"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Valor na Consulta</span>
+            <h2 class="slide-title">Relatório GINA em PDF</h2>
+            <p class="slide-desc">Dados objetivos prontos para o médico.</p>
+          </div>
+
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
+            >
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas do Relatório Clínico"
+              >
+                <figure
+                  class="phone-screen-item"
+                  data-label="Critérios GINA (4 semanas)"
+                >
+                  <img
+                    src="./prints/28_relatorio_controle_4semanas.png"
+                    alt="Avaliação de controle da asma segundo diretrizes GINA"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Adesão ao Preventivo"
+                >
+                  <img
+                    src="./prints/29_relatorio_tratamento_adesao.png"
+                    alt="Gráfico e calendário de adesão ao preventivo"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Sintomas & Gatilhos"
+                >
+                  <img
+                    src="./prints/30_relatorio_sintomas_gatilhos.png"
+                    alt="Resumo clínico de sintomas diurnos e noturnos"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Crises & Urgência"
+                >
+                  <img
+                    src="./prints/31_relatorio_crises_urgencia.png"
+                    alt="Histórico de crises, urgência e internações"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
+            >
+              ›
+            </button>
+          </div>
+
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar seção do relatório"
           >
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>GINA</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>Adesão</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="2"
+            >
+              <span>Sintomas</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="3"
+            >
+              <span>Crises</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 8: CONSTÂNCIA SEM CULPA
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide theme-mist"
+        id="slide-8"
+        data-index="7"
+        data-hud="dark"
+        aria-label="Constância sem culpa"
+      >
+        <div class="slide-inner">
+          <div class="slide-copy">
+            <span class="slide-kicker">Constância sem Culpa</span>
+            <h2 class="slide-title">Engajamento que permanece</h2>
+            <p class="slide-desc">
+              Sequências, escudos de proteção e conquistas.
+            </p>
+          </div>
+
+          <div class="phone-stage">
+            <div class="stage-halo" aria-hidden="true"></div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-prev tactile"
+              aria-label="Tela anterior"
+            >
+              ‹
+            </button>
+            <div class="phone-bezel">
+              <button
+                type="button"
+                class="zoom-expand-btn"
+                aria-label="Ampliar tela"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <polyline points="9 21 3 21 3 15"></polyline>
+                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+              </button>
+              <div
+                class="phone-track"
+                role="region"
+                aria-label="Telas de Perfil e Conquistas"
+              >
+                <figure
+                  class="phone-screen-item"
+                  data-label="Perfil & Constância"
+                >
+                  <img
+                    src="./prints/25_perfil_constancia.png"
+                    alt="Painel de sequência, escudos e taxa de adesão"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Conquistas & Relatório"
+                >
+                  <img
+                    src="./prints/26_perfil_conquistas_relatorio.png"
+                    alt="Conquistas e acesso rápido ao Relatório PDF"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="stage-nav-btn stage-next tactile"
+              aria-label="Próxima tela"
+            >
+              ›
+            </button>
+          </div>
+
+          <div
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Alternar tela de perfil"
+          >
+            <button
+              type="button"
+              class="screen-tab active"
+              role="tab"
+              aria-selected="true"
+              data-screen-idx="0"
+            >
+              <span>Constância</span>
+            </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="1"
+            >
+              <span>Conquistas</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 9: ENCERRAMENTO & CTA
+           ================================================================ -->
+      <section
+        class="deck-slide finale-slide theme-sky-finale"
+        id="slide-9"
+        data-index="8"
+        data-hud="light"
+        aria-label="Encerramento InspirAção"
+      >
+        <div class="finale-sparkles" aria-hidden="true"></div>
+
+        <div class="finale-stage">
+          <div class="cover-ventu-halo finale-ventu-halo">
+            <img
+              src="./assets/images/ventu-festa.png"
+              alt="Mascote Ventu comemorando"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <span class="kicker-pill">InspirAção</span>
+
+          <h2 class="finale-title">
+            Menos crises.<br />
+            <span>Mais fôlego.</span>
+          </h2>
+
+          <div class="finale-badges">
+            <span class="finale-badge">⚡ &lt; 1 min</span>
+            <span class="finale-badge">🔒 100% Local</span>
+            <span class="finale-badge">📄 PDF GINA</span>
+          </div>
+
+          <button
+            type="button"
+            class="btn-finale tactile"
+            data-open-modal="download"
+          >
+            <span>Solicitar Teste Fechado</span>
+            <span aria-hidden="true">→</span>
+          </button>
+
+          <button type="button" class="btn-replay" data-goto="0">
+            ↻ Rever apresentação
+          </button>
+        </div>
+
+        <p class="finale-footnote">Privacidade LGPD · iOS &amp; Android</p>
+      </section>
+    </main>
+
+    <!-- ==================================================================
+         LIGHTBOX FULLSCREEN PARA ZOOM DE TELAS
+         ================================================================== -->
+    <div
+      class="screen-lightbox"
+      id="screen-lightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lightbox-label"
+    >
+      <div class="lightbox-top">
+        <span class="lightbox-label" id="lightbox-label">Tela do App</span>
+        <div class="lightbox-top-right">
+          <span class="lightbox-counter tabular" id="lightbox-counter"
+            >1 / 3</span
+          >
+          <button
+            type="button"
+            class="lightbox-close tactile"
+            id="lightbox-close"
+            aria-label="Fechar visualização ampliada"
+          >
+            ✕
+          </button>
         </div>
       </div>
-    </footer>
 
-    <!-- ========================================================================
-       MODAL DE DOWNLOAD / ACESSO AO APLICATIVO
-       ======================================================================== -->
+      <div class="lightbox-stage" id="lightbox-stage">
+        <button
+          type="button"
+          class="lightbox-nav lightbox-prev tactile"
+          id="lightbox-prev"
+          aria-label="Tela anterior"
+        >
+          ‹
+        </button>
+        <img
+          src=""
+          alt=""
+          class="lightbox-img"
+          id="lightbox-img"
+        />
+        <button
+          type="button"
+          class="lightbox-nav lightbox-next tactile"
+          id="lightbox-next"
+          aria-label="Próxima tela"
+        >
+          ›
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================================================================
+         MODAL ENXUTO DO TESTE FECHADO
+         ================================================================== -->
     <div
       class="modal-backdrop"
       id="download-modal"
@@ -1856,68 +1375,40 @@
         >
           ✕
         </button>
+
         <img
-          src="./assets/images/ventu-boas-vindas.png"
+          src="./assets/images/ventu-onda.png"
           alt="Mascote Ventu"
+          class="modal-ventu-img"
           id="modal-ventu-img"
-          style="
-            width: 104px;
-            height: 104px;
-            border-radius: 50%;
-            background: #ffffff;
-            padding: 6px;
-            border: 3px solid var(--primary-wash);
-            object-fit: contain;
-            margin: 0 auto 12px;
-          "
         />
-        <span class="status-badge badge-primary" style="margin-bottom: 10px"
-          >InspirAção Mobile • Teste Fechado</span
-        >
-        <h3 id="modal-title" style="font-size: 1.65rem; margin-bottom: 10px">
-          Participe do Teste Fechado
-        </h3>
-        <p
-          style="
-            color: var(--text-secondary);
-            font-size: 0.96rem;
-            margin-bottom: 22px;
-          "
-        >
-          Informe abaixo o seu e-mail para cadastrarmos a sua liberação no
-          <strong>Teste Fechado</strong> do aplicativo <strong>InspirAção</strong>:
-        </p>
 
-        <form class="beta-signup-form modal-beta-form" data-beta-form>
-          <div class="beta-input-group modal-input-group">
-            <input
-              type="email"
-              id="modal-beta-email"
-              name="email"
-              class="beta-email-input"
-              placeholder="seuemail@exemplo.com"
-              aria-label="Seu e-mail para o teste fechado"
-              required
-              autocomplete="email"
-            />
-            <button
-              type="submit"
-              class="btn-pill btn-primary tactile beta-submit-btn"
-            >
-              <span>Cadastrar E-mail</span>
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <p class="beta-form-feedback modal-feedback" aria-live="polite"></p>
+        <h3 class="modal-title" id="modal-title">Teste Fechado</h3>
+        <p class="modal-desc">Informe seu e-mail para liberar o acesso.</p>
+
+        <form class="beta-signup-form" id="beta-signup-form" data-beta-form>
+          <input
+            type="email"
+            id="modal-beta-email"
+            name="email"
+            class="beta-email-input"
+            placeholder="nome@empresa.com"
+            aria-label="Seu e-mail para o teste fechado"
+            required
+            autocomplete="email"
+          />
+          <button
+            type="submit"
+            class="btn-modal-submit tactile beta-submit-btn"
+          >
+            <span>Solicitar Acesso</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <p class="beta-form-feedback" aria-live="polite"></p>
         </form>
-
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 14px">
-          🔒 Usaremos seu e-mail exclusivamente para liberar seu convite do teste.
-        </p>
       </div>
     </div>
 
-    <!-- Script Principal -->
     <script src="./js/app.js"></script>
   </body>
 </html>

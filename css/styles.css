@@ -120,6 +120,15 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tactile {
   transition: transform 0.22s var(--ease-spring), opacity 0.2s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -144,7 +153,7 @@ a {
 
 .deck-progress-bar {
   height: 100%;
-  width: 11.111%;
+  width: 10%;
   background: linear-gradient(90deg, #60A5FA, #2563C9);
   border-radius: 0 2px 2px 0;
   transition: width 0.28s var(--ease-spring);
@@ -434,6 +443,12 @@ a {
   -webkit-backdrop-filter: blur(10px);
 }
 
+.kicker-pill--brand {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.82rem;
+}
+
 .cover-ventu-halo {
   position: relative;
   display: flex;
@@ -512,14 +527,19 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.05rem;
-  opacity: 0.72;
-  transition: transform 0.22s var(--ease-spring), background-color 0.22s ease, opacity 0.22s ease, box-shadow 0.22s ease;
+  color: rgba(255, 255, 255, 0.86);
+  opacity: 0.85;
+  transition: transform 0.22s var(--ease-spring), background-color 0.22s ease, color 0.22s ease, opacity 0.22s ease, box-shadow 0.22s ease;
+}
+
+.sky-phase-btn .material-symbols-rounded {
+  font-size: 20px;
 }
 
 .sky-phase-btn.active {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.92);
+  color: var(--primary-action);
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 4px 14px rgba(15, 32, 62, 0.22);
   transform: scale(1.06);
 }
@@ -557,7 +577,151 @@ a {
 }
 
 /* ==========================================================================
-   SLIDES 2–8: SHOWCASE DO PRODUTO (MOBILE-FIRST + DESKTOP EDITORIAL)
+   SLIDE 2: NOSSA HISTÓRIA (LINHA DO TEMPO EM 3 CÍRCULOS)
+   ========================================================================== */
+.theme-origin {
+  background: linear-gradient(170deg, #F4FBFA 0%, #EAF3FE 100%);
+}
+
+.origin-inner {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 3.2dvh, 32px);
+}
+
+.origin-head {
+  text-align: center;
+  padding: 0 6px;
+}
+
+.origin-timeline {
+  --timeline-gap: clamp(14px, 2.4dvh, 24px);
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--timeline-gap);
+  padding-right: 12px;
+}
+
+.timeline-step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  opacity: 0.35;
+  transform: translateY(10px);
+  transition: opacity 0.45s var(--ease-spring), transform 0.5s var(--ease-spring);
+}
+
+.origin-slide.is-active .timeline-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.origin-slide.is-active .timeline-step:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.origin-slide.is-active .timeline-step:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.timeline-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  top: 50px;
+  bottom: calc(-1 * var(--timeline-gap));
+  width: 2px;
+  border-radius: 2px;
+}
+
+.step-clinical:not(:last-child)::after {
+  background: linear-gradient(180deg, rgba(0, 168, 150, 0.45), rgba(37, 99, 201, 0.45));
+}
+
+.step-academic:not(:last-child)::after {
+  background: linear-gradient(180deg, rgba(37, 99, 201, 0.45), rgba(124, 58, 237, 0.45));
+}
+
+.timeline-circle {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 24px -8px rgba(21, 38, 66, 0.16);
+}
+
+.timeline-circle .material-symbols-rounded {
+  font-size: 22px;
+}
+
+.step-clinical .timeline-circle {
+  color: var(--prevention);
+  border: 2px solid rgba(0, 168, 150, 0.28);
+  box-shadow: 0 10px 24px -8px rgba(0, 168, 150, 0.28);
+}
+
+.step-academic .timeline-circle {
+  color: var(--primary-action);
+  border: 2px solid rgba(37, 99, 201, 0.28);
+  box-shadow: 0 10px 24px -8px rgba(37, 99, 201, 0.28);
+}
+
+.step-startup .timeline-circle {
+  color: var(--immuno);
+  border: 2px solid rgba(124, 58, 237, 0.28);
+  box-shadow: 0 10px 24px -8px rgba(124, 58, 237, 0.28);
+}
+
+.timeline-body {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.timeline-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.step-clinical .timeline-tag { color: var(--prevention); }
+.step-academic .timeline-tag { color: var(--primary-action); }
+.step-startup .timeline-tag { color: var(--immuno); }
+
+.timeline-title {
+  font-size: clamp(1rem, 2.2dvh, 1.2rem);
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.timeline-text {
+  font-size: clamp(0.82rem, 1.65dvh, 0.94rem);
+  color: var(--text-secondary);
+  line-height: 1.38;
+}
+
+.timeline-text strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   SLIDES 3–9: SHOWCASE DO PRODUTO (MOBILE-FIRST + DESKTOP EDITORIAL)
    ========================================================================== */
 .slide-inner {
   width: 100%;
@@ -657,16 +821,16 @@ a {
   background: radial-gradient(circle, rgba(147, 197, 253, 0.28) 0%, rgba(96, 165, 250, 0.08) 52%, transparent 74%);
 }
 
-/* Halo cromático dinâmico no Slide 2 */
-#slide-2[data-accent="prevention"] .stage-halo {
+/* Halo cromático dinâmico no Slide de Rotina Diária */
+.therapy-slide[data-accent="prevention"] .stage-halo {
   background: radial-gradient(circle, var(--prevention-wash) 0%, rgba(0, 168, 150, 0.06) 52%, transparent 74%);
 }
 
-#slide-2[data-accent="immuno"] .stage-halo {
+.therapy-slide[data-accent="immuno"] .stage-halo {
   background: radial-gradient(circle, var(--immuno-wash) 0%, rgba(124, 58, 237, 0.06) 52%, transparent 74%);
 }
 
-#slide-2[data-accent="relief"] .stage-halo {
+.therapy-slide[data-accent="relief"] .stage-halo {
   background: radial-gradient(circle, var(--relief-wash) 0%, rgba(224, 83, 60, 0.06) 52%, transparent 74%);
 }
 
@@ -813,9 +977,9 @@ a {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  padding: 7px 12px;
+  padding: 7px 10px;
   border-radius: var(--radius-pill);
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   font-weight: 700;
   color: var(--text-secondary);
   transition: background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
@@ -908,7 +1072,8 @@ a {
 .finale-badge {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
+  gap: 6px;
+  padding: 6px 13px;
   border-radius: var(--radius-pill);
   font-size: 0.78rem;
   font-weight: 700;
@@ -917,6 +1082,10 @@ a {
   color: #FFFFFF;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+.finale-badge .badge-icon {
+  font-size: 16px;
 }
 
 .btn-finale {
@@ -974,6 +1143,68 @@ a {
 
   .deck-slide {
     padding: 64px 56px 32px;
+  }
+
+  .origin-inner {
+    max-width: 980px;
+    gap: 48px;
+  }
+
+  .origin-head .slide-title {
+    font-size: clamp(2.1rem, 3.6vw, 3rem);
+  }
+
+  .origin-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    padding-right: 0;
+  }
+
+  .origin-timeline::before {
+    content: "";
+    position: absolute;
+    top: 31px;
+    left: calc(16.666% + 40px);
+    right: calc(16.666% + 40px);
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 168, 150, 0.42), rgba(37, 99, 201, 0.45), rgba(124, 58, 237, 0.42));
+  }
+
+  .timeline-step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .timeline-step:not(:last-child)::after {
+    display: none;
+  }
+
+  .timeline-circle {
+    width: 64px;
+    height: 64px;
+  }
+
+  .timeline-circle .material-symbols-rounded {
+    font-size: 28px;
+  }
+
+  .timeline-body {
+    padding-top: 0;
+  }
+
+  .timeline-title {
+    font-size: 1.24rem;
+    margin-bottom: 6px;
+  }
+
+  .timeline-text {
+    font-size: 0.96rem;
+    max-width: 28ch;
+    margin: 0 auto;
   }
 
   .slide-inner {
@@ -1291,7 +1522,8 @@ a {
     animation: none;
   }
   .showcase-slide .slide-copy,
-  .showcase-slide .phone-bezel {
+  .showcase-slide .phone-bezel,
+  .timeline-step {
     transition: none;
     opacity: 1;
     transform: none;

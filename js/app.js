@@ -316,6 +316,7 @@ function initPhoneCarousels(_deckApi, lightboxApi) {
   showcaseSlides.forEach((slide) => {
     const track = slide.querySelector(".phone-track");
     const items = Array.from(slide.querySelectorAll(".phone-screen-item"));
+    const tabsWrap = slide.querySelector(".screen-tabs");
     const tabs = Array.from(slide.querySelectorAll(".screen-tab"));
     const prevBtn = slide.querySelector(".stage-prev");
     const nextBtn = slide.querySelector(".stage-next");
@@ -334,6 +335,17 @@ function initPhoneCarousels(_deckApi, lightboxApi) {
         tab.classList.toggle("active", isActive);
         tab.setAttribute("aria-selected", String(isActive));
       });
+
+      const activeTab = tabs[currentIdx];
+      if (tabsWrap && activeTab && tabsWrap.scrollWidth > tabsWrap.clientWidth) {
+        const targetLeft =
+          activeTab.offsetLeft -
+          (tabsWrap.clientWidth - activeTab.offsetWidth) / 2;
+        tabsWrap.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: "smooth",
+        });
+      }
 
       if (prevBtn) prevBtn.disabled = currentIdx === 0;
       if (nextBtn) nextBtn.disabled = currentIdx === items.length - 1;
@@ -615,11 +627,11 @@ function initBetaModal() {
 
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = "<span>✓ E-mail cadastrado</span>";
+        btn.innerHTML = "<span>✓ Na lista de pré-acesso</span>";
       }
 
       if (feedback) {
-        feedback.textContent = `Convite registrado para ${email}.`;
+        feedback.textContent = `Você está na lista! Enviaremos o convite para ${email} assim que abrirmos a turma.`;
         feedback.classList.add("visible");
       }
 

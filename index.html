@@ -42,11 +42,15 @@
       href="./assets/images/logo-inspiracao-launcher-icon.png"
     />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts & Material Symbols Rounded -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,500;6..12,600;6..12,700&family=Nunito:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=bedtime,cloud_done,description,light_mode,partly_cloudy_day,rocket_launch,school,stethoscope,timer,wb_twilight"
       rel="stylesheet"
     />
 
@@ -75,14 +79,14 @@
 
       <div class="hud-right">
         <span class="hud-counter tabular" id="hud-counter" aria-live="polite"
-          >01 / 09</span
+          >01 / 10</span
         >
         <button
           type="button"
           class="hud-cta tactile"
           data-open-modal="download"
         >
-          Testar
+          Pré-acesso
         </button>
       </div>
     </header>
@@ -104,49 +108,55 @@
         type="button"
         class="deck-dot"
         data-goto="1"
-        aria-label="Capítulo 2: Rotina Diária"
+        aria-label="Capítulo 2: Nossa História"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="2"
-        aria-label="Capítulo 3: Plano e Estoque"
+        aria-label="Capítulo 3: Rotina Diária"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="3"
-        aria-label="Capítulo 4: Base Oficial ANVISA"
+        aria-label="Capítulo 4: Plano e Estoque"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="4"
-        aria-label="Capítulo 5: Técnica Inalatória"
+        aria-label="Capítulo 5: Base Oficial ANVISA"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="5"
-        aria-label="Capítulo 6: Diário Clínico"
+        aria-label="Capítulo 6: Técnica Inalatória"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="6"
-        aria-label="Capítulo 7: Relatório GINA"
+        aria-label="Capítulo 7: Diário Clínico"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="7"
-        aria-label="Capítulo 8: Constância"
+        aria-label="Capítulo 8: Relatório GINA"
       ></button>
       <button
         type="button"
         class="deck-dot"
         data-goto="8"
-        aria-label="Capítulo 9: Encerramento"
+        aria-label="Capítulo 9: Constância"
+      ></button>
+      <button
+        type="button"
+        class="deck-dot"
+        data-goto="9"
+        aria-label="Capítulo 10: Encerramento"
       ></button>
     </nav>
 
@@ -199,7 +209,9 @@
                 aria-label="Amanhecer 06:30"
                 title="Amanhecer · 06:30"
               >
-                <span aria-hidden="true">🌅</span>
+                <span class="material-symbols-rounded" aria-hidden="true"
+                  >wb_twilight</span
+                >
               </button>
               <button
                 type="button"
@@ -208,7 +220,9 @@
                 aria-label="Dia Solar 15:07"
                 title="Dia Solar · 15:07"
               >
-                <span aria-hidden="true">☀️</span>
+                <span class="material-symbols-rounded" aria-hidden="true"
+                  >light_mode</span
+                >
               </button>
               <button
                 type="button"
@@ -217,7 +231,9 @@
                 aria-label="Entardecer 18:24"
                 title="Entardecer · 18:24"
               >
-                <span aria-hidden="true">🌇</span>
+                <span class="material-symbols-rounded" aria-hidden="true"
+                  >partly_cloudy_day</span
+                >
               </button>
               <button
                 type="button"
@@ -226,7 +242,9 @@
                 aria-label="Noite 23:00"
                 title="Noite · 23:00"
               >
-                <span aria-hidden="true">🌙</span>
+                <span class="material-symbols-rounded" aria-hidden="true"
+                  >bedtime</span
+                >
               </button>
             </div>
             <span class="sky-phase-caption tabular" id="sky-phase-caption"
@@ -256,12 +274,77 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 2: ROTINA DIÁRIA (PREVENÇÃO · BIOLÓGICO · ALÍVIO)
+           SLIDE 2: NOSSA HISTÓRIA (LINHA DO TEMPO EM 3 CÍRCULOS)
            ================================================================ -->
       <section
-        class="deck-slide showcase-slide theme-mist"
+        class="deck-slide origin-slide theme-origin"
         id="slide-2"
         data-index="1"
+        data-hud="dark"
+        aria-label="Nossa História"
+      >
+        <div class="origin-inner">
+          <div class="origin-head">
+            <span class="slide-kicker">Nossa História</span>
+            <h2 class="slide-title">Do consultório à startup</h2>
+            <p class="slide-desc">Ciência clínica, engenharia e inovação.</p>
+          </div>
+
+          <ol class="origin-timeline">
+            <li class="timeline-step step-clinical">
+              <div class="timeline-circle" aria-hidden="true">
+                <span class="material-symbols-rounded">stethoscope</span>
+              </div>
+              <div class="timeline-body">
+                <span class="timeline-tag">01 · A dor clínica</span>
+                <h3 class="timeline-title">+33 anos no consultório</h3>
+                <p class="timeline-text">
+                  Nascido da prática da
+                  <strong>Dra. Geralda Magela Costa Calazans</strong>,
+                  pneumologista pediátrica.
+                </p>
+              </div>
+            </li>
+
+            <li class="timeline-step step-academic">
+              <div class="timeline-circle" aria-hidden="true">
+                <span class="material-symbols-rounded">school</span>
+              </div>
+              <div class="timeline-body">
+                <span class="timeline-tag">02 · TCC nota máxima</span>
+                <h3 class="timeline-title">Engenharia no CEFET-MG</h3>
+                <p class="timeline-text">
+                  Desenvolvido por <strong>Pedro Costa Calazans</strong>,
+                  Engenheiro de Computação, aprovado com nota máxima.
+                </p>
+              </div>
+            </li>
+
+            <li class="timeline-step step-startup">
+              <div class="timeline-circle" aria-hidden="true">
+                <span class="material-symbols-rounded">rocket_launch</span>
+              </div>
+              <div class="timeline-body">
+                <span class="timeline-tag">03 · Startup 2026</span>
+                <h3 class="timeline-title">Top 10 de 63 projetos</h3>
+                <p class="timeline-text">
+                  Selecionada no hub
+                  <strong>PUC Minas Startups 2026</strong> e acelerada pela
+                  <strong>Neo Ventures</strong>.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 3: ROTINA DIÁRIA (PREVENÇÃO · BIOLÓGICO · ALÍVIO)
+           ================================================================ -->
+      <section
+        class="deck-slide showcase-slide therapy-slide theme-mist"
+        id="slide-3"
+        data-index="2"
         data-hud="dark"
         data-accent="prevention"
         aria-label="Rotina Diária"
@@ -405,12 +488,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 3: PLANO & ESTOQUE
+           SLIDE 4: PLANO & ESTOQUE
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-ice"
-        id="slide-3"
-        data-index="2"
+        id="slide-4"
+        data-index="3"
         data-hud="dark"
         aria-label="Plano e Estoque"
       >
@@ -523,12 +606,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 4: BASE OFICIAL ANVISA (PALCO ESCURO)
+           SLIDE 5: BASE OFICIAL ANVISA (PALCO ESCURO)
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-deep-sky"
-        id="slide-4"
-        data-index="3"
+        id="slide-5"
+        data-index="4"
         data-hud="light"
         aria-label="Base Oficial ANVISA"
       >
@@ -536,7 +619,7 @@
           <div class="slide-copy">
             <span class="slide-kicker">Base Oficial ANVISA</span>
             <h2 class="slide-title">Cadastro em segundos</h2>
-            <p class="slide-desc">Portfólio completo pronto, 100% offline.</p>
+            <p class="slide-desc">Portfólio oficial ANVISA pronto no app.</p>
           </div>
 
           <div class="phone-stage">
@@ -615,6 +698,19 @@
                     decoding="async"
                   />
                 </figure>
+                <figure
+                  class="phone-screen-item"
+                  data-label="Horários &amp; Doses"
+                >
+                  <img
+                    src="./prints/21_wizard_horarios_doses.png"
+                    alt="Definição de frequência, horários e doses diárias"
+                    width="780"
+                    height="1688"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
               </div>
             </div>
             <button
@@ -658,17 +754,26 @@
             >
               <span>Dispositivos</span>
             </button>
+            <button
+              type="button"
+              class="screen-tab"
+              role="tab"
+              aria-selected="false"
+              data-screen-idx="3"
+            >
+              <span>Horários</span>
+            </button>
           </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SLIDE 5: TÉCNICA INALATÓRIA
+           SLIDE 6: TÉCNICA INALATÓRIA
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-mint"
-        id="slide-5"
-        data-index="4"
+        id="slide-6"
+        data-index="5"
         data-hud="dark"
         aria-label="Técnica Inalatória"
       >
@@ -805,12 +910,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 6: DIÁRIO CLÍNICO
+           SLIDE 7: DIÁRIO CLÍNICO
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-pure"
-        id="slide-6"
-        data-index="5"
+        id="slide-7"
+        data-index="6"
         data-hud="dark"
         aria-label="Diário Clínico"
       >
@@ -967,12 +1072,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 7: RELATÓRIO GINA EM PDF (PALCO ESCURO CLÍNICO)
+           SLIDE 8: RELATÓRIO GINA EM PDF (PALCO ESCURO CLÍNICO)
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-clinical-sky"
-        id="slide-7"
-        data-index="6"
+        id="slide-8"
+        data-index="7"
         data-hud="light"
         aria-label="Relatório Clínico GINA"
       >
@@ -1129,12 +1234,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 8: CONSTÂNCIA SEM CULPA
+           SLIDE 9: CONSTÂNCIA SEM CULPA
            ================================================================ -->
       <section
         class="deck-slide showcase-slide theme-mist"
-        id="slide-8"
-        data-index="7"
+        id="slide-9"
+        data-index="8"
         data-hud="dark"
         aria-label="Constância sem culpa"
       >
@@ -1249,12 +1354,12 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 9: ENCERRAMENTO & CTA
+           SLIDE 10: ENCERRAMENTO & CTA
            ================================================================ -->
       <section
         class="deck-slide finale-slide theme-sky-finale"
-        id="slide-9"
-        data-index="8"
+        id="slide-10"
+        data-index="9"
         data-hud="light"
         aria-label="Encerramento InspirAção"
       >
@@ -1270,7 +1375,7 @@
             />
           </div>
 
-          <span class="kicker-pill">InspirAção</span>
+          <span class="kicker-pill kicker-pill--brand">InspirAção</span>
 
           <h2 class="finale-title">
             Menos crises.<br />
@@ -1278,9 +1383,24 @@
           </h2>
 
           <div class="finale-badges">
-            <span class="finale-badge">⚡ &lt; 1 min</span>
-            <span class="finale-badge">🔒 100% Local</span>
-            <span class="finale-badge">📄 PDF GINA</span>
+            <span class="finale-badge">
+              <span class="material-symbols-rounded badge-icon" aria-hidden="true"
+                >timer</span
+              >
+              <span>Registro &lt; 1 min</span>
+            </span>
+            <span class="finale-badge">
+              <span class="material-symbols-rounded badge-icon" aria-hidden="true"
+                >cloud_done</span
+              >
+              <span>Dados na nuvem</span>
+            </span>
+            <span class="finale-badge">
+              <span class="material-symbols-rounded badge-icon" aria-hidden="true"
+                >description</span
+              >
+              <span>PDF GINA</span>
+            </span>
           </div>
 
           <button
@@ -1288,7 +1408,7 @@
             class="btn-finale tactile"
             data-open-modal="download"
           >
-            <span>Solicitar Teste Fechado</span>
+            <span>Garantir pré-acesso</span>
             <span aria-hidden="true">→</span>
           </button>
 
@@ -1297,7 +1417,7 @@
           </button>
         </div>
 
-        <p class="finale-footnote">Privacidade LGPD · iOS &amp; Android</p>
+        <p class="finale-footnote">Privacidade LGPD · Android</p>
       </section>
     </main>
 
@@ -1383,8 +1503,11 @@
           id="modal-ventu-img"
         />
 
-        <h3 class="modal-title" id="modal-title">Teste Fechado</h3>
-        <p class="modal-desc">Informe seu e-mail para liberar o acesso.</p>
+        <h3 class="modal-title" id="modal-title">Acesso antecipado</h3>
+        <p class="modal-desc">
+          Estamos reunindo os primeiros usuários antes do lançamento na Google
+          Play. Deixe seu e-mail para receber o convite.
+        </p>
 
         <form class="beta-signup-form" id="beta-signup-form" data-beta-form>
           <input
@@ -1392,8 +1515,8 @@
             id="modal-beta-email"
             name="email"
             class="beta-email-input"
-            placeholder="nome@empresa.com"
-            aria-label="Seu e-mail para o teste fechado"
+            placeholder="seu@email.com"
+            aria-label="Seu e-mail para entrar na lista de pré-acesso"
             required
             autocomplete="email"
           />
@@ -1401,7 +1524,7 @@
             type="submit"
             class="btn-modal-submit tactile beta-submit-btn"
           >
-            <span>Solicitar Acesso</span>
+            <span>Quero participar</span>
             <span aria-hidden="true">→</span>
           </button>
           <p class="beta-form-feedback" aria-live="polite"></p>

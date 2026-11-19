@@ -31,6 +31,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=bedtime,cloud_done,description,light_mode,partly_cloudy_day,rocket_launch,school,stethoscope,timer,wb_twilight"
     rel="stylesheet" />
+  <link rel="preload" as="image" type="image/webp" href="./assets/images/opt/ventu-onda.webp" fetchpriority="high" />
 
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
@@ -44,7 +45,7 @@
   <!-- HUD Superior Flutuante -->
   <header class="deck-hud hud-light" id="deck-hud">
     <a href="#slide-1" class="hud-brand tactile" data-goto="0" aria-label="Voltar ao início">
-      <img src="./assets/images/logo-inspiracao-original-sem-fundo.png" alt="Logo InspirAção" />
+      <img src="./assets/images/opt/logo-hud.webp" alt="Logo InspirAção" width="30" height="30" decoding="async" />
       <span>Inspir<em>Ação</em></span>
     </a>
 
@@ -84,8 +85,8 @@
         <span class="kicker-pill">Cuidado Respiratório</span>
 
         <div class="cover-ventu-halo">
-          <img id="ventu-hero-img" src="./assets/images/ventu-onda.png" alt="Mascote Ventu do InspirAção"
-            loading="eager" fetchpriority="high" />
+          <img id="ventu-hero-img" src="./assets/images/opt/ventu-onda.webp" alt="Mascote Ventu do InspirAção"
+            width="512" height="512" loading="eager" decoding="async" fetchpriority="high" />
         </div>
 
         <h1 class="cover-title">
@@ -223,17 +224,17 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas da Rotina Diária">
               <figure class="phone-screen-item" data-label="Prevenção — Symbicort Turbuhaler" data-accent="prevention">
-                <img src="./prints/06_hoje_ceu_prevencao.png"
+                <img src="./prints/opt/06_hoje_ceu_prevencao.webp"
                   alt="Tela Hoje com orbe preventivo de Symbicort Turbuhaler" width="780" height="1688" loading="eager"
                   fetchpriority="high" />
               </figure>
               <figure class="phone-screen-item" data-label="Biológico — Fasenra" data-accent="immuno">
-                <img src="./prints/08_hoje_foco_imunobiologico.png"
+                <img src="./prints/opt/08_hoje_foco_imunobiologico.webp"
                   alt="Tela Hoje com aplicação de imunobiológico Fasenra" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Alívio — Salbutamol" data-accent="relief">
-                <img src="./prints/07_hoje_foco_alivio_crise.png" alt="Tela Hoje com foco em alívio rápido" width="780"
+                <img src="./prints/opt/07_hoje_foco_alivio_crise.webp" alt="Tela Hoje com foco em alívio rápido" width="780"
                   height="1688" loading="lazy" decoding="async" />
               </figure>
             </div>
@@ -289,12 +290,12 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas de Plano e Estoque">
               <figure class="phone-screen-item" data-label="Órbita de Tratamentos">
-                <img src="./prints/16_plano_orbita_tratamentos.png"
+                <img src="./prints/opt/16_plano_orbita_tratamentos.webp"
                   alt="Plano de Ação com Symbicort Turbuhaler, Salbutamol e Fasenra" width="780" height="1688"
                   loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Estoque do Frasco">
-                <img src="./prints/17_plano_ficha_estoque.png"
+                <img src="./prints/opt/17_plano_ficha_estoque.webp"
                   alt="Ficha de estoque indicando 14 doses restantes de Symbicort Turbuhaler" width="780" height="1688"
                   loading="lazy" decoding="async" />
               </figure>
@@ -345,22 +346,22 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas de scanner e busca ANVISA">
               <figure class="phone-screen-item" data-label="Scanner de Código de Barras">
-                <img src="./prints/18_scanner_codigo_barras.png"
+                <img src="./prints/opt/18_scanner_codigo_barras.webp"
                   alt="Scanner de código de barras lendo embalagem de Symbicort Turbuhaler AstraZeneca" width="780"
                   height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Busca ANVISA — Symbicort">
-                <img src="./prints/18_busca_anvisa_symbicort.png"
+                <img src="./prints/opt/18_busca_anvisa_symbicort.webp"
                   alt="Busca ANVISA exibindo apresentações de Symbicort AstraZeneca" width="780" height="1688"
                   loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Dispositivos — Vannair">
-                <img src="./prints/20_wizard_categoria_dispositivo.png"
+                <img src="./prints/opt/20_wizard_categoria_dispositivo.webp"
                   alt="Configuração de uso e seleção de dispositivo Vannair" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Horários &amp; Doses">
-                <img src="./prints/21_wizard_horarios_doses.png" alt="Definição de frequência, horários e doses diárias"
+                <img src="./prints/opt/21_wizard_horarios_doses.webp" alt="Definição de frequência, horários e doses diárias"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
             </div>
@@ -418,16 +419,16 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas de Técnica Inalatória">
               <figure class="phone-screen-item" data-label="Modo Guiado — Turbuhaler®">
-                <img src="./prints/24_aprender_modo_guiado.png"
+                <img src="./prints/opt/24_aprender_modo_guiado.webp"
                   alt="Guia interativo passo a passo do dispositivo Turbuhaler" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Passo a Passo Ilustrado">
-                <img src="./prints/23_aprender_guia_detalhe.png" alt="Detalhe dos 7 passos ilustrados do Turbuhaler"
+                <img src="./prints/opt/23_aprender_guia_detalhe.webp" alt="Detalhe dos 7 passos ilustrados do Turbuhaler"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Biblioteca de Dispositivos">
-                <img src="./prints/22_aprender_biblioteca.png" alt="Biblioteca de guias visuais de técnica inalatória"
+                <img src="./prints/opt/22_aprender_biblioteca.webp" alt="Biblioteca de guias visuais de técnica inalatória"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
             </div>
@@ -480,19 +481,19 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas do Diário Clínico">
               <figure class="phone-screen-item" data-label="Check-in de Sintomas">
-                <img src="./prints/10_checkin_sintomas.png" alt="Seleção rápida de sintomas respiratórios" width="780"
+                <img src="./prints/opt/10_checkin_sintomas.webp" alt="Seleção rápida de sintomas respiratórios" width="780"
                   height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Gatilhos Ambientais">
-                <img src="./prints/11_checkin_gatilhos.png" alt="Registro visual de gatilhos ambientais e climáticos"
+                <img src="./prints/opt/11_checkin_gatilhos.webp" alt="Registro visual de gatilhos ambientais e climáticos"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Desfecho da Crise">
-                <img src="./prints/12_desfecho_crise.png" alt="Registro de conduta e desfecho da crise" width="780"
+                <img src="./prints/opt/12_desfecho_crise.webp" alt="Registro de conduta e desfecho da crise" width="780"
                   height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Acompanhamento & PFE">
-                <img src="./prints/09_hoje_chao_acompanhamento.png"
+                <img src="./prints/opt/09_hoje_chao_acompanhamento.webp"
                   alt="Painel semanal com Pico de Fluxo Expiratório e ACT" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
@@ -549,22 +550,22 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas do Relatório Clínico">
               <figure class="phone-screen-item" data-label="Critérios GINA (4 semanas)">
-                <img src="./prints/28_relatorio_controle_4semanas.png"
+                <img src="./prints/opt/28_relatorio_controle_4semanas.webp"
                   alt="Avaliação de controle da asma segundo diretrizes GINA" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Adesão ao Preventivo">
-                <img src="./prints/29_relatorio_tratamento_adesao.png"
+                <img src="./prints/opt/29_relatorio_tratamento_adesao.webp"
                   alt="Gráfico e calendário de adesão ao preventivo" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Sintomas & Gatilhos">
-                <img src="./prints/30_relatorio_sintomas_gatilhos.png"
+                <img src="./prints/opt/30_relatorio_sintomas_gatilhos.webp"
                   alt="Resumo clínico de sintomas diurnos e noturnos" width="780" height="1688" loading="lazy"
                   decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Crises & Urgência">
-                <img src="./prints/31_relatorio_crises_urgencia.png" alt="Histórico de crises, urgência e internações"
+                <img src="./prints/opt/31_relatorio_crises_urgencia.webp" alt="Histórico de crises, urgência e internações"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
             </div>
@@ -622,11 +623,11 @@
             </button>
             <div class="phone-track" role="region" aria-label="Telas de Perfil e Conquistas">
               <figure class="phone-screen-item" data-label="Perfil & Constância">
-                <img src="./prints/25_perfil_constancia.png" alt="Painel de sequência, escudos e taxa de adesão"
+                <img src="./prints/opt/25_perfil_constancia.webp" alt="Painel de sequência, escudos e taxa de adesão"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
               <figure class="phone-screen-item" data-label="Conquistas & Relatório">
-                <img src="./prints/26_perfil_conquistas_relatorio.png" alt="Conquistas e acesso rápido ao Relatório PDF"
+                <img src="./prints/opt/26_perfil_conquistas_relatorio.webp" alt="Conquistas e acesso rápido ao Relatório PDF"
                   width="780" height="1688" loading="lazy" decoding="async" />
               </figure>
             </div>
@@ -656,7 +657,8 @@
 
       <div class="finale-stage">
         <div class="cover-ventu-halo finale-ventu-halo">
-          <img src="./assets/images/ventu-festa.png" alt="Mascote Ventu comemorando" loading="lazy" decoding="async" />
+          <img src="./assets/images/opt/ventu-festa.webp" alt="Mascote Ventu comemorando" width="512" height="512"
+            loading="lazy" decoding="async" />
         </div>
 
         <span class="kicker-pill kicker-pill--brand">InspirAção</span>
@@ -732,7 +734,8 @@
         ✕
       </button>
 
-      <img src="./assets/images/ventu-onda.png" alt="Mascote Ventu" class="modal-ventu-img" id="modal-ventu-img" />
+      <img src="./assets/images/opt/ventu-onda.webp" alt="Mascote Ventu" class="modal-ventu-img" id="modal-ventu-img"
+        width="82" height="82" decoding="async" />
 
       <h3 class="modal-title" id="modal-title">Acesso antecipado</h3>
       <p class="modal-desc">

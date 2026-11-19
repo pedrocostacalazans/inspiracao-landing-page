@@ -7,10 +7,34 @@ const GOOGLE_SHEETS_WEBAPP_URL =
   "https://script.google.com/macros/s/AKfycbz88cx3yIOudS7mfprLs88UWT569ZW6gc2feqv1ch7iLDrLeeUu4pgslUapFlIRfaV3/exec";
 
 let currentSkyPhase = "day";
+const warmedImages = new Map();
+
+function warmImage(src) {
+  if (!src) return Promise.resolve();
+  if (warmedImages.has(src)) return warmedImages.get(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+  const promise = (
+    typeof img.decode === "function" ? img.decode() : Promise.resolve()
+  )
+    .catch(() => {})
+    .then(() => img);
+  warmedImages.set(src, promise);
+  return promise;
+}
+
+function scheduleIdle(fn, timeout = 1200) {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(fn, { timeout });
+  } else {
+    setTimeout(fn, 140);
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  initSkyParticles();
-  initSkyPhaseSwitcher();
+  const skyControls = initSkyParticles();
+  initSkyPhaseSwitcher(skyControls);
   const deckApi = initDeckNavigation();
   const lightboxApi = initScreenLightbox();
   initPhoneCarousels(deckApi, lightboxApi);
@@ -22,10 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
    ========================================================================== */
 function initSkyParticles() {
   const canvas = document.getElementById("sky-particles");
-  if (!canvas) return;
+  if (!canvas) return null;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) return null;
 
+  const host = canvas.parentElement;
+  const deck = document.getElementById("deck");
   const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
@@ -33,9 +59,10 @@ function initSkyParticles() {
   let width = 0;
   let height = 0;
   let particles = [];
+  let rafId = null;
+  let isSlideVisible = true;
 
   function resize() {
-    const host = canvas.parentElement;
     if (!host) return;
     width = canvas.width = host.offsetWidth;
     height = canvas.height = host.offsetHeight;
@@ -51,7 +78,7 @@ function initSkyParticles() {
     }));
   }
 
-  function renderFrame() {
+  function drawParticles() {
     ctx.clearRect(0, 0, width, height);
     const isNight = currentSkyPhase === "midnight";
 
@@ -77,15 +104,66 @@ function initSkyParticles() {
         : `rgba(255, 255, 255, ${alpha * 0.65})`;
       ctx.fill();
     }
+  }
 
-    if (!reducedMotion) {
-      requestAnimationFrame(renderFrame);
+  function tick() {
+    if (reducedMotion || !isSlideVisible || document.hidden) {
+      rafId = null;
+      return;
+    }
+    drawParticles();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function startLoop() {
+    if (reducedMotion || !isSlideVisible || document.hidden || rafId !== null) {
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function stopLoop() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
     }
   }
 
-  window.addEventListener("resize", resize, { passive: true });
+  if (host && "IntersectionObserver" in window) {
+    const visObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isSlideVisible = entry.isIntersecting;
+          if (isSlideVisible) {
+            startLoop();
+          } else {
+            stopLoop();
+          }
+        });
+      },
+      { root: deck || null, threshold: 0.01 },
+    );
+    visObserver.observe(host);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopLoop();
+    } else {
+      startLoop();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    resize();
+    drawParticles();
+  }, { passive: true });
+
   resize();
-  renderFrame();
+  drawParticles();
+  startLoop();
+
+  return { redraw: drawParticles };
 }
 
 /* ==========================================================================
@@ -95,37 +173,40 @@ const SKY_CONFIGS = {
   dawn: {
     caption: "Amanhecer · 06:30",
     themeColor: "#45689D",
-    ventuImg: "./assets/images/ventu-piscando.png",
+    ventuImg: "./assets/images/opt/ventu-piscando.webp",
   },
   day: {
     caption: "Dia Solar · 15:07",
     themeColor: "#3F70B4",
-    ventuImg: "./assets/images/ventu-onda.png",
+    ventuImg: "./assets/images/opt/ventu-onda.webp",
   },
   dusk: {
     caption: "Entardecer · 18:24",
     themeColor: "#394371",
-    ventuImg: "./assets/images/ventu-nuvem.png",
+    ventuImg: "./assets/images/opt/ventu-nuvem.webp",
   },
   midnight: {
     caption: "Noite · 23:00",
     themeColor: "#1E2C54",
-    ventuImg: "./assets/images/ventu-dormindo.png",
+    ventuImg: "./assets/images/opt/ventu-dormindo.webp",
   },
 };
 
-function initSkyPhaseSwitcher() {
+function initSkyPhaseSwitcher(skyControls) {
   const buttons = document.querySelectorAll(".sky-phase-btn");
   const captionEl = document.getElementById("sky-phase-caption");
   const ventuImg = document.getElementById("ventu-hero-img");
   const themeMeta = document.querySelector('meta[name="theme-color"]');
+  let phaseSeq = 0;
 
   function applyPhase(phase) {
     const cfg = SKY_CONFIGS[phase];
     if (!cfg) return;
 
+    const seq = ++phaseSeq;
     currentSkyPhase = phase;
     document.documentElement.setAttribute("data-sky", phase);
+    skyControls?.redraw?.();
 
     buttons.forEach((btn) => {
       const isActive = btn.dataset.phase === phase;
@@ -135,12 +216,17 @@ function initSkyPhaseSwitcher() {
 
     if (captionEl) captionEl.textContent = cfg.caption;
     if (themeMeta) themeMeta.setAttribute("content", cfg.themeColor);
-    if (ventuImg && ventuImg.getAttribute("src") !== cfg.ventuImg) {
-      ventuImg.style.opacity = "0.25";
-      setTimeout(() => {
-        ventuImg.src = cfg.ventuImg;
+    if (ventuImg) {
+      if (ventuImg.getAttribute("src") !== cfg.ventuImg) {
+        ventuImg.style.opacity = "0.3";
+        warmImage(cfg.ventuImg).then(() => {
+          if (seq !== phaseSeq) return;
+          ventuImg.src = cfg.ventuImg;
+          ventuImg.style.opacity = "1";
+        });
+      } else {
         ventuImg.style.opacity = "1";
-      }, 120);
+      }
     }
   }
 
@@ -161,25 +247,33 @@ function initDeckNavigation() {
   const counterEl = document.getElementById("hud-counter");
   const progressBar = document.getElementById("deck-progress-bar");
 
-  let activeIndex = 0;
+  let activeIndex = -1;
 
-  function preloadSlideImages(index) {
+  function warmSlidePrimary(index) {
     const slide = slides[index];
     if (!slide) return;
-    slide.querySelectorAll("img").forEach((img) => {
+    const firstImg = slide.querySelector("img");
+    if (!firstImg) return;
+    if (firstImg.loading === "lazy") {
+      firstImg.loading = "eager";
+    }
+    warmImage(firstImg.getAttribute("src"));
+  }
+
+  function warmSlideSecondary(index) {
+    const slide = slides[index];
+    if (!slide) return;
+    slide.querySelectorAll("img").forEach((img, i) => {
+      if (i === 0) return;
       if (img.loading === "lazy") {
         img.loading = "eager";
       }
-      const src = img.getAttribute("src");
-      if (src && !img.complete) {
-        const loader = new Image();
-        loader.src = src;
-      }
+      warmImage(img.getAttribute("src"));
     });
   }
 
   function setActiveSlide(index) {
-    if (index < 0 || index >= slides.length) return;
+    if (index < 0 || index >= slides.length || index === activeIndex) return;
     activeIndex = index;
 
     slides.forEach((slide, i) => {
@@ -209,8 +303,13 @@ function initDeckNavigation() {
       el.classList.add(hudTheme);
     });
 
-    preloadSlideImages(index);
-    preloadSlideImages(index + 1);
+    warmSlidePrimary(index);
+    warmSlidePrimary(index + 1);
+    warmSlidePrimary(index + 2);
+    scheduleIdle(() => {
+      warmSlideSecondary(index);
+      warmSlideSecondary(index + 1);
+    });
   }
 
   function goToSlide(index) {
@@ -233,7 +332,7 @@ function initDeckNavigation() {
             }
           });
         },
-        { root: deck, threshold: 0.55 },
+        { root: deck, threshold: 0.4 },
       );
 
       slides.forEach((slide) => observer.observe(slide));
@@ -248,9 +347,15 @@ function initDeckNavigation() {
           scrollRaf = null;
           const maxScroll = deck.scrollHeight - deck.clientHeight;
           const ratio = maxScroll > 0 ? deck.scrollTop / maxScroll : 0;
-          const pct = ((ratio * (slides.length - 1) + 1) / slides.length) * 100;
+          const scale = Math.min(
+            1,
+            Math.max(
+              1 / slides.length,
+              (ratio * (slides.length - 1) + 1) / slides.length,
+            ),
+          );
           if (progressBar) {
-            progressBar.style.width = `${Math.min(100, Math.max(100 / slides.length, pct))}%`;
+            progressBar.style.transform = `scaleX(${scale.toFixed(4)})`;
           }
           const approxIndex = Math.round(ratio * (slides.length - 1));
           if (approxIndex !== activeIndex) {
@@ -261,6 +366,35 @@ function initDeckNavigation() {
       { passive: true },
     );
   }
+
+  window.addEventListener("load", () => {
+    scheduleIdle(() => {
+      const queue = [
+        SKY_CONFIGS.dawn.ventuImg,
+        SKY_CONFIGS.dusk.ventuImg,
+        SKY_CONFIGS.midnight.ventuImg,
+      ];
+      slides.forEach((slide) => {
+        slide.querySelectorAll("img").forEach((img) => {
+          const src = img.getAttribute("src");
+          if (src && !warmedImages.has(src) && !queue.includes(src)) {
+            queue.push(src);
+          }
+        });
+      });
+
+      let cursor = 0;
+      const concurrency = 2;
+      function pump() {
+        if (cursor >= queue.length) return;
+        const src = queue[cursor++];
+        warmImage(src).finally(pump);
+      }
+      for (let i = 0; i < concurrency; i++) {
+        pump();
+      }
+    });
+  });
 
   document.querySelectorAll("[data-goto]").forEach((trigger) => {
     trigger.addEventListener("click", (e) => {
@@ -636,7 +770,7 @@ function initBetaModal() {
       }
 
       if (modalVentuImg) {
-        modalVentuImg.src = "./assets/images/ventu-festa.png";
+        modalVentuImg.src = "./assets/images/opt/ventu-festa.webp";
       }
 
       emailInput.value = "";

@@ -35,7 +35,7 @@ function scheduleIdle(fn, timeout = 1200) {
 document.addEventListener("DOMContentLoaded", () => {
   const skyControls = initSkyParticles();
   initSkyPhaseSwitcher(skyControls);
-  const deckApi = initDeckNavigation();
+  const deckApi = initDeckNavigation(skyControls);
   const lightboxApi = initScreenLightbox();
   initPhoneCarousels(deckApi, lightboxApi);
   initBetaModal();
@@ -51,7 +51,6 @@ function initSkyParticles() {
   if (!ctx) return null;
 
   const host = canvas.parentElement;
-  const deck = document.getElementById("deck");
   const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
@@ -60,7 +59,7 @@ function initSkyParticles() {
   let height = 0;
   let particles = [];
   let rafId = null;
-  let isSlideVisible = true;
+  let isCanvasActive = true;
 
   function resize() {
     if (!host) return;
@@ -107,7 +106,7 @@ function initSkyParticles() {
   }
 
   function tick() {
-    if (reducedMotion || !isSlideVisible || document.hidden) {
+    if (reducedMotion || !isCanvasActive || document.hidden) {
       rafId = null;
       return;
     }
@@ -116,7 +115,7 @@ function initSkyParticles() {
   }
 
   function startLoop() {
-    if (reducedMotion || !isSlideVisible || document.hidden || rafId !== null) {
+    if (reducedMotion || !isCanvasActive || document.hidden || rafId !== null) {
       return;
     }
     rafId = requestAnimationFrame(tick);
@@ -129,21 +128,13 @@ function initSkyParticles() {
     }
   }
 
-  if (host && "IntersectionObserver" in window) {
-    const visObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isSlideVisible = entry.isIntersecting;
-          if (isSlideVisible) {
-            startLoop();
-          } else {
-            stopLoop();
-          }
-        });
-      },
-      { root: deck || null, threshold: 0.01 },
-    );
-    visObserver.observe(host);
+  function setActive(active) {
+    isCanvasActive = Boolean(active);
+    if (isCanvasActive) {
+      startLoop();
+    } else {
+      stopLoop();
+    }
   }
 
   document.addEventListener("visibilitychange", () => {
@@ -163,7 +154,7 @@ function initSkyParticles() {
   drawParticles();
   startLoop();
 
-  return { redraw: drawParticles };
+  return { redraw: drawParticles, setActive };
 }
 
 /* ==========================================================================
@@ -236,9 +227,9 @@ function initSkyPhaseSwitcher(skyControls) {
 }
 
 /* ==========================================================================
-   3. Navegação do Deck Vertical (Snap, HUD Adaptativo, Progresso & Teclado)
+   3. Navegação do Deck Vertical (1 Slide por Gesto + Janela 3-Layer GPU)
    ========================================================================== */
-function initDeckNavigation() {
+function initDeckNavigation(skyControls) {
   const deck = document.getElementById("deck");
   const slides = Array.from(document.querySelectorAll(".deck-slide"));
   const dots = Array.from(document.querySelectorAll(".deck-dot"));
@@ -246,8 +237,28 @@ function initDeckNavigation() {
   const dotsNav = document.getElementById("deck-dots");
   const counterEl = document.getElementById("hud-counter");
   const progressBar = document.getElementById("deck-progress-bar");
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
-  let activeIndex = -1;
+  let activeIndex = 0;
+  let isTransitioning = false;
+  let wheelLockUntil = 0;
+
+  let preloadQueue = [];
+  let preloadCursor = 0;
+  let activeWorkers = 0;
+  const maxPreloadConcurrency = 2;
+
+  function isOverlayOpen() {
+    const lightboxOpen = document
+      .getElementById("screen-lightbox")
+      ?.classList.contains("open");
+    const modalOpen = document
+      .getElementById("download-modal")
+      ?.classList.contains("open");
+    return Boolean(lightboxOpen || modalOpen);
+  }
 
   function warmSlidePrimary(index) {
     const slide = slides[index];
@@ -272,16 +283,39 @@ function initDeckNavigation() {
     });
   }
 
-  function setActiveSlide(index) {
-    if (index < 0 || index >= slides.length || index === activeIndex) return;
-    activeIndex = index;
+  function warmNeighbors(idx) {
+    warmSlidePrimary(idx - 1);
+    warmSlidePrimary(idx + 1);
+    warmSlideSecondary(idx);
+  }
 
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("is-active", i === index);
-    });
+  function pumpPreloadQueue() {
+    while (
+      !isTransitioning &&
+      activeWorkers < maxPreloadConcurrency &&
+      preloadCursor < preloadQueue.length
+    ) {
+      const src = preloadQueue[preloadCursor++];
+      activeWorkers += 1;
+      warmImage(src).finally(() => {
+        activeWorkers = Math.max(0, activeWorkers - 1);
+        if (!isTransitioning) {
+          pumpPreloadQueue();
+        }
+      });
+    }
+  }
 
+  function clearSlideInlineStyles(slide) {
+    slide.style.transform = "";
+    slide.style.visibility = "";
+    slide.style.zIndex = "";
+    slide.style.willChange = "";
+  }
+
+  function updateChrome(idx, progressOverride) {
     dots.forEach((dot, i) => {
-      const isCurrent = i === index;
+      const isCurrent = i === idx;
       dot.classList.toggle("active", isCurrent);
       if (isCurrent) {
         dot.setAttribute("aria-current", "step");
@@ -290,110 +324,351 @@ function initDeckNavigation() {
       }
     });
 
-    if (counterEl) {
-      const num = String(index + 1).padStart(2, "0");
+    if (counterEl && slides.length > 0) {
+      const num = String(idx + 1).padStart(2, "0");
       const total = String(slides.length).padStart(2, "0");
       counterEl.textContent = `${num} / ${total}`;
     }
 
-    const hudTheme = slides[index].dataset.hud === "dark" ? "hud-dark" : "hud-light";
-    [hud, dotsNav].forEach((el) => {
-      if (!el) return;
-      el.classList.remove("hud-light", "hud-dark");
-      el.classList.add(hudTheme);
-    });
+    const slide = slides[idx];
+    if (slide) {
+      const hudTheme = slide.dataset.hud === "dark" ? "hud-dark" : "hud-light";
+      [hud, dotsNav].forEach((el) => {
+        if (!el) return;
+        el.classList.remove("hud-light", "hud-dark");
+        el.classList.add(hudTheme);
+      });
+    }
 
-    warmSlidePrimary(index);
-    warmSlidePrimary(index + 1);
-    warmSlidePrimary(index + 2);
-    scheduleIdle(() => {
-      warmSlideSecondary(index);
-      warmSlideSecondary(index + 1);
-    });
+    if (progressBar && slides.length > 0) {
+      const base = (idx + 1) / slides.length;
+      const raw = typeof progressOverride === "number" ? progressOverride : base;
+      const scale = Math.min(1, Math.max(1 / slides.length, raw));
+      progressBar.style.transform = `scaleX(${scale.toFixed(4)})`;
+    }
   }
 
-  function goToSlide(index) {
-    if (!deck || slides.length === 0) return;
-    const clamped = Math.max(0, Math.min(slides.length - 1, index));
-    deck.scrollTo({
-      top: slides[clamped].offsetTop,
-      behavior: "smooth",
+  function applySlideWindow(idx) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove(
+        "is-above",
+        "is-prev",
+        "is-active",
+        "is-next",
+        "is-moving",
+      );
+      clearSlideInlineStyles(slide);
+
+      if (i < idx - 1) {
+        slide.classList.add("is-above");
+      } else if (i === idx - 1) {
+        slide.classList.add("is-prev");
+      } else if (i === idx) {
+        slide.classList.add("is-active");
+      } else if (i === idx + 1) {
+        slide.classList.add("is-next");
+      }
     });
+
+    updateChrome(idx);
+  }
+
+  function goToSlide(targetIdx) {
+    if (!deck || slides.length === 0 || isTransitioning) return;
+    const target = Math.max(0, Math.min(slides.length - 1, targetIdx));
+    if (target === activeIndex) return;
+
+    const fromSlide = slides[activeIndex];
+    const toSlide = slides[target];
+    const dir = target > activeIndex ? 1 : -1;
+
+    isTransitioning = true;
+    skyControls?.setActive?.(false);
+
+    if (Math.abs(target - activeIndex) > 1) {
+      toSlide.classList.remove("is-above", "is-prev", "is-next", "is-moving");
+      toSlide.style.transform = `translate3d(0, ${dir * 100}%, 0)`;
+      toSlide.style.visibility = "visible";
+      toSlide.style.willChange = "transform";
+    }
+    toSlide.style.zIndex = "4";
+
+    void toSlide.offsetHeight;
+
+    fromSlide.classList.add("is-moving");
+    toSlide.classList.add("is-moving");
+    updateChrome(target);
+
+    fromSlide.style.transform = `translate3d(0, ${-dir * 100}%, 0)`;
+    toSlide.style.transform = "translate3d(0, 0, 0)";
+
+    let finished = false;
+    let fallbackTimer = null;
+
+    function finishTransition() {
+      if (finished) return;
+      finished = true;
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      toSlide.removeEventListener("transitionend", onTransitionEnd);
+
+      activeIndex = target;
+      applySlideWindow(activeIndex);
+      isTransitioning = false;
+      skyControls?.setActive?.(activeIndex === 0);
+
+      scheduleIdle(() => {
+        warmNeighbors(activeIndex);
+        pumpPreloadQueue();
+      }, 250);
+    }
+
+    function onTransitionEnd(e) {
+      if (e.target === toSlide && e.propertyName === "transform") {
+        finishTransition();
+      }
+    }
+
+    if (reducedMotion) {
+      finishTransition();
+      return;
+    }
+
+    toSlide.addEventListener("transitionend", onTransitionEnd);
+    fallbackTimer = setTimeout(finishTransition, 410);
+  }
+
+  function snapBack(neighborSlide, dir) {
+    const activeSlide = slides[activeIndex];
+    if (!activeSlide) return;
+
+    isTransitioning = true;
+    skyControls?.setActive?.(false);
+
+    activeSlide.classList.add("is-moving");
+    if (neighborSlide) {
+      neighborSlide.classList.add("is-moving");
+    }
+
+    activeSlide.style.transform = "translate3d(0, 0, 0)";
+    if (neighborSlide) {
+      neighborSlide.style.transform = `translate3d(0, ${dir * 100}%, 0)`;
+    }
+    updateChrome(activeIndex);
+
+    let finished = false;
+    let fallbackTimer = null;
+
+    function finishSnapBack() {
+      if (finished) return;
+      finished = true;
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      activeSlide.removeEventListener("transitionend", onSnapEnd);
+
+      applySlideWindow(activeIndex);
+      isTransitioning = false;
+      skyControls?.setActive?.(activeIndex === 0);
+      scheduleIdle(pumpPreloadQueue, 250);
+    }
+
+    function onSnapEnd(e) {
+      if (e.target === activeSlide && e.propertyName === "transform") {
+        finishSnapBack();
+      }
+    }
+
+    if (reducedMotion) {
+      finishSnapBack();
+      return;
+    }
+
+    activeSlide.addEventListener("transitionend", onSnapEnd);
+    fallbackTimer = setTimeout(finishSnapBack, 390);
   }
 
   if (deck && slides.length > 0) {
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const idx = Number(entry.target.dataset.index || 0);
-              setActiveSlide(idx);
-            }
-          });
-        },
-        { root: deck, threshold: 0.4 },
-      );
+    let startX = 0;
+    let startY = 0;
+    let startTime = 0;
+    let lastY = 0;
+    let lastTime = 0;
+    let touchActive = false;
+    let touchAxis = null;
+    let dragDy = 0;
+    let dragDir = 0;
+    let dragNeighbor = null;
 
-      slides.forEach((slide) => observer.observe(slide));
-    }
-
-    let scrollRaf = null;
     deck.addEventListener(
-      "scroll",
-      () => {
-        if (scrollRaf) return;
-        scrollRaf = requestAnimationFrame(() => {
-          scrollRaf = null;
-          const maxScroll = deck.scrollHeight - deck.clientHeight;
-          const ratio = maxScroll > 0 ? deck.scrollTop / maxScroll : 0;
-          const scale = Math.min(
-            1,
-            Math.max(
-              1 / slides.length,
-              (ratio * (slides.length - 1) + 1) / slides.length,
-            ),
-          );
-          if (progressBar) {
-            progressBar.style.transform = `scaleX(${scale.toFixed(4)})`;
-          }
-          const approxIndex = Math.round(ratio * (slides.length - 1));
-          if (approxIndex !== activeIndex) {
-            setActiveSlide(approxIndex);
-          }
-        });
+      "touchstart",
+      (e) => {
+        if (isTransitioning || isOverlayOpen() || e.touches.length !== 1) {
+          touchActive = false;
+          return;
+        }
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        lastY = t.clientY;
+        startTime = performance.now();
+        lastTime = startTime;
+        touchActive = true;
+        touchAxis = null;
+        dragDy = 0;
+        dragDir = 0;
+        dragNeighbor = null;
       },
       { passive: true },
+    );
+
+    deck.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!touchActive || isTransitioning || e.touches.length !== 1) return;
+        const t = e.touches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        if (!touchAxis) {
+          if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+          if (Math.abs(dx) > Math.abs(dy) * 1.1) {
+            touchAxis = "x";
+            return;
+          }
+          touchAxis = "y";
+          skyControls?.setActive?.(false);
+        }
+
+        if (touchAxis !== "y") return;
+        e.preventDefault();
+
+        const now = performance.now();
+        if (now - lastTime >= 16) {
+          lastY = t.clientY;
+          lastTime = now;
+        }
+
+        const h = deck.clientHeight || window.innerHeight || 1;
+        const atTop = activeIndex === 0 && dy > 0;
+        const atBottom = activeIndex === slides.length - 1 && dy < 0;
+
+        if (atTop || atBottom) {
+          const resisted = Math.sign(dy) * Math.min(56, Math.abs(dy) * 0.22);
+          if (dragNeighbor) {
+            dragNeighbor.style.transform = "";
+            dragNeighbor = null;
+          }
+          dragDy = resisted;
+          dragDir = 0;
+          slides[activeIndex].style.transform = `translate3d(0, ${resisted.toFixed(1)}px, 0)`;
+          return;
+        }
+
+        const clampedDy = Math.max(-h * 0.9, Math.min(h * 0.9, dy));
+        const dir = clampedDy < 0 ? 1 : -1;
+
+        if (dragNeighbor && dragDir !== dir) {
+          dragNeighbor.style.transform = "";
+          dragNeighbor = null;
+        }
+
+        const neighbor = slides[activeIndex + dir] || null;
+        dragNeighbor = neighbor;
+        dragDir = dir;
+        dragDy = clampedDy;
+
+        slides[activeIndex].style.transform = `translate3d(0, ${clampedDy.toFixed(1)}px, 0)`;
+        if (neighbor) {
+          neighbor.style.transform = `translate3d(0, calc(${dir * 100}% + ${clampedDy.toFixed(1)}px), 0)`;
+        }
+
+        if (progressBar) {
+          const ratio = (activeIndex + 1 - clampedDy / h) / slides.length;
+          const scale = Math.min(1, Math.max(1 / slides.length, ratio));
+          progressBar.style.transform = `scaleX(${scale.toFixed(4)})`;
+        }
+      },
+      { passive: false },
+    );
+
+    function handleTouchFinish(e) {
+      if (!touchActive) return;
+      const wasVertical = touchAxis === "y";
+      const neighbor = dragNeighbor;
+      const dir = dragDir;
+      const dy = dragDy;
+
+      touchActive = false;
+      touchAxis = null;
+      dragNeighbor = null;
+      dragDy = 0;
+      dragDir = 0;
+
+      if (!wasVertical || isTransitioning) return;
+
+      const changed = e.changedTouches?.[0];
+      const now = performance.now();
+      const recentVel = changed
+        ? Math.abs(changed.clientY - lastY) / Math.max(16, now - lastTime)
+        : 0;
+      const overallVel = Math.abs(dy) / Math.max(16, now - startTime);
+      const velocity = Math.max(recentVel, overallVel);
+
+      if ((dy < -42 || (dy < -18 && velocity > 0.35)) && activeIndex < slides.length - 1) {
+        goToSlide(activeIndex + 1);
+      } else if ((dy > 42 || (dy > 18 && velocity > 0.35)) && activeIndex > 0) {
+        goToSlide(activeIndex - 1);
+      } else if (dy !== 0) {
+        snapBack(neighbor, dir);
+      } else {
+        skyControls?.setActive?.(activeIndex === 0);
+      }
+    }
+
+    deck.addEventListener("touchend", handleTouchFinish, { passive: true });
+    deck.addEventListener("touchcancel", handleTouchFinish, { passive: true });
+
+    deck.addEventListener(
+      "wheel",
+      (e) => {
+        if (isOverlayOpen()) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        e.preventDefault();
+
+        const now = performance.now();
+        if (
+          isTransitioning ||
+          now < wheelLockUntil ||
+          Math.abs(e.deltaY) < 20
+        ) {
+          return;
+        }
+        wheelLockUntil = now + 520;
+        goToSlide(activeIndex + (e.deltaY > 0 ? 1 : -1));
+      },
+      { passive: false },
     );
   }
 
   window.addEventListener("load", () => {
-    scheduleIdle(() => {
-      const queue = [
-        SKY_CONFIGS.dawn.ventuImg,
-        SKY_CONFIGS.dusk.ventuImg,
-        SKY_CONFIGS.midnight.ventuImg,
-      ];
-      slides.forEach((slide) => {
-        slide.querySelectorAll("img").forEach((img) => {
-          const src = img.getAttribute("src");
-          if (src && !warmedImages.has(src) && !queue.includes(src)) {
-            queue.push(src);
-          }
+    setTimeout(() => {
+      scheduleIdle(() => {
+        const queue = [
+          SKY_CONFIGS.dawn.ventuImg,
+          SKY_CONFIGS.dusk.ventuImg,
+          SKY_CONFIGS.midnight.ventuImg,
+        ];
+        slides.forEach((slide) => {
+          slide.querySelectorAll("img").forEach((img) => {
+            const src = img.getAttribute("src");
+            if (src && !warmedImages.has(src) && !queue.includes(src)) {
+              queue.push(src);
+            }
+          });
         });
+        preloadQueue = queue;
+        preloadCursor = 0;
+        pumpPreloadQueue();
       });
-
-      let cursor = 0;
-      const concurrency = 2;
-      function pump() {
-        if (cursor >= queue.length) return;
-        const src = queue[cursor++];
-        warmImage(src).finally(pump);
-      }
-      for (let i = 0; i < concurrency; i++) {
-        pump();
-      }
-    });
+    }, 800);
   });
 
   document.querySelectorAll("[data-goto]").forEach((trigger) => {
@@ -404,19 +679,8 @@ function initDeckNavigation() {
   });
 
   document.addEventListener("keydown", (e) => {
-    const lightboxOpen = document
-      .getElementById("screen-lightbox")
-      ?.classList.contains("open");
-    const modalOpen = document
-      .getElementById("download-modal")
-      ?.classList.contains("open");
     const activeTag = document.activeElement?.tagName;
-    if (
-      lightboxOpen ||
-      modalOpen ||
-      activeTag === "INPUT" ||
-      activeTag === "TEXTAREA"
-    ) {
+    if (isOverlayOpen() || activeTag === "INPUT" || activeTag === "TEXTAREA") {
       return;
     }
 
@@ -426,6 +690,12 @@ function initDeckNavigation() {
     } else if (e.key === "ArrowUp" || e.key === "PageUp") {
       e.preventDefault();
       goToSlide(activeIndex - 1);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      goToSlide(slides.length - 1);
     } else if (e.key === "ArrowRight") {
       slides[activeIndex]?._stepCarousel?.(1);
     } else if (e.key === "ArrowLeft") {
@@ -433,7 +703,11 @@ function initDeckNavigation() {
     }
   });
 
-  setActiveSlide(0);
+  applySlideWindow(0);
+  warmSlidePrimary(0);
+  warmSlidePrimary(1);
+  warmSlidePrimary(2);
+  skyControls?.setActive?.(true);
 
   return {
     getActiveSlideIndex: () => activeIndex,

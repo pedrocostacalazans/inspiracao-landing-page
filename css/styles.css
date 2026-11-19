@@ -288,20 +288,22 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 3px;
   padding: 6px 2px;
 }
 
 .deck-dot {
   width: 6px;
-  height: 6px;
+  height: 14px;
   border-radius: var(--radius-pill);
-  transition: height 0.28s var(--ease-spring), background-color 0.28s ease, opacity 0.28s ease;
+  transform: scaleY(0.43);
+  transform-origin: center center;
+  transition: transform 0.26s var(--ease-spring), background-color 0.26s ease, opacity 0.26s ease;
   opacity: 0.42;
 }
 
 .deck-dot.active {
-  height: 20px;
+  transform: scaleY(1.35);
   opacity: 1;
 }
 
@@ -314,38 +316,66 @@ a {
 }
 
 /* ==========================================================================
-   Deck Container & Slides (100dvh Scroll Snap)
+   Deck Container & Slides (Gesture Deck + 3-Layer GPU Window)
    ========================================================================== */
 .deck {
   position: fixed;
   inset: 0;
   height: 100%;
   height: 100dvh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-  overscroll-behavior-y: contain;
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.deck::-webkit-scrollbar {
-  display: none;
+  width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-x;
 }
 
 .deck-slide {
+  position: absolute;
+  inset: 0;
   height: 100%;
-  height: 100dvh;
   width: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  position: relative;
   overflow: hidden;
   contain: layout paint style;
   display: flex;
   flex-direction: column;
   padding: calc(52px + env(safe-area-inset-top)) 20px calc(16px + env(safe-area-inset-bottom));
+  transform: translate3d(0, 100%, 0);
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 1;
+  will-change: auto;
+}
+
+.deck-slide.is-above {
+  transform: translate3d(0, -100%, 0);
+}
+
+.deck-slide.is-prev {
+  transform: translate3d(0, -100%, 0);
+  visibility: visible;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.deck-slide.is-active {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  will-change: transform;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.deck-slide.is-next {
+  transform: translate3d(0, 100%, 0);
+  visibility: visible;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.deck-slide.is-moving {
+  transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Temas de Fundo dos Slides */
@@ -851,7 +881,7 @@ a {
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.72);
   border: 1.5px solid rgba(45, 65, 77, 0.12);
-  box-shadow: 0 24px 48px -14px rgba(21, 38, 66, 0.22), 0 8px 18px -6px rgba(21, 38, 66, 0.1);
+  box-shadow: 0 18px 34px -12px rgba(21, 38, 66, 0.22);
 }
 
 [data-hud="light"] .phone-bezel {
@@ -889,7 +919,7 @@ a {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  touch-action: pan-x pan-y;
+  touch-action: pan-x;
   scrollbar-width: none;
   border-radius: 27px;
   background: #F4FBFA;
@@ -1128,16 +1158,17 @@ a {
 
   .deck-dots {
     right: 22px;
-    gap: 10px;
+    gap: 4px;
   }
 
   .deck-dot {
     width: 8px;
-    height: 8px;
+    height: 18px;
+    transform: scaleY(0.44);
   }
 
   .deck-dot.active {
-    height: 26px;
+    transform: scaleY(1.38);
   }
 
   .deck-slide {
@@ -1512,9 +1543,8 @@ a {
    ACESSIBILIDADE: REDUCED MOTION
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .deck,
-  .phone-track {
-    scroll-behavior: auto;
+  .deck-slide.is-moving {
+    transition: none;
   }
   .cover-ventu-halo img,
   .swipe-arrow {

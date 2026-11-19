@@ -288,22 +288,20 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 7px;
   padding: 6px 2px;
 }
 
 .deck-dot {
   width: 6px;
-  height: 14px;
+  height: 6px;
   border-radius: var(--radius-pill);
-  transform: scaleY(0.43);
-  transform-origin: center center;
-  transition: transform 0.26s var(--ease-spring), background-color 0.26s ease, opacity 0.26s ease;
+  transition: height 0.28s var(--ease-spring), background-color 0.28s ease, opacity 0.28s ease;
   opacity: 0.42;
 }
 
 .deck-dot.active {
-  transform: scaleY(1.35);
+  height: 20px;
   opacity: 1;
 }
 
@@ -1158,17 +1156,16 @@ a {
 
   .deck-dots {
     right: 22px;
-    gap: 4px;
+    gap: 10px;
   }
 
   .deck-dot {
     width: 8px;
-    height: 18px;
-    transform: scaleY(0.44);
+    height: 8px;
   }
 
   .deck-dot.active {
-    transform: scaleY(1.38);
+    height: 26px;
   }
 
   .deck-slide {

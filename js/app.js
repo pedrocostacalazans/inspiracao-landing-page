@@ -235,7 +235,6 @@ function initDeckNavigation(skyControls) {
   const dots = Array.from(document.querySelectorAll(".deck-dot"));
   const hud = document.getElementById("deck-hud");
   const dotsNav = document.getElementById("deck-dots");
-  const counterEl = document.getElementById("hud-counter");
   const progressBar = document.getElementById("deck-progress-bar");
   const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -323,12 +322,6 @@ function initDeckNavigation(skyControls) {
         dot.removeAttribute("aria-current");
       }
     });
-
-    if (counterEl && slides.length > 0) {
-      const num = String(idx + 1).padStart(2, "0");
-      const total = String(slides.length).padStart(2, "0");
-      counterEl.textContent = `${num} / ${total}`;
-    }
 
     const slide = slides[idx];
     if (slide) {
@@ -707,6 +700,7 @@ function initDeckNavigation(skyControls) {
   warmSlidePrimary(0);
   warmSlidePrimary(1);
   warmSlidePrimary(2);
+  warmSlidePrimary(3);
   skyControls?.setActive?.(true);
 
   return {
@@ -940,7 +934,7 @@ function initScreenLightbox() {
 }
 
 /* ==========================================================================
-   6. Modal do Teste Fechado (Google Sheets + LocalStorage)
+   6. Modal de Acesso Gratuito (Google Sheets + LocalStorage)
    ========================================================================== */
 function initBetaModal() {
   const modal = document.getElementById("download-modal");
@@ -1011,7 +1005,7 @@ function initBetaModal() {
             },
             body: JSON.stringify({
               email,
-              origem: "Apresentação Executiva",
+              origem: "Site Oficial",
               dataHora: new Date().toLocaleString("pt-BR"),
               userAgent: navigator.userAgent,
             }),
@@ -1035,11 +1029,11 @@ function initBetaModal() {
 
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = "<span>✓ Na lista de pré-acesso</span>";
+        btn.innerHTML = "<span>✓ Vaga garantida</span>";
       }
 
       if (feedback) {
-        feedback.textContent = `Você está na lista! Enviaremos o convite para ${email} assim que abrirmos a turma.`;
+        feedback.textContent = `Você está na lista VIP! Enviaremos seu convite gratuito para ${email} em breve.`;
         feedback.classList.add("visible");
       }
 

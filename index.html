@@ -42,7 +42,7 @@
     href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,500;6..12,600;6..12,700&family=Nunito:wght@700;800;900&display=swap"
     rel="stylesheet" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=bedtime,cloud_done,description,light_mode,partly_cloudy_day,rocket_launch,school,stethoscope,timer,wb_twilight"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=bedtime,description,light_mode,partly_cloudy_day,rocket_launch,school,stethoscope,timer,verified,wb_twilight"
     rel="stylesheet" />
   <link rel="preload" as="image" type="image/webp" href="./assets/images/opt/ventu-onda.webp" fetchpriority="high" />
 
@@ -63,9 +63,8 @@
     </a>
 
     <div class="hud-right">
-      <span class="hud-counter tabular" id="hud-counter" aria-live="polite">01 / 10</span>
       <button type="button" class="hud-cta tactile" data-open-modal="download">
-        Pré-acesso
+        Testar grátis
       </button>
     </div>
   </header>
@@ -74,15 +73,16 @@
   <nav class="deck-dots hud-light" id="deck-dots" aria-label="Navegação por capítulos">
     <button type="button" class="deck-dot active" data-goto="0" aria-label="Capítulo 1: Capa"
       aria-current="step"></button>
-    <button type="button" class="deck-dot" data-goto="1" aria-label="Capítulo 2: Nossa História"></button>
-    <button type="button" class="deck-dot" data-goto="2" aria-label="Capítulo 3: Rotina Diária"></button>
-    <button type="button" class="deck-dot" data-goto="3" aria-label="Capítulo 4: Plano e Estoque"></button>
-    <button type="button" class="deck-dot" data-goto="4" aria-label="Capítulo 5: Base Oficial ANVISA"></button>
-    <button type="button" class="deck-dot" data-goto="5" aria-label="Capítulo 6: Técnica Inalatória"></button>
-    <button type="button" class="deck-dot" data-goto="6" aria-label="Capítulo 7: Diário Clínico"></button>
-    <button type="button" class="deck-dot" data-goto="7" aria-label="Capítulo 8: Relatório em PDF"></button>
-    <button type="button" class="deck-dot" data-goto="8" aria-label="Capítulo 9: Constância"></button>
-    <button type="button" class="deck-dot" data-goto="9" aria-label="Capítulo 10: Encerramento"></button>
+    <button type="button" class="deck-dot" data-goto="1" aria-label="Capítulo 2: Para Você"></button>
+    <button type="button" class="deck-dot" data-goto="2" aria-label="Capítulo 3: Nossa História"></button>
+    <button type="button" class="deck-dot" data-goto="3" aria-label="Capítulo 4: Rotina Diária"></button>
+    <button type="button" class="deck-dot" data-goto="4" aria-label="Capítulo 5: Plano e Estoque"></button>
+    <button type="button" class="deck-dot" data-goto="5" aria-label="Capítulo 6: Base Oficial ANVISA"></button>
+    <button type="button" class="deck-dot" data-goto="6" aria-label="Capítulo 7: Técnica Inalatória"></button>
+    <button type="button" class="deck-dot" data-goto="7" aria-label="Capítulo 8: Diário Clínico"></button>
+    <button type="button" class="deck-dot" data-goto="8" aria-label="Capítulo 9: Relatório em PDF"></button>
+    <button type="button" class="deck-dot" data-goto="9" aria-label="Capítulo 10: Constância"></button>
+    <button type="button" class="deck-dot" data-goto="10" aria-label="Capítulo 11: Encerramento"></button>
   </nav>
 
   <!-- Deck Vertical em Tela Cheia -->
@@ -95,7 +95,7 @@
       <canvas id="sky-particles" aria-hidden="true"></canvas>
 
       <div class="cover-stage">
-        <span class="kicker-pill">Cuidado Respiratório</span>
+        <span class="kicker-pill kicker-pill--brand">App para Controle da Asma</span>
 
         <div class="cover-ventu-halo">
           <img id="ventu-hero-img" src="./assets/images/opt/ventu-onda.webp" alt="Mascote Ventu do InspirAção"
@@ -147,9 +147,41 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 2: NOSSA HISTÓRIA (LINHA DO TEMPO EM 3 CÍRCULOS)
+           SLIDE 2: O QUE É O INSPIRAÇÃO
            ================================================================ -->
-    <section class="deck-slide origin-slide theme-origin" id="slide-2" data-index="1" data-hud="dark"
+    <section class="deck-slide empathy-slide theme-empathy" id="slide-2" data-index="1" data-hud="dark"
+      aria-label="O que é o InspirAção">
+      <div class="empathy-inner">
+        <div class="empathy-intro">
+          <h2 class="slide-title">O que é o InspirAção</h2>
+          <p class="empathy-lead">
+            É o app gratuito que transforma o tratamento da asma em rotina simples, com lembretes, controle da
+            bombinha, guia de uso e relatório em PDF para o médico.
+          </p>
+        </div>
+
+        <div class="empathy-voices">
+          <p class="voices-label">Você ou quem você cuida já pensou:</p>
+
+          <ul class="voice-list" aria-label="Desafios comuns no cuidado da asma">
+            <li class="voice-item">Esqueci a bombinha de novo.</li>
+            <li class="voice-item">Acabou bem na hora que precisei.</li>
+            <li class="voice-item">Será que estou usando certo?</li>
+            <li class="voice-item">Na consulta, nunca lembro os detalhes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <button type="button" class="swipe-cue swipe-cue--dark" data-goto="2" aria-label="Avançar para Nossa História">
+        <span>Como nasceu</span>
+        <span class="swipe-arrow" aria-hidden="true">↓</span>
+      </button>
+    </section>
+
+    <!-- ================================================================
+           SLIDE 3: NOSSA HISTÓRIA (LINHA DO TEMPO EM 3 CÍRCULOS)
+           ================================================================ -->
+    <section class="deck-slide origin-slide theme-origin" id="slide-3" data-index="2" data-hud="dark"
       aria-label="Nossa História">
       <div class="origin-inner">
         <div class="origin-head">
@@ -207,9 +239,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 3: ROTINA DIÁRIA (PREVENÇÃO · BIOLÓGICO · ALÍVIO)
+           SLIDE 4: ROTINA DIÁRIA (PREVENÇÃO · BIOLÓGICO · ALÍVIO)
            ================================================================ -->
-    <section class="deck-slide showcase-slide therapy-slide theme-mist" id="slide-3" data-index="2" data-hud="dark"
+    <section class="deck-slide showcase-slide therapy-slide theme-mist" id="slide-4" data-index="3" data-hud="dark"
       data-accent="prevention" aria-label="Rotina Diária">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -275,9 +307,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 4: PLANO & ESTOQUE
+           SLIDE 5: PLANO & ESTOQUE
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-ice" id="slide-4" data-index="3" data-hud="dark"
+    <section class="deck-slide showcase-slide theme-ice" id="slide-5" data-index="4" data-hud="dark"
       aria-label="Plano e Estoque">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -331,9 +363,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 5: BASE OFICIAL ANVISA (PALCO ESCURO)
+           SLIDE 6: BASE OFICIAL ANVISA (PALCO ESCURO)
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-deep-sky" id="slide-5" data-index="4" data-hud="light"
+    <section class="deck-slide showcase-slide theme-deep-sky" id="slide-6" data-index="5" data-hud="light"
       aria-label="Base Oficial ANVISA">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -402,9 +434,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 6: TÉCNICA INALATÓRIA
+           SLIDE 7: TÉCNICA INALATÓRIA
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-mint" id="slide-6" data-index="5" data-hud="dark"
+    <section class="deck-slide showcase-slide theme-mint" id="slide-7" data-index="6" data-hud="dark"
       aria-label="Técnica Inalatória">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -466,9 +498,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 7: DIÁRIO CLÍNICO
+           SLIDE 8: DIÁRIO CLÍNICO
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-pure" id="slide-7" data-index="6" data-hud="dark"
+    <section class="deck-slide showcase-slide theme-pure" id="slide-8" data-index="7" data-hud="dark"
       aria-label="Diário Clínico">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -535,9 +567,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 8: RELATÓRIO EM PDF (PALCO ESCURO CLÍNICO)
+           SLIDE 9: RELATÓRIO EM PDF (PALCO ESCURO CLÍNICO)
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-clinical-sky" id="slide-8" data-index="7" data-hud="light"
+    <section class="deck-slide showcase-slide theme-clinical-sky" id="slide-9" data-index="8" data-hud="light"
       aria-label="Relatório em PDF">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -606,9 +638,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 9: CONSTÂNCIA SEM CULPA
+           SLIDE 10: CONSTÂNCIA SEM CULPA
            ================================================================ -->
-    <section class="deck-slide showcase-slide theme-mist" id="slide-9" data-index="8" data-hud="dark"
+    <section class="deck-slide showcase-slide theme-mist" id="slide-10" data-index="9" data-hud="dark"
       aria-label="Constância sem culpa">
       <div class="slide-inner">
         <div class="slide-copy">
@@ -662,9 +694,9 @@
     </section>
 
     <!-- ================================================================
-           SLIDE 10: ENCERRAMENTO & CTA
+           SLIDE 11: ENCERRAMENTO & CTA
            ================================================================ -->
-    <section class="deck-slide finale-slide theme-sky-finale" id="slide-10" data-index="9" data-hud="light"
+    <section class="deck-slide finale-slide theme-sky-finale" id="slide-11" data-index="10" data-hud="light"
       aria-label="Encerramento InspirAção">
       <div class="finale-sparkles" aria-hidden="true"></div>
 
@@ -681,14 +713,18 @@
           <span>Mais fôlego.</span>
         </h2>
 
+        <p class="finale-sub">
+          App gratuito para organizar sua rotina contra a asma em menos de 1 minuto por dia.
+        </p>
+
         <div class="finale-badges">
+          <span class="finale-badge">
+            <span class="material-symbols-rounded badge-icon" aria-hidden="true">verified</span>
+            <span>100% gratuito</span>
+          </span>
           <span class="finale-badge">
             <span class="material-symbols-rounded badge-icon" aria-hidden="true">timer</span>
             <span>Registro &lt; 1 min</span>
-          </span>
-          <span class="finale-badge">
-            <span class="material-symbols-rounded badge-icon" aria-hidden="true">cloud_done</span>
-            <span>Dados na nuvem</span>
           </span>
           <span class="finale-badge">
             <span class="material-symbols-rounded badge-icon" aria-hidden="true">description</span>
@@ -697,7 +733,7 @@
         </div>
 
         <button type="button" class="btn-finale tactile" data-open-modal="download">
-          <span>Garantir pré-acesso</span>
+          <span>Quero testar grátis</span>
           <span aria-hidden="true">→</span>
         </button>
 
@@ -706,7 +742,7 @@
         </button>
       </div>
 
-      <p class="finale-footnote">Privacidade LGPD · Android</p>
+      <p class="finale-footnote">Privacidade LGPD · Primeiro para Android · iOS em breve</p>
     </section>
   </main>
 
@@ -738,7 +774,7 @@
   </div>
 
   <!-- ==================================================================
-         MODAL ENXUTO DO TESTE FECHADO
+         MODAL DE ACESSO ANTECIPADO GRATUITO
          ================================================================== -->
   <div class="modal-backdrop" id="download-modal" aria-hidden="true" role="dialog" aria-modal="true"
     aria-labelledby="modal-title">
@@ -750,16 +786,16 @@
       <img src="./assets/images/opt/ventu-onda.webp" alt="Mascote Ventu" class="modal-ventu-img" id="modal-ventu-img"
         width="82" height="82" decoding="async" />
 
-      <h3 class="modal-title" id="modal-title">Acesso antecipado</h3>
+      <h3 class="modal-title" id="modal-title">Acesso antecipado gratuito</h3>
       <p class="modal-desc">
-        Quer ser um dos primeiros usuários do InspirAção? Deixe seu e-mail para receber o convite.
+        Deseja entrar na lista VIP dos primeiros usuários do InspirAção? Deixe seu e-mail para receber o convite.
       </p>
 
       <form class="beta-signup-form" id="beta-signup-form" data-beta-form>
         <input type="email" id="modal-beta-email" name="email" class="beta-email-input" placeholder="seu@email.com"
-          aria-label="Seu e-mail para entrar na lista de pré-acesso" required autocomplete="email" />
+          aria-label="Seu e-mail para receber o convite gratuito" required autocomplete="email" />
         <button type="submit" class="btn-modal-submit tactile beta-submit-btn">
-          <span>Quero participar</span>
+          <span>Garantir minha vaga</span>
           <span aria-hidden="true">→</span>
         </button>
         <p class="beta-form-feedback" aria-live="polite"></p>
